@@ -6,10 +6,49 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/admin', function () {
-    return view('admin.dashboard');
+
+
+/**
+ *  Route for layouting Landing Page
+ */
+Route::get('/home', function () {
+    return view('layouts.app');
 });
 
+Route::get('/informasi', function () {
+    return view('landing-page.informasi');
+});
+
+Route::get('/login', function () {
+    return view('auth.login');
+});
+
+Route::get('/register', function () {
+    return view('auth.register');
+});
+
+
+/**
+ *  Route for layouting User Page
+ */
 Route::get('/user', function () {
-    return view('user');
+    return view('user.dashboard');
+});
+
+Route::get('/user/profile', function () {
+    return view('user.profile');
+});
+
+Route::get('/user/setting', function () {
+    return view('user.setting');
+});
+
+
+
+
+/**
+ *  Route for layouting Admin Page (Dashboard)
+ */
+Route::get('/admin', function () {
+    return view('admin.dashboard');
 });
