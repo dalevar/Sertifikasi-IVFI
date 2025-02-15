@@ -11,7 +11,7 @@ Route::get('/', function () {
  *  Route for layouting Landing Page
  */
 Route::get('/dashboard', function () {
-    return view('layouts.admin');
+    return view('admin.dashboard');
 });
 
 Route::get('/informasi', function () {
