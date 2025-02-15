@@ -1,0 +1,111 @@
+/* Custom Typography */
+h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+h2 {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+h3 {
+    font-size: 1.75rem;
+    font-weight: bold;
+}
+
+h4 {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+h5 {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+h6 {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+p {
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.small-paragraph {
+    font-size: 0.875rem;
+}
+
+.x-small-paragraph {
+    font-size: 0.75rem;
+}
+
+:root {
+    --brand-color-100: #fbe7e0;
+    --brand-color-200: #f8c8b2;
+    --brand-color-300: #f5a984;
+    --brand-color-400: #f28a56;
+    --brand-color-500: #ef6b28;
+    --brand-color-600: #c65a22;
+    --brand-color-700: #9d481b;
+    --brand-color-800: #743615;
+    --brand-color-900: #4b240e;
+    --brand-color-1000: #221207;
+
+    --accent-color-100: #fbe0eb;
+    --accent-color-200: #f8b2d1;
+    --accent-color-300: #f584b7;
+    --accent-color-400: #f2569d;
+    --accent-color-500: #ef2883;
+    --accent-color-600: #c6226b;
+    --accent-color-700: #9d1b53;
+    --accent-color-800: #74153b;
+    --accent-color-900: #4b0e24;
+    --accent-color-1000: #220712;
+
+    --neutral-color-100: #e0e3e7;
+    --neutral-color-200: #b2b7c1;
+    --neutral-color-300: #848b9b;
+    --neutral-color-400: #565f75;
+    --neutral-color-500: #28314f;
+    --neutral-color-600: #222a42;
+    --neutral-color-700: #1b2234;
+    --neutral-color-800: #151b27;
+    --neutral-color-900: #0e1319;
+    --neutral-color-1000: #07090c;
+
+    --error-color-100: #fbe0e0;
+    --error-color-200: #f8b2b2;
+    --error-color-300: #f58484;
+    --error-color-400: #f25656;
+    --error-color-500: #ef2828;
+    --error-color-600: #c62222;
+    --error-color-700: #9d1b1b;
+    --error-color-800: #741515;
+    --error-color-900: #4b0e0e;
+    --error-color-1000: #220707;
+
+    --warning-color-100: #fbf3e0;
+    --warning-color-200: #f8e0b2;
+    --warning-color-300: #f5cd84;
+    --warning-color-400: #f2ba56;
+    --warning-color-500: #ef9b28;
+    --warning-color-600: #c68122;
+    --warning-color-700: #9d671b;
+    --warning-color-800: #744d15;
+    --warning-color-900: #4b320e;
+    --warning-color-1000: #221907;
+
+    --success-color-100: #e0f8e0;
+    --success-color-200: #b2eab2;
+    --success-color-300: #84dc84;
+    --success-color-400: #56ce56;
+    --success-color-500: #28c028;
+    --success-color-600: #22a522;
+    --success-color-700: #1b8a1b;
+    --success-color-800: #157015;
+    --success-color-900: #0e560e;
+    --success-color-1000: #073c07;
+}
