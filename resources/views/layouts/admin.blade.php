@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Layout Default - Mazer Admin Dashboard</title>
+	<title>{{ $title }} | IVFI</title>
 
 	<link rel="shortcut icon" href="{{ asset('assets/compiled/svg/favicon.svg') }}" type="image/x-icon">
 
@@ -29,7 +29,7 @@
 				<div class="page-title">
 					<div class="row">
 						<div class="order-last col-12 col-md-6 order-md-1">
-							<h3>TEST</h3>
+							<h3>{{ $title }}</h3>
 						</div>
 					</div>
 				</div>
@@ -54,6 +54,13 @@
 	<script src="{{ asset('assets/static/js/components/dark.js') }}"></script>
 	<script src="{{ asset('assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
 	<script src="{{ asset('assets/compiled/js/app.js') }}"></script>
+	<script>
+		function confirmDelete(event) {
+      if (!confirm("Apakah Anda yakin ingin menghapus ini?")) {
+        event.preventDefault(); // Prevent the form from submitting
+      }
+    }
+	</script>
 </body>
 
 </html>

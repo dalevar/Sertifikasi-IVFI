@@ -50,12 +50,12 @@
 
 				<li class="sidebar-title">Data Master</li>
 
-					{{-- <li class="sidebar-item {{ request()->routeIs('admin.majors.*') ? 'active' : '' }}">
-							<a href="{{ route('admin.majors.index') }}" class='sidebar-link'>
+					<li class="sidebar-item {{ request()->routeIs('admin.certificates.*') ? 'active' : '' }}">
+							<a href="{{ route('admin.certificates.index') }}" class='sidebar-link'>
 									<i class="bi bi-mortarboard-fill"></i>
-									<span>Jurusan</span>
+									<span>Sertifikasi</span>
 							</a>
-					</li> --}}
+					</li>
 
 					{{-- <li class="sidebar-item {{ request()->routeIs('admin.classrooms.*') ? 'active' : '' }}">
 							<a href="{{ route('admin.classrooms.index') }}" class='sidebar-link'>

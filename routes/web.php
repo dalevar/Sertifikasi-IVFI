@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CertificationController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -12,8 +13,11 @@ Route::get('/admin/login', [AuthController::class, 'adminLogin'])->name('admin.l
 Route::post('/admin/login', [AuthController::class, 'adminAuthentication']);
 Route::middleware(['admin'])->name('admin.')->prefix('admin')->group(function () {
     Route::get('/dashboard', function () {
-        return view('admin.dashboard');
+        return view('admin.dashboard', [
+            'title' => 'Dashboard'
+        ]);
     })->name('dashboard');
+    Route::resource('/certificates', CertificationController::class);
 });
 
 Route::get('/user', function () {
