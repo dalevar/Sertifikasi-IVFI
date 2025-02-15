@@ -10,8 +10,8 @@ Route::get('/', function () {
 /**
  *  Route for layouting Landing Page
  */
-Route::get('/home', function () {
-    return view('layouts.app');
+Route::get('/dashboard', function () {
+    return view('layouts.admin');
 });
 
 Route::get('/informasi', function () {
