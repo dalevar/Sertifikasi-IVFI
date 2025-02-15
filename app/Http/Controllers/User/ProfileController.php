@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
@@ -12,31 +13,12 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+        /**
+         *  $user = Auth::user(); returns the authenticated user.
+         *  The compact() function creates an array from variables and their values.
+         */
+        $user = Auth::user();
+        return view('user.dashboard', compact('user'));
     }
 
     /**
@@ -44,7 +26,8 @@ class ProfileController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $user = Auth::user();
+        return view('user.profile.edit', compact('user'));
     }
 
     /**
@@ -52,14 +35,20 @@ class ProfileController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
-    }
+        $user = Auth::user();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        // Validate the request data
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+        ]);
+
+        // Update data user
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+        ]);
+
+        return redirect()->route('profile.index')->with('success', 'Profil berhasil diperbarui.');
     }
 }
