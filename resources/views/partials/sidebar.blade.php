@@ -57,12 +57,12 @@
 							</a>
 					</li>
 
-					{{-- <li class="sidebar-item {{ request()->routeIs('admin.classrooms.*') ? 'active' : '' }}">
-							<a href="{{ route('admin.classrooms.index') }}" class='sidebar-link'>
-									<i class="bi bi-door-closed-fill"></i>
-									<span>Kelas</span>
+					<li class="sidebar-item {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+							<a href="{{ route('admin.users.index') }}" class='sidebar-link'>
+									<i class="bi bi-people-fill"></i>
+									<span>Pengguna</span>
 							</a>
-					</li> --}}
+					</li>
 					{{-- <li class="sidebar-item {{ request()->routeIs('admin.academic_years.*') ? 'active' : '' }}">
 							<a href="{{ route('admin.academic_years.index') }}" class='sidebar-link'>
 									<i class="bi bi-calendar-date-fill"></i>

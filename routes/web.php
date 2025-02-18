@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CertificationController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +19,7 @@ Route::middleware(['admin'])->name('admin.')->prefix('admin')->group(function ()
         ]);
     })->name('dashboard');
     Route::resource('/certificates', CertificationController::class);
+    Route::resource('/users', UserController::class);
 });
 
 Route::get('/user', function () {
