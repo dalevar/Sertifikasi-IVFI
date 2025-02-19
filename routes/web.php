@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CertificationController;
+use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
@@ -20,6 +21,8 @@ Route::middleware(['admin'])->name('admin.')->prefix('admin')->group(function ()
     })->name('dashboard');
     Route::resource('/certificates', CertificationController::class);
     Route::resource('/users', UserController::class);
+    Route::resource('/payments', PaymentController::class);
+    Route::post('/payments/{id}/validation/', [PaymentController::class, 'validationPayment'])->name('payments.validation');
 });
 
 Route::get('/user', function () {

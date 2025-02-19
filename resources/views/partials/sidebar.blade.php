@@ -39,7 +39,7 @@
 	</div>
 	<div class="sidebar-menu">
 			<ul class="menu">
-				<li class="sidebar-title">Menu</li>
+				{{-- <li class="sidebar-title">Menu</li> --}}
 					{{--
 					<li class="sidebar-item {{ request()->routeIs('admin.home') ? 'active' : '' }}">
 							<a href="{{ route('admin.home') }}" class='sidebar-link'>
@@ -63,18 +63,20 @@
 									<span>Pengguna</span>
 							</a>
 					</li>
-					{{-- <li class="sidebar-item {{ request()->routeIs('admin.academic_years.*') ? 'active' : '' }}">
-							<a href="{{ route('admin.academic_years.index') }}" class='sidebar-link'>
-									<i class="bi bi-calendar-date-fill"></i>
-									<span>Tahun Ajaran</span>
+
+					<li class="sidebar-title">Setifikasi</li>
+					<li class="sidebar-item {{ request()->routeIs('admin.payments.*') ? 'active' : '' }}">
+							<a href="{{ route('admin.payments.index') }}" class='sidebar-link'>
+									<i class="bi bi-credit-card-fill"></i>
+									<span>Pembayaran Sertifikasi</span>
 							</a>
-					</li> --}}
-					{{-- <li class="sidebar-item {{ request()->routeIs('admin.students.*') ? 'active' : '' }}">
-							<a href="{{ route('admin.students.index') }}" class='sidebar-link'>
-									<i class="bi bi-people-fill"></i>
-									<span>Siswa</span>
+					</li>
+					<li class="sidebar-item ">
+							<a href="" class='sidebar-link'>
+									<i class="bi bi-file-earmark-check-fill"></i>
+									<span>Penerbitan Sertifikasi</span>
 							</a>
-					</li> --}}
+					</li>
 
 					{{-- <li class="sidebar-item {{ request()->routeIs('admin.assign.*') ? 'active' : '' }}">
 							<a href="{{ route('admin.assign.index') }}" class='sidebar-link'>
