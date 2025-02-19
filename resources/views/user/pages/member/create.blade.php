@@ -2,7 +2,14 @@
 
 @section('content')
     <div class="container">
-        <h1>Add Member</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('profile.index') }}">Home</a></li>
+                <li class="breadcrumb-item" aria-current="page">Tambah Anggota</li>
+            </ol>
+        </nav>
+
+        <h1>Tambah Anggota</h1>
         <form action="{{ route('members.store') }}" method="POST">
             @csrf
 

@@ -31,10 +31,12 @@ class CertificateRegistrationController extends Controller
 
     /**
      * Store a registration member.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Certification  $certification
      */
     public function store(Request $request, Certification $certification)
     {
-        // @dd($request->all());
         $request->validate([
             'member_id' => 'required|array',
             'member_id.*' => 'exists:members,id',
@@ -42,40 +44,53 @@ class CertificateRegistrationController extends Controller
             'registration_date' => 'required|date',
         ]);
 
-        // Loop melalui setiap member_id yang dipilih
         foreach ($request->member_id as $memberId) {
-            // Buat entri registration untuk setiap member
             Registration::create([
-                'member_id' => $memberId, // Simpan member_id sebagai nilai tunggal
+                'member_id' => $memberId,
                 'certification_id' => $request->certification_id,
                 'registration_date' => $request->registration_date,
             ]);
         }
+        $certification = Certification::find($request->certification_id);
 
-        return redirect()->route('certifications.invoice', $certification)
+        $user = auth()->user();
+        $total_price = $certification->price * count($request->member_id);
+
+        $paymentHistory = \App\Models\Payment::create([
+            'user_id' => $user->id,
+            'certification_id' => $certification->id,
+            'total_members' => count($request->member_id),
+            'total_amount' => $total_price,
+            'date' => now(),
+            'status' => 'pending',
+        ]);
+
+        return redirect()->route('payment-histories.invoice', ['paymentHistory' => $paymentHistory->id])
             ->with('success', 'Pendaftaran berhasil disimpan.');
     }
 
     /**
      * Invoice for payment after registration member
+     *
      */
     public function invoice(Certification $certification)
     {
-        // Ambil semua registration untuk sertifikat ini
-        $registrations = Registration::where('certification_id', $certification->id)->get();
+        $user = auth()->user();
+        $registrations = Registration::whereHas('member', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })->where('certification_id', $certification->id)->get();
 
-        // Ambil data sertifikat dan anggota yang terdaftar
-        $members = Member::all();
-        $totalPayment = 0;
-
-        foreach ($registrations as $registration) {
-            $certification = $registration->certification;
-            $membersInRegistration = $registration->members;
-
-            $totalPayment += $certification->price * $membersInRegistration->count();
+        if ($registrations->isEmpty()) {
+            return redirect()->route('certificate.index')
+                ->with('error', 'Tidak ada data registrasi untuk user ini.');
         }
 
-        return view('user.pages.certificate.invoice', compact('certification', 'members', 'totalPayment'));
+        $totalPayment = 0;
+        foreach ($registrations as $registration) {
+            $totalPayment += $certification->price;
+        }
+
+        return view('user.pages.payment.invoice', compact('certification', 'registrations', 'totalPayment'));
     }
 
 

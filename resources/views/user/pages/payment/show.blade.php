@@ -26,20 +26,6 @@
         <p><strong>Amount:</strong> {{ $paymentHistory->total_amount }}</p>
         <p><strong>Payment Date:</strong> {{ $paymentHistory->date }}</p>
         <p><strong>Status:</strong> {{ $paymentHistory->status }}</p>
-        @if ($paymentHistory->proof == null)
-            <p><strong>Proof of Payment:</strong> Not Uploaded</p>
-            <form action="{{ route('payment.upload-proof', $paymentHistory->id) }}" method="POST"
-                enctype="multipart/form-data">
-                @method('PATCH')
-                @csrf
-                <div class="form-group">
-                    <label for="proof_of_payment">Upload Proof of Payment</label>
-                    <input type="file" class="form-control" id="proof_of_payment" name="proof_of_payment">
-                </div>
-                <button type="submit" class="mt-2 btn btn-primary">Upload</button>
-            </form>
-        @endif
-
 
         <a href="{{ route('payment-histories.index') }}" class="mt-2 btn btn-secondary">Back to Payment History</a>
     </div>

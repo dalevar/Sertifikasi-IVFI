@@ -1,4 +1,4 @@
-@extends('layouts.app')
+{{-- @extends('layouts.app')
 
 @section('content')
     <div class="container">
@@ -11,4 +11,4 @@
         <a href="{{ route('certifications.registration.details', $registration) }}" class="btn btn-secondary">Kembali ke
             Rincian Pendaftaran</a>
     </div>
-@endsection
+@endsection --}}

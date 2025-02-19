@@ -2,6 +2,13 @@
 
 @section('content')
     <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('profile.index') }}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('certifications.index') }}">Sertifikasi</a></li>
+                <li class="breadcrumb-item" aria-current="page">Daftar Sertifikasi Anggota</li>
+            </ol>
+        </nav>
         <h1>Tambah Pendaftaran Sertifikasi</h1>
 
         @if (session('status'))

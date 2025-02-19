@@ -32,6 +32,21 @@ class PaymentHistoryController extends Controller
     /**
      * Display the specified payment.
      *
+     *
+     * @param  \App\Models\Payment  $payment
+     * @return \Illuminate\View\View
+     */
+    public function show(payment $paymentHistory)
+    {
+        $user = Auth::user();
+        $fullname = $paymentHistory->first()->user->fullname;
+
+        return view('user.pages.payment.show', compact('paymentHistory', 'fullname'));
+    }
+
+    /**
+     * Display the specified payment.
+     *
      * @param  \App\Models\Payment  $payment
      */
     public function invoice(Payment $paymentHistory)

@@ -2,6 +2,13 @@
 
 @section('content')
     <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('profile.index') }}">Home</a></li>
+                <li class="breadcrumb-item" aria-current="page">Riwayat Pembayaran</li>
+
+            </ol>
+        </nav>
         <h1>Riwayat Pembayaran</h1>
 
         @if (session('status'))
@@ -13,19 +20,21 @@
         <table class="table">
             <thead>
                 <tr>
+                    <th>No</th>
                     <th>ID</th>
-                    <th>Fullname</th>
-                    <th>Payment Method</th>
-                    <th>Amount</th>
-                    <th>Payment Date</th>
+                    <th>Nama Instansi</th>
+                    <th>Jumlah Anggota</th>
+                    <th>Total Harga</th>
                     <th>Status</th>
+                    <th>Tanggal Pembayaran</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($payments as $payment)
                     <tr>
-                        <td>{{ $payment->id }}</td>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>RWYPB{{ $payment->id }}</td>
                         <td>{{ $fullname }}</td>
                         <td>{{ $payment->total_members }}</td>
                         <td>{{ $payment->total_amount }}</td>
@@ -35,8 +44,13 @@
                         </td>
                         <td>{{ $payment->date }}</td>
                         <td>
-                            <a href="{{ route('payment-histories.invoice', $payment->id) }}"
-                                class="btn btn-primary">Detail</a>
+                            @if ($payment->status == 'pending')
+                                <a href="{{ route('payment-histories.invoice', $payment->id) }}"
+                                    class="btn btn-warning">Invoice</a>
+                            @else
+                                <a href="{{ route('payment-histories.show', $payment->id) }}"
+                                    class="btn btn-primary">Detail</a>
+                            @endif
                         </td>
                     </tr>
                 @endforeach

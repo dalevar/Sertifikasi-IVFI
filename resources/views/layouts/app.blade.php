@@ -15,7 +15,7 @@
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
     <!-- Styling-->
-    <link href="{{ asset('landing-page/css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('landing-page/css/app.css') }}">
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])

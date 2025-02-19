@@ -32,8 +32,9 @@
                                     Sertifikasi</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="unduh-sertifikasi-tab" data-toggle="tab" href="#unduh-sertifikasi"
-                                    role="tab" aria-controls="unduh-sertifikasi" aria-selected="false">Unduh
+                                <a class="nav-link" id="unduh-sertifikasi-tab" data-toggle="tab"
+                                    href="{{ route('download-certificate.index') }}" role="tab"
+                                    aria-controls="unduh-sertifikasi" aria-selected="false">Unduh
                                     Sertifikasi</a>
                             </li>
                             <li class="nav-item">

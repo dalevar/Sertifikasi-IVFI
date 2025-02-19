@@ -2,7 +2,13 @@
 
 @section('content')
     <div class="container">
-        <h1>Edit Member</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('profile.index') }}">Home</a></li>
+                <li class="breadcrumb-item" aria-current="page">Edit Anggota</li>
+            </ol>
+        </nav>
+        <h1>Edit Anggota</h1>
         <form action="{{ route('members.update', $member) }}" method="POST">
             @csrf
             @method('PUT')

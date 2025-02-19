@@ -21,7 +21,8 @@ class ProfileController extends Controller
          */
 
         $user = Auth::user();
-        $members = Member::with('user')->get();
+        // Get all members where the user_id is equal to the authenticated user's id
+        $members = Member::where('user_id', $user->id)->get();
 
         return view('user.pages.profile.index', compact('user', 'members'));
     }

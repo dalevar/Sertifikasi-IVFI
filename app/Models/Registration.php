@@ -19,13 +19,17 @@ class Registration extends Model
     ];
 
 
-    public function members()
+    protected $casts = [
+        'registration_date' => 'date',
+    ];
+
+    public function member()
     {
         return $this->belongsTo(Member::class);
     }
 
     public function certification()
     {
-        return $this->belongsTo(Certification::class, 'certification_id');
+        return $this->belongsTo(Certification::class);
     }
 }

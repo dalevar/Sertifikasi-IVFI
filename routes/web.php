@@ -52,32 +52,33 @@ Route::resource('members', MemberController::class);
 Route::get('/certifications', [CertificateRegistrationController::class, 'index'])->name('certifications.index');
 Route::get('/certifications/{certification}/create', [CertificateRegistrationController::class, 'create'])->name('certifications.create');
 Route::post('/certifications/store', [CertificateRegistrationController::class, 'store'])->name('certifications.store');
-Route::get('/certifications/{certification}', [CertificateRegistrationController::class, 'show'])->name('certifications.show');
+Route::get('/certifications/{registration}', [CertificateRegistrationController::class, 'show'])->name('registration.show');
+
+/**
+ * Route for Download Certificate User
+ *
+ * DownloadCertificate.index -> Menampilkan data sertifikat yang telah didaftarkan oleh user
+ * DownloadCertificate.show -> Menampilkan detail sertifikat yang telah didaftarkan oleh user
+ * DownloadCertificate.download -> Mengunduh sertifikat member yang telah didaftarkan oleh user
+ * DownloadCertificate.downloadAll -> Mengunduh sertifikat semua member yang telah didaftarkan oleh user
+ *
+ */
+Route::get('/download-certificate', [App\Http\Controllers\User\DownloadCertificateController::class, 'index'])->name('download-certificate.index');
+Route::get('/download-certificate/{registration}', [App\Http\Controllers\User\DownloadCertificateController::class, 'show'])->name('download-certificate.show');
+
+Route::get('/download-certificate/download', [App\Http\Controllers\User\DownloadCertificateController::class, 'download'])->name('download-certificate.download');
+
+Route::get('/download-certificate/{registration}/download', [App\Http\Controllers\User\DownloadCertificateController::class, 'downloadAll'])->name('download-certificate.downloadAll');
+
 
 /**
  * Route for Payment Histories
  * Payment-histories.index -> Menampilkan data pembayaran yang telah dilakukan oleh user
+ * Payment-histories.show -> Menampilkan detail pembayaran
  * Payment-histories.invoice -> Menampilkan invoice pembayaran
  * Payment-histories.update -> Mengupdate status pembayaran
  */
-
 Route::get('/payment-histories', [App\Http\Controllers\User\PaymentHistoryController::class, 'index'])->name('payment-histories.index');
+Route::get('payment-histories/{paymentHistory}/detail', [App\Http\Controllers\User\PaymentHistoryController::class, 'show'])->name('payment-histories.show');
 Route::get('/payment/{paymentHistory}/invoice', [App\Http\Controllers\User\PaymentHistoryController::class, 'invoice'])->name('payment-histories.invoice');
 Route::patch('/payment/{paymentHistory}/update', [App\Http\Controllers\User\PaymentHistoryController::class, 'update'])->name('payment.upload-proof');
-
-
-
-
-
-
-
-// Middleware untuk role
-// Route::group(['middleware' => ['auth', 'role:admin']], function () {
-//     Route::get('/admin/dashboard', [App\Http\Controllers\AdminController::class, 'index'])->name('home');
-//     Route::get('/home', [App\Http\Controllers\AdminController::class, 'index'])->name('home');
-// });
-
-// Route::group(['middleware' => ['auth', 'role:user']], function () {
-//     Route::get('/user/dashboard', [App\Http\Controllers\UserController::class, 'index']);
-//     Route::get('/home', [App\Http\Controllers\UserController::class, 'index'])->name('home');
-// });
