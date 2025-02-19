@@ -2,6 +2,13 @@
 
 @section('content')
     <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('profile.index') }}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('download-certificate.index') }}">Unduh Sertifikasi</a></li>
+                <li class="breadcrumb-item" aria-current="page">Detail Daftar Anggota Sertifikasi</li>
+            </ol>
+        </nav>
         <h1>Daftar Anggota untuk {{ $certification->title }}</h1>
         <p><strong>Total Anggota dengan status registered:</strong>
             {{ $certification->registrations()->where('status', 'registered')->count() }}</p>
