@@ -19,9 +19,9 @@ class Registration extends Model
     ];
 
 
-    public function member()
+    public function members()
     {
-        return $this->belongsTo(Member::class, 'member_id');
+        return $this->belongsTo(Member::class);
     }
 
     public function certification()

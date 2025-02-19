@@ -5,6 +5,8 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Member;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class MemberController extends Controller
 {
@@ -13,8 +15,9 @@ class MemberController extends Controller
      */
     public function index()
     {
-        $members = Member::all();
-        return view('user.member.index', compact('members'));
+        $members = Member::with('user')->get();
+        $user = Auth::user();
+        return view('user.pages.profile.index', compact('members', 'user'));
     }
 
     /**
@@ -22,7 +25,8 @@ class MemberController extends Controller
      */
     public function create()
     {
-        return view('user.member.create');
+        $users = User::all();
+        return view('user.pages.member.create', compact('users'));
     }
 
     /**
@@ -31,14 +35,16 @@ class MemberController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:members,email',
-            'address' => 'required|string',
-            'phone' => 'required|string',
+            'user_id' => 'required|exists:users,id',
+            'fullname' => 'required|string|max:255',
+            'number_identity' => 'required|string|unique:members,number_identity',
+            'birthplace' => 'nullable|string|max:255',
+            'birthday' => 'nullable|date',
         ]);
 
-        Member::create($request->all());
-        return redirect()->route('member.index')->with('success', 'Member berhasil ditambahkan.');
+        $member = Member::create($request->all());
+
+        return redirect()->route('profile.index');
     }
 
     /**
@@ -46,44 +52,44 @@ class MemberController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return view('members.show', compact('member'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Member $member)
     {
-        $member = Member::findOrFail($id); // Find member by ID
-        return view('user.member.edit', compact('member'));
+        $users = User::all();
+        return view('user.pages.member.edit', compact('member', 'users'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Member $member)
     {
-        $member = Member::findOrFail($id); // Find member by ID
-
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:members,email,' . $member->id,
-            'address' => 'required|string',
-            'phone' => 'required|string',
+            'user_id' => 'required|exists:users,id',
+            'fullname' => 'required|string|max:255',
+            'number_identity' => 'required|string|unique:members,number_identity,' . $member->id,
+            'birthplace' => 'nullable|string|max:255',
+            'birthday' => 'nullable|date',
         ]);
 
         $member->update($request->all());
-        return redirect()->route('member.index')->with('success', 'Member berhasil diperbarui.');
+
+        return redirect()->route('members.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+
+    public function destroy(Member $member)
     {
-        $member = Member::findOrFail($id); // Find member by ID
         $member->delete();
 
-        return redirect()->route('member.index')->with('success', 'Member berhasil dihapus.');
+        return redirect()->route('members.index');
     }
 }

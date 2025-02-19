@@ -13,11 +13,15 @@ return new class extends Migration
     {
         Schema::create('registrations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('member_id')->constrained('members');
-            $table->foreignId('certification_id')->constrained('certifications');
+            $table->unsignedBigInteger('member_id'); // Nilai tunggal
+            $table->unsignedBigInteger('certification_id'); // Nilai tunggal
             $table->date('registration_date');
-            $table->enum('status', ['pending', 'approved', 'rejected']);
+            $table->enum('status', ['pending', 'registered', 'rejected'])->default('pending');
             $table->timestamps();
+
+            // Foreign key constraints
+            $table->foreign('member_id')->references('id')->on('members')->onDelete('cascade');
+            $table->foreign('certification_id')->references('id')->on('certifications')->onDelete('cascade');
         });
     }
 

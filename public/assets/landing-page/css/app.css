@@ -109,3 +109,19 @@ p {
     --success-color-900: #0e560e;
     --success-color-1000: #073c07;
 }
+
+/* Custom Button Style */
+.btnivfi-primary {
+    background-color: var(--brand-color-500);
+    border: 2px solid var(--brand-color-500);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.btnivfi-primary:hover {
+    background-color: white;
+    color: var(--brand-color-500);
+    border: 2px solid var(--brand-color-500);
+}

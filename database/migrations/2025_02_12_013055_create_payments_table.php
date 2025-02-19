@@ -17,7 +17,7 @@ return new class extends Migration
             // $table->bigInteger('user_id');
             $table->bigInteger('total_members');
             $table->bigInteger('total_amount');
-            $table->enum('status', ['pending', 'success', 'failed']);
+            $table->enum('status', ['pending', 'paid', 'failed']);
             $table->date('date');
             $table->enum('validation', ['pending', 'validated', 'rejected']);
             $table->timestamps();
