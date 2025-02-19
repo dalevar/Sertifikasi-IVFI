@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CertificationController;
 use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\Admin\RegistrationController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
@@ -23,6 +24,9 @@ Route::middleware(['admin'])->name('admin.')->prefix('admin')->group(function ()
     Route::resource('/users', UserController::class);
     Route::resource('/payments', PaymentController::class);
     Route::post('/payments/{id}/validation/', [PaymentController::class, 'validationPayment'])->name('payments.validation');
+    Route::get('/registrations/index', [RegistrationController::class, 'index'])->name('registrations.index');
+    Route::get('registrations/{user_id}/show', [RegistrationController::class, 'show'])->name('registrations.show');
+    Route::post('/registrations/approved', [RegistrationController::class, 'approvedCertification'])->name('registrations.approved');
 });
 
 Route::get('/user', function () {

@@ -71,8 +71,8 @@
 									<span>Pembayaran Sertifikasi</span>
 							</a>
 					</li>
-					<li class="sidebar-item ">
-							<a href="" class='sidebar-link'>
+					<li class="sidebar-item {{ request()->routeIs('admin.registrations.*') ? 'active' : '' }}">
+							<a href="{{ route('admin.registrations.index') }}" class='sidebar-link'>
 									<i class="bi bi-file-earmark-check-fill"></i>
 									<span>Penerbitan Sertifikasi</span>
 							</a>
