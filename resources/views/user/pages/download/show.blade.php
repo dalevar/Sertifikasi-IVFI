@@ -34,7 +34,7 @@
                         <td>{{ $registration->member->number_identity }}</td>
                         <td>{{ $registration->registration_date->format('d-m-Y') }}</td>
                         <td>
-                            <a href="#" class="btn btn-primary btn-sm">Download</a>
+                            <a href="#" class="btn btn-primary btn-sm" target="_blink">Download</a>
                         </td>
                     </tr>
                 @endforeach
