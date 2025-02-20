@@ -39,13 +39,6 @@
                     </tr>
                 @endforeach
             </tbody>
-            <tfoot>
-                <td colspan="6">
-                    <a href="#" class="btn btn-success">Download Semua Sertifikat Anggota</a>
-                </td>
-            </tfoot>
         </table>
-        {{-- <a href="{{ route('download-certificate.download', ['certification' => $certification, 'download' => 'true']) }}"
-            class="btn btn-primary">Unduh Daftar Anggota</a> --}}
     </div>
 @endsection
