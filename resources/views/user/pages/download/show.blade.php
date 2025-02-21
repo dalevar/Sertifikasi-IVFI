@@ -34,7 +34,8 @@
                         <td>{{ $registration->member->number_identity }}</td>
                         <td>{{ $registration->registration_date->format('d-m-Y') }}</td>
                         <td>
-                            <a href="#" class="btn btn-primary btn-sm" target="_blink">Download</a>
+                            <a href="{{ route('download-certificate.download', $registration->member_id) }}"
+                                class="btn btn-primary btn-sm" target="_blink">Download</a>
                         </td>
                     </tr>
                 @endforeach

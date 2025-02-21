@@ -68,7 +68,7 @@ Route::get('/certifications/{registration}', [CertificateRegistrationController:
 Route::get('/download-certificate', [DownloadCertificateController::class, 'index'])->name('download-certificate.index');
 Route::get('/download-certificate/{registration}', [DownloadCertificateController::class, 'show'])->name('download-certificate.show');
 
-Route::get('/download-certificate/{registration}/download', [App\Http\Controllers\PDFController::class, 'download'])->name('download-certificate.download');
+Route::get('/download-certificate/download/{id}', [PDFController::class, 'download'])->name('download-certificate.download');
 
 
 
