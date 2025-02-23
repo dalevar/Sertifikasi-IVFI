@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('user_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('users_id')->constrained('users')->onDelete('cascade'); // OnDelete cascade to delete user details when user is deleted
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // OnDelete cascade to delete user details when user is deleted
             // $table->bigInteger('users_id');
             $table->string('photo');
             $table->string('address');

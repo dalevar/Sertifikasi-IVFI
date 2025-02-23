@@ -29,12 +29,12 @@
                         <td scope="row">{{ $loop->iteration }}</td>
                         <td>{{ $registration->member->fullname }}</td>
                         <td><span
-                                class="badge {{ $registration->status == 'registered' ? 'text-bg-success' : ' text-bg-danger' }}">{{ $registration->status }}</span>
+                                class="badge {{ $registration->status == 'approved' ? 'text-bg-success' : ' text-bg-danger' }}">{{ $registration->status }}</span>
                         </td>
                         <td>{{ $registration->member->number_identity }}</td>
                         <td>{{ $registration->registration_date->format('d-m-Y') }}</td>
                         <td>
-                            <a href="{{ route('download-certificate.download', $registration->member_id) }}"
+                            <a href="{{ route('download-certificate.download', $registration->id) }}"
                                 class="btn btn-primary btn-sm" target="_blink">Download</a>
                         </td>
                     </tr>

@@ -4,36 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Certification;
-use Dompdf\Dompdf;
-use PDF;
-
+use App\Models\Registration;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PDFController extends Controller
 {
-    public function download($memberId)
+    public function download($id)
     {
         $user = Auth::user();
 
-        // Mengambil data member berdasarkan id sertifikasi
-        $certification = Certification::findOrFail($memberId);
-        $members = $certification->registrations->map(function ($registration) {
-            return $registration->member;
-        });
-
-        // Mengambil data registerasi yang terhubung dengan member dan mengambil status 'registered'
-        $registered = $members->map(function ($member) {
-            return $member->registrations->where('status', 'registered');
-        })->flatten();
-
-        $data = [
-            'user' => $user,
-            'certification' => $certification,
-            'members' => $members,
-            'registered' => $registered
-        ];
-
-        $pdf = PDF::loadView('pdf', $data);
-        return $pdf->download('certificate.pdf');
+        $data = Registration::where('id', $id)->with(['member', 'certification'])->firstOrFail();
+        $filename = "{$data->member->fullname} - {$data->certification->title}.pdf";
+        $title = "{$data->member->fullname} - {$data->certification->title}";
+        $pdf = Pdf::loadView('pdf', ['data' => $data, 'title' => $title]);
+        return $pdf->stream($filename);
     }
 }

@@ -82,7 +82,7 @@ class PaymentHistoryController extends Controller
 
         //update payment history
         $paymentHistory->status = 'paid';
-        $paymentHistory->validation = 'validated';
+        $paymentHistory->validation = 'pending';
         $paymentHistory->proof = $proof;
         $paymentHistory->save();
 
