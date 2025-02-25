@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
@@ -12,23 +13,11 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+        $payments = Payment::with('user')->paginate(10);
+        return view('admin.payments.index', [
+            'title' => 'Daftar Pembayaran',
+            'payments' => $payments
+        ]);
     }
 
     /**
@@ -36,7 +25,11 @@ class PaymentController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $payment = Payment::where('id', $id)->first();
+        return view('admin.payments.detail', [
+            'title' => 'Detail Pembayaran',
+            'payment' => $payment
+        ]);
     }
 
     /**
@@ -61,5 +54,29 @@ class PaymentController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    Public function validationPayment(Request $request, $id)
+    {
+        $request->validate([
+            'validation' => 'required'
+        ], [
+            'validation.required' => 'Verifikasi pembayaran wajib dipilih'
+        ]);
+
+        $status = "";
+        if ($request->validation === "validated") {
+            $status = "success";
+        } elseif ($request->validation === "rejected") {
+            $status = "failed";
+        }
+
+        $payment = Payment::findOrFail($id);
+        $payment->update([
+            'status' => $status,
+            'validation' => $request->validation
+        ]);
+
+        return redirect()->back();
     }
 }

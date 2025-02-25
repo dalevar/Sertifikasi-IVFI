@@ -1,5 +1,11 @@
 <?php
 
+use App\Http\Controllers\Admin\CertificationController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\Admin\RegistrationController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\AuthAdminController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -25,9 +31,19 @@ Route::get('/register', function () {
 /**
  *  Route for layouting Admin Page (Dashboard)
  */
-Route::get('/admin', function () {
-    return view('admin.dashboard');
+Route::get('/admin/login', [AuthAdminController::class, 'adminLogin'])->name('admin.login');
+Route::post('/admin/login', [AuthAdminController::class, 'adminAuthentication']);
+Route::middleware(['admin'])->name('admin.')->prefix('admin')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('/certificates', CertificationController::class);
+    Route::resource('/users', UserController::class);
+    Route::resource('/payments', PaymentController::class);
+    Route::post('/payments/{id}/validation/', [PaymentController::class, 'validationPayment'])->name('payments.validation');
+    Route::get('/registrations/index', [RegistrationController::class, 'index'])->name('registrations.index');
+    Route::get('registrations/{user_id}/show', [RegistrationController::class, 'show'])->name('registrations.show');
+    Route::post('/registrations/approved', [RegistrationController::class, 'approvedCertification'])->name('registrations.approved');
 });
+Route::post('logout', [AuthAdminController::class, 'logout'])->name('logout');
 
 /**
  * Authentification Route
