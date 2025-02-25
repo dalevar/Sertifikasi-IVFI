@@ -46,10 +46,13 @@ Route::middleware(['admin'])->name('admin.')->prefix('admin')->group(function ()
 Route::post('logout', [AuthAdminController::class, 'logout'])->name('logout');
 
 /**
- * Authentification Route
+ * Authentification User Route
  */
 Auth::routes();
 
+/**
+ * Route for layouting User Page (Dashboard)
+ */
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 /**
@@ -85,8 +88,6 @@ Route::get('/download-certificate', [DownloadCertificateController::class, 'inde
 Route::get('/download-certificate/{registration}', [DownloadCertificateController::class, 'show'])->name('download-certificate.show');
 
 Route::get('/download-certificate/download/{id}', [PDFController::class, 'download'])->name('download-certificate.download');
-
-
 
 /**
  * Route for Payment Histories
