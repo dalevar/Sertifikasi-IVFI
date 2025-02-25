@@ -17,14 +17,14 @@ class RegistrationSeeder extends Seeder
             'member_id' => 1,
             'certification_id' => 1,
             'registration_date' => now(),
-            'status' => 'registered',
+            'status' => 'approved',
         ]);
 
         DB::table('registrations')->insert([
             'member_id' => 1,
             'certification_id' => 2,
             'registration_date' => now(),
-            'status' => 'registered',
+            'status' => 'approved',
         ]);
     }
 }

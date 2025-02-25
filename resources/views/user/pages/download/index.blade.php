@@ -26,7 +26,7 @@
                         <td scope="row">{{ $loop->iteration }}</td>
                         <td>{{ $certificate->title }}</td>
                         <td class="col-2">
-                            {{ $certificate->registrations()->where('status', 'registered')->count() }}</td>
+                            {{ $certificate->registrations()->where('status', 'approved')->count() }}</td>
                         <td class="">
                             <a href="{{ route('download-certificate.show', $certificate->id) }}"
                                 class="btn btn-primary">Detail

@@ -49,7 +49,7 @@ class User extends Authenticatable
 
     public function details()
     {
-        return $this->hasOne(UserDetail::class, 'users_id');
+        return $this->hasOne(UserDetail::class, 'user_id');
     }
 
     public function members()

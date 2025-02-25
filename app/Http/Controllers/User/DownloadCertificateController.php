@@ -20,7 +20,7 @@ class DownloadCertificateController extends Controller
 
         // Mengambil data registerasi yang terhubung dengan member dan mengambil status 'registered'
         $registered = $members->map(function ($member) {
-            return $member->registrations->where('status', 'registered');
+            return $member->registrations->where('status', 'approved');
         })->flatten();
 
         // Mengambil data sertifikat yang terhubung dengan registerasi
@@ -43,7 +43,7 @@ class DownloadCertificateController extends Controller
 
         // Mengambil data registerasi yang terhubung dengan member dan mengambil status 'registered'
         $registered = $members->map(function ($member) {
-            return $member->registrations->where('status', 'registered');
+            return $member->registrations->where('status', 'approved');
         })->flatten();
 
         return view('user.pages.download.show', compact('user', 'certification', 'members', 'registered'));

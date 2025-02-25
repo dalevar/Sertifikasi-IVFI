@@ -39,7 +39,7 @@
                         <td>{{ $payment->total_members }}</td>
                         <td>{{ $payment->total_amount }}</td>
                         <td
-                            class="badge {{ $payment->status == 'paid' ? 'text-bg-success' : ($payment->status == 'pending' ? 'text-bg-secondary' : 'text-bg-danger') }} ">
+                            class="badge {{ $payment->status == 'paid' || $payment->status == 'success' ? 'text-bg-success' : ($payment->status == 'pending' ? 'text-bg-secondary' : 'text-bg-danger') }} ">
                             {{ $payment->status }}
                         </td>
                         <td>{{ $payment->date }}</td>

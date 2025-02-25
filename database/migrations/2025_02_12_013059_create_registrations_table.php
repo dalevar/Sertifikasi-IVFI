@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('member_id'); // Nilai tunggal
             $table->unsignedBigInteger('certification_id'); // Nilai tunggal
             $table->date('registration_date');
-            $table->enum('status', ['pending', 'registered', 'rejected'])->default('pending');
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->timestamps();
 
             // Foreign key constraints
