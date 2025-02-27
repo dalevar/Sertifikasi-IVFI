@@ -13,18 +13,15 @@ class CertificationSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('certifications')->insert([
-            'title' => 'Sertifikasi Pengembangan Perangkat Lunak',
-            'description' => 'Sertifikasi ini untuk pengembang perangkat lunak',
-            'price' => 300,
-            'valid_period' => 12,
-        ]);
+        $faker = \Faker\Factory::create();
 
-        DB::table('certifications')->insert([
-            'title' => 'Sertifikasi Jaringan Komputer',
-            'description' => 'Sertifikasi ini untuk ahli jaringan komputer',
-            'price' => 250,
-            'valid_period' => 12,
-        ]);
+        for ($i = 0; $i < 2; $i++) {
+            DB::table('certifications')->insert([
+                'title' => $faker->sentence(3),
+                'description' => $faker->paragraph,
+                'price' => $faker->numberBetween(100, 500),
+                'valid_period' => $faker->numberBetween(2, 3),
+            ]);
+        }
     }
 }

@@ -1,15 +1,74 @@
-@extends('layouts.app')
+@extends('layouts.user')
+
+@section('breadcrumb')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Unduh Sertifikat</li>
+        </ol>
+    </nav>
+@endsection
+
+@section('page-heading')
+    <div class="row">
+        <div class="order-last col-12 col-md-6 order-md-1">
+            <h3>Unduh Sertifikat</h3>
+            <p class="text-subtitle text-muted">
+                Unduh sertifikat anggota yang telah tersertifikasi.
+            </p>
+        </div>
+    </div>
+@endsection
 
 @section('content')
-    <div class="container">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('profile.index') }}">Home</a></li>
-                <li class="breadcrumb-item" aria-current="page">Unduh
-                    Sertifikasi</li>
-            </ol>
-        </nav>
-        <h1>Daftar Sertifikat</h1>
+    <section class="row">
+        <div class="col-12 col-lg-12">
+            <div class="row">
+                <div class="col-12 col-xl-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="divider divider-left">
+                                <div class="divider-text h4">Daftar Anggota Tersertifikasi</div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped no-footer table-hover table-lg" id="table2">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-1">No</th>
+                                            <th scope="col">Sertifikasi</th>
+                                            <th class="col-1">Jumlah Anggota</th>
+                                            <th class="col-1">#</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse ($certificates as $certificate)
+                                            <tr>
+                                                <td scope="row">{{ $loop->iteration }}</td>
+                                                <td>{{ $certificate->title }}</td>
+                                                <td class="col-2">
+                                                    {{ $certificate->registrations()->where('status', 'approved')->count() }}
+                                                </td>
+                                                <td class="">
+                                                    <a href="{{ route('download-certificate.show', $certificate->id) }}"
+                                                        class="btn btn-primary">Lihat
+                                                        Anggota</a>
+                                                </td>
+                                            </tr>
+                                        @empty
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {{-- <div class="container">
+
 
         <table class="table">
             <thead>
@@ -37,7 +96,7 @@
             </tbody>
         </table>
 
-        {{-- <div class="list-group">
+        <div class="list-group">
             @foreach ($certificates as $certificate)
                 <a href="{{ route('download-certificate.show', $certificate) }}"
                     class="list-group-item list-group-item-action">
@@ -46,6 +105,6 @@
                         {{ $certificate->registrations()->where('status', 'registered')->count() }} Anggota</span>
                 </a>
             @endforeach
-        </div> --}}
-    </div>
+        </div>
+    </div> --}}
 @endsection

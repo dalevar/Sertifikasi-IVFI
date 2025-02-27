@@ -18,6 +18,10 @@ class Certification extends Model
         'valid_periode',
     ];
 
+    protected $casts = [
+        'valid_periode' => 'date',
+    ];
+
     public function registrations()
     {
         return $this->hasMany(Registration::class, 'certification_id');

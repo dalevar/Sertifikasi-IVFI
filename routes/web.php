@@ -49,18 +49,28 @@ Route::post('logout', [AuthAdminController::class, 'logout'])->name('logout');
  * Authentification User Route
  */
 Auth::routes();
+Route::get('/logout', function () {
+    Auth::logout();
+    return redirect('/login');
+});
+
 
 /**
  * Route for layouting User Page (Dashboard)
  */
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+Route::get('/dashboard/{id}', [HomeController::class, 'getMemberDetails'])->name('dashboard.show');
+
 
 /**
  * Route for User Profile
  */
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
-Route::get('/profile/edit', [ProfileController::class, 'show'])->name('profile.show');
-Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+Route::get('/profile/pengaturan', [ProfileController::class, 'pengaturan'])->name('profile.settings');
+Route::put('/profile/update/profil', [ProfileController::class, 'updateProfil'])->name('profile.update.profil');
+Route::put('/profile/update/akun', [ProfileController::class, 'updateAkun'])->name('profile.update.akun');
+
+
 
 /**
  * Route for Member
@@ -97,6 +107,13 @@ Route::get('/download-certificate/download/{id}', [PDFController::class, 'downlo
  * Payment-histories.update -> Mengupdate status pembayaran
  */
 Route::get('/payment-histories', [PaymentHistoryController::class, 'index'])->name('payment-histories.index');
-Route::get('payment-histories/{paymentHistory}/detail', [PaymentHistoryController::class, 'show'])->name('payment-histories.show');
-Route::get('/payment/{paymentHistory}/invoice', [PaymentHistoryController::class, 'invoice'])->name('payment-histories.invoice');
+// Route::get('payment-histories/{id}', [PaymentHistoryController::class, 'show'])->name('payment-histories.show');
+Route::get('/payment/{id}', [PaymentHistoryController::class, 'invoice'])->name('payment-histories.invoice');
 Route::patch('/payment/{paymentHistory}/update', [PaymentHistoryController::class, 'update'])->name('payment.upload-proof');
+
+
+/**
+ * BUG LIST
+ * 1. Registrasi Sertifikasi Anggota (CheckBox)
+ * 2. Riwayat Pembayaran (Data Relation)
+ */

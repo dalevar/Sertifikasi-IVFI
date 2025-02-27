@@ -1,10 +1,11 @@
-@extends('layouts.app')
+@extends('layouts.user')
 
 @section('breadcrumb')
+    <!-- breadcrumb -->
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-            <li class="breadcrumb-item"><a href="#">Kelola
+            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('members.index') }}">Kelola
                     Anggota</a></li>
             <li class="breadcrumb-item active" aria-current="page">Detail Anggota</li>
         </ol>
@@ -16,7 +17,7 @@
         <div class="order-last col-12 col-md-6 order-md-1">
             <h3>Detail Anggota</h3>
             <p class="text-subtitle text-muted">
-                Informasi detail anggota Anda.
+                Informasi Detail Anggota {{ $member->fullname }} Anda.
             </p>
         </div>
     </div>
@@ -24,85 +25,91 @@
 
 @section('content')
     <div class="row">
-        <div class="order-last col-12 col-md-6 order-md-1">
-            <h3>Detail Anggota</h3>
-            <p class="text-subtitle text-muted">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aperiam, nemo.
-            </p>
+        <div class="col-12 col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-start align-items-center">
+                        {{-- Tombol Kembali dan Edit --}}
+                        <a href="{{ route('members.index') }}" class="mb-3 btn btn-outline-secondary btn-sm me-2">
+                            Kembali
+                        </a>
+
+                        <a href="{{ route('members.edit', $member->id) }}" class="mb-3 btn btn-warning btn-sm">
+                            Edit
+                        </a>
+                    </div>
+
+                    <div class="d-flex justify-content-start align-items-start flex-column">
+                        <h5 class="mt-2">Terhubung Dengan Instansi :</h5>
+                        <p class="text-small">{{ $user->fullname }}</p>
+                    </div>
+                </div>
+            </div>
+
         </div>
-    </div>
-    </div>
-    <section class="section">
-        <div class="row">
-            <div class="col-12 col-lg-4">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-start align-items-start flex-column">
-                            <h5 class="mt-2">Terhubung Dengan Instansi :</h5>
-                            <p class="text-small">Ikatan Vokasi Farmasi Indonesia</p>
+        <div class="col-12 col-lg-8">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Nama Lengkap:</h6>
+                            <p>{{ $member->fullname }}</p>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-lg-8">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <h6>Nama:</h6>
-                                <p>John Doe</p>
-                            </div>
-                            <div class="col-md-6">
-                                <h6>Email:</h6>
-                                <p>johndoe@example.com</p>
-                            </div>
-                            <div class="col-md-6">
-                                <h6>Nomor Telepon:</h6>
-                                <p>+62 812 3456 7890</p>
-                            </div>
-                            <div class="col-md-6">
-                                <h6>Alamat:</h6>
-                                <p>Jl. Example No. 123, Jakarta, Indonesia</p>
-                            </div>
-                            <div class="col-md-6">
-                                <h6>Tanggal Bergabung:</h6>
-                                <p>1 Januari 2023</p>
-                            </div>
+
+                        <div class="col-md-6">
+                            <h6>No. Identitas:</h6>
+                            <p>{{ $member->number_identity }}</p>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Sertifikasi</h5>
-                        <div class="table-responsive table-active table-borderless">
-                            <table class="table table-hover table-borderless">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">No</th>
-                                        <th scope="col">Jenis Sertifikasi</th>
-                                        <th scope="col">Tanggal Terbit</th>
-                                        <th scope="col">Tanggal Berakhir</th>
-                                        <th scope="col">Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Sertifikasi Farmasi</td>
-                                        <td>1 Januari 2023</td>
-                                        <td>1 Januari 2025</td>
-                                        <td><span class="badge text-bg-success">Aktif</span></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div class="col-md-6">
+                            <h6>Tempat Lahir:</h6>
+                            <p>{{ $member->birthplace }}</p>
                         </div>
-                        <a href="../anggota/index.html" class="btn btn-outline-primary">Kembali</a>
-                        <a href="edit.html" class="btn btn-warning">Edit</a>
+                        <div class="col-md-6">
+                            <h6>Tanggal Lahir:</h6>
+                            <p>{{ $member->birthday->format('d F Y') }}</p>
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Sertifikasi</h5>
+                    <div class="table-responsive table-active table-borderless">
+                        <table class="table table-hover table-borderless" id="table2">
+                            <thead>
+                                <tr>
+                                    <th scope="col">No</th>
+                                    <th scope="col">Jenis Sertifikasi</th>
+                                    <th scope="col">Tanggal Terbit</th>
+                                    <th scope="col">Masa Berlaku</th>
+                                    <th scope="col">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($members_certificated as $member_certificated)
+                                    <tr>
+                                        <th scope="row">{{ $loop->iteration }}</th>
+                                        <td>{{ $member_certificated->certification->title }}</td>
+                                        <td>{{ $member_certificated->registration_date->format('d F Y') }}</td>
+                                        <td>{{ $member_certificated->certification->valid_period }} Tahun</td>
+                                        <td><span class="badge text-bg-success">{{ $member_certificated->status }}</span>
+                                        </td>
+                                    </tr>
+
+                                @empty
+                                    <tr>
+                                        <td colspan="5" class="text-center">Tidak ada data</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection

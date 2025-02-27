@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Certification;
 use App\Models\Member;
 use App\Models\Registration;
+use Illuminate\Support\Facades\Auth;
 
 class CertificateRegistrationController extends Controller
 {
@@ -15,8 +16,10 @@ class CertificateRegistrationController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
         $certifications = Certification::all();
-        return view('user.pages.certificate.index', compact('certifications'));
+        $title = 'Certificate Registration';
+        return view('user.pages.certificate.index', compact('certifications', 'title', 'user'));
     }
 
     /**
@@ -24,9 +27,13 @@ class CertificateRegistrationController extends Controller
      */
     public function create(Certification $certification)
     {
+        $user = Auth::user();
+        $title = 'Certificate Registration';
         $registration = Registration::find($certification->id);
-        $members = Member::all();
-        return view('user.pages.certificate.create', compact('members', 'certification'));
+        $members = Member::where('user_id', $user->id)->get();
+        $total_members = Member::where('user_id', $user->id)->count();
+
+        return view('user.pages.certificate.create', compact('members', 'certification', 'title', 'user', 'total_members'));
     }
 
     /**
@@ -65,7 +72,7 @@ class CertificateRegistrationController extends Controller
             'status' => 'pending',
         ]);
 
-        return redirect()->route('payment-histories.invoice', ['paymentHistory' => $paymentHistory->id])
+        return redirect()->route('payment-histories.invoice', ['id' => $paymentHistory->id])
             ->with('success', 'Pendaftaran berhasil disimpan.');
     }
 

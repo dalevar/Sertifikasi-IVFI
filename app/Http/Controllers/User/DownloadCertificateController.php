@@ -13,6 +13,7 @@ class DownloadCertificateController extends Controller
 {
     public function index()
     {
+        $title = 'Download Certificate';
         $user = Auth::user();
 
         // Data member yang terhubung dengan user yang login
@@ -28,24 +29,31 @@ class DownloadCertificateController extends Controller
             return $registration->certification;
         })->unique();
 
-        return view('user.pages.download.index', compact('user', 'registered', 'certificates'));
+        return view('user.pages.download.index', compact('user', 'registered', 'certificates', 'title'));
     }
 
     public function show($id)
     {
+        $title = 'Download Certificate';
         $user = Auth::user();
 
-        // Mengambil data member berdasarkan id sertifikasi
+        // Mengambil data sertifikasi berdasarkan ID
         $certification = Certification::findOrFail($id);
-        $members = $certification->registrations->map(function ($registration) {
-            return $registration->member;
+
+        // Mengambil data pendaftaran (registrations) yang terkait dengan sertifikasi dan status 'approved'
+        $approvedRegistrations = $certification->registrations()->where('status', 'approved')->get();
+
+        // Mengambil data member yang lulus (approved) beserta statusnya
+        $passedMembers = $approvedRegistrations->map(function ($registration) {
+            return [
+                'fullname'          => $registration->member->fullname,
+                'number_identity'   => $registration->member->number_identity,
+                'registration_date' => $registration->registration_date->format('d-m-Y'),
+                'status'            => $registration->status, // Ambil status pendaftaran
+                'member_id'         => $registration->member->id
+            ];
         });
 
-        // Mengambil data registerasi yang terhubung dengan member dan mengambil status 'registered'
-        $registered = $members->map(function ($member) {
-            return $member->registrations->where('status', 'approved');
-        })->flatten();
-
-        return view('user.pages.download.show', compact('user', 'certification', 'members', 'registered'));
+        return view('user.pages.download.show', compact('user', 'certification', 'passedMembers', 'title'));
     }
 }
