@@ -3727,7 +3727,7 @@
         id: [null, Type.STRING],
 
         // input field name to use
-        name: ['filepond', Type.STRING],
+        name: ['proof', Type.STRING],
 
         // disable the field
         disabled: [false, Type.BOOLEAN],
