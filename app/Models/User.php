@@ -47,6 +47,12 @@ class User extends Authenticatable
         ];
     }
 
+    protected $casts = [
+        'created_at' => 'datetime',
+    ];
+
+
+
     public function details()
     {
         return $this->hasOne(UserDetail::class, 'user_id');

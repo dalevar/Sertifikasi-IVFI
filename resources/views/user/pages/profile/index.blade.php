@@ -1,97 +1,70 @@
-@extends('layouts.app')
+@extends('layouts.user')
+
+@section('breadcrumb')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Profil Instansi</li>
+        </ol>
+    </nav>
+@endsection
+
+@section('page-heading')
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <h3>Profil Instansi</h3>
+            <p class="text-subtitle text-muted">Informasi tentang instansi Anda.</p>
+        </div>
+    </div>
+@endsection
 
 @section('content')
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
+    <section class="section">
+        <div class="row">
+            <div class="col-12">
                 <div class="card">
-                    <div class="card-header">{{ __('Dashboard') }}</div>
-
                     <div class="card-body">
-                        @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
-                            </div>
-                        @endif
+                        <div class="d-flex align-items-center">
+                            {{-- Gambar Profil --}}
+                            <img src="{{ asset($user->details->photo) ?: asset('assets/static/images/default-profile.png') }}"
+                                alt="Foto Profil" class="img-thumbnail img-fluid" width="150px">
+                            <div class="ms-4">
+                                {{-- Nama Instansi --}}
+                                <h3 class="card-title text-primary">
+                                    {{ $user->fullname ?? 'Nama Instansi Tidak Tersedia' }}</h3>
+                                <p class="mb-1"><i class="bi bi-clock-fill me-2"></i>
+                                    Bergabung sejak {{ $user->created_at->format('Y') ?? '-' }}
+                                </p>
+                                {{-- Lokasi --}}
+                                <p class="mb-1"><i class="bi bi-pin-map-fill me-2"></i>
+                                    {{ $user->details->address ?? 'Lokasi Tidak Diketahui' }}
+                                </p>
 
-                        {{ __('You are logged in!') }}
-                        <p> Welcome, {{ $user->fullname }}</p>
+                                {{-- Nomor HP --}}
+                                <p class="mb-1"><i class="bi bi-telephone-fill me-2"></i>
+                                    {{ $user->details->phone ?? 'Nomor Tidak Tersedia' }}
+                                </p>
 
-                        <a href="{{ route('profile.show') }}">Pengaturan</a>
+                                {{-- Email --}}
+                                <div class="mt-3 form-group">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email"
+                                        value="{{ $user->email ?? 'Tidak Tersedia' }}" disabled>
+                                    <small class="text-muted">
+                                        Anda dapat mengubah alamat email melalui menu
+                                        <a href="{{ route('profile.settings') }}#account-content">Akun</a>
+                                    </small>
+                                </div>
 
-                        {{-- Tabs Navbar --}}
-                        <ul class="nav nav-tabs" id="myTab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" id="kelola-anggota-tab" data-toggle="tab" href="#kelola-anggota"
-                                    role="tab" aria-controls="kelola-anggota" aria-selected="true">Kelola Anggota</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="sertifikasi-tab" data-toggle="tab"
-                                    href="{{ route('certifications.index') }}" role="tab" aria-controls="sertifikasi"
-                                    aria-selected="false">Pendaftaran
-                                    Sertifikasi</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="unduh-sertifikasi-tab" data-toggle="tab"
-                                    href="{{ route('download-certificate.index') }}" role="tab"
-                                    aria-controls="unduh-sertifikasi" aria-selected="false">Unduh
-                                    Sertifikasi</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="riwayat-pembayaran-tab" data-toggle="tab"
-                                    href="{{ route('payment-histories.index') }}" role="tab"
-                                    aria-controls="riwayat-pembayaran" aria-selected="false">Riwayat
-                                    Pembayaran</a>
-                            </li>
-                        </ul>
-
-                        {{-- Tabs Content --}}
-                        <div class="tab-content" id="myTabContent">
-                            <div class="tab-pane fade show active" id="kelola-anggota" role="tabpanel"
-                                aria-labelledby="kelola-anggota-tab">
-                                <h1>Kelola Anggota</h1>
-                                <a href="{{ route('members.create') }}" class="btn btn-primary">Tambah Anggota</a>
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Fullname</th>
-                                            <th>Number Identity</th>
-                                            <th>Birthplace</th>
-                                            <th>Birthday</th>
-                                            <th>User</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($members as $member)
-                                            <tr>
-                                                <td>{{ $member->id }}</td>
-                                                <td>{{ $member->fullname }}</td>
-                                                <td>{{ $member->number_identity }}</td>
-                                                <td>{{ $member->birthplace }}</td>
-                                                <td>{{ $member->birthday->format('Y-m-d') }}</td>
-                                                <td>{{ $member->user->fullname }}</td>
-                                                <td>
-                                                    <a href="{{ route('members.edit', $member) }}"
-                                                        class="btn btn-primary">Edit</a>
-                                                    <form action="{{ route('members.destroy', $member) }}" method="POST"
-                                                        style="display: inline-block;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                {{-- Tombol Pengaturan --}}
+                                <div class="mt-3">
+                                    <a href="{{ route('profile.settings') }}" class="btn btn-outline-primary">Pengaturan</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    </div>
+    </section>
 @endsection

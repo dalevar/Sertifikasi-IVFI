@@ -22,6 +22,12 @@ class UserSeeder extends Seeder
                 'role' => 'admin',
             ],
             [
+                'fullname' => 'Ikatan Vokasi Farmasi Indonesia',
+                'email' => 'ivfi@ivfi.com',
+                'password' => Hash::make('password'),
+                'role' => 'user',
+            ],
+            [
                 'fullname' => 'Gore Dale',
                 'email' => 'dale@ivfi.com',
                 'password' => Hash::make('password'),

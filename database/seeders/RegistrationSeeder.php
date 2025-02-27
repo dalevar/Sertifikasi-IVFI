@@ -13,18 +13,15 @@ class RegistrationSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('registrations')->insert([
-            'member_id' => 1,
-            'certification_id' => 1,
-            'registration_date' => now(),
-            'status' => 'approved',
-        ]);
+        $faker = \Faker\Factory::create();
 
-        DB::table('registrations')->insert([
-            'member_id' => 1,
-            'certification_id' => 2,
-            'registration_date' => now(),
-            'status' => 'approved',
-        ]);
+        for ($i = 0; $i < 10; $i++) {
+            DB::table('registrations')->insert([
+                'member_id' => $faker->numberBetween(1, 10),
+                'certification_id' => $faker->numberBetween(1, 2),
+                'registration_date' => $faker->dateTimeThisYear(),
+                'status' => $i < 5 ? 'approved' : 'pending',
+            ]);
+        }
     }
 }
