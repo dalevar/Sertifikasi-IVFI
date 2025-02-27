@@ -110,7 +110,7 @@
                     </div>
                     <div class="mb-4">
                         <p class="text-muted">Bukti Pembayaran</p>
-                        <form action="{{ route('payment.upload-proof', $payment->id) }}" method="POST"
+                        <form id="updateForm" action="{{ route('payment.upload-proof', $payment->id) }}" method="POST"
                             enctype="multipart/form-data">
                             @method('PATCH')
                             @csrf
@@ -176,4 +176,78 @@
     <script src="{{ asset('assets/extensions/filepond/filepond.js') }}"></script>
     <script src="{{ asset('assets/extensions/toastify-js/src/toastify.js') }}"></script>
     <script src="{{ asset('assets/static/js/pages/filepond.js') }}"></script>
+
+    <script>
+        $(document).ready(function() {
+            $("#updateForm").on("submit", function(e) {
+                e.preventDefault();
+
+                let formData = new FormData(this);
+
+                $.ajax({
+                    url: $(this).attr("action"),
+                    type: "POST",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    dataType: "json",
+                    beforeSend: function() {
+                        Swal.fire({
+                            title: "Mengunggah...",
+                            text: "Harap tunggu sebentar.",
+                            showConfirmButton: false,
+                            allowOutsideClick: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                            }
+                        });
+                    },
+                    success: function(response) {
+                        Swal.close();
+
+                        if (response.success) {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Berhasil!",
+                                text: response.message,
+                                showConfirmButton: false,
+                                timer: 3000,
+                                toast: true,
+                                position: "top-end",
+                                timerProgressBar: true
+                            });
+
+                            // Reload halaman setelah sukses
+                            setTimeout(() => {
+                                location.reload();
+                            }, 3000);
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Gagal!",
+                                text: response.message || "Terjadi kesalahan.",
+                                confirmButtonText: "Tutup"
+                            });
+                        }
+                    },
+                    error: function(xhr) {
+                        Swal.close();
+
+                        let message = "Terjadi kesalahan.";
+                        if (xhr.status === 422) {
+                            let errors = xhr.responseJSON.errors;
+                            message = Object.values(errors).flat().join("\n");
+                        }
+
+                        Swal.fire({
+                            icon: "error",
+                            title: "Gagal!",
+                            text: message,
+                            confirmButtonText: "Coba Lagi"
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 @endpush

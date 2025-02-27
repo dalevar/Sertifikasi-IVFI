@@ -87,26 +87,25 @@ class PaymentHistoryController extends Controller
      */
     public function update(Request $request, Payment $paymentHistory)
     {
-        // Validate the request data
+        // Validasi Request
         $request->validate([
-            'proof_of_payment' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'proof' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        //check request
-        if (!$request->hasFile('proof_of_payment')) {
-            return redirect()->back()->with('error', 'No file uploaded');
+        // Pastikan file diunggah
+        if (!$request->hasFile('proof')) {
+            return response()->json(['success' => false, 'message' => 'No file uploaded'], 422);
         }
 
-        //store file to storage
-        $proof = $request->file('proof_of_payment')->store('proofs');
+        // Simpan file ke storage
+        $proof = $request->file('proof')->store('proofs');
 
-        //update payment history
+        // Update data pembayaran
         $paymentHistory->status = 'paid';
         $paymentHistory->validation = 'pending';
         $paymentHistory->proof = $proof;
         $paymentHistory->save();
 
-
-        return redirect()->route('payment-histories.index')->with('success', 'Payment proof uploaded successfully');
+        return response()->json(['success' => true, 'message' => 'Bukti pembayran berhasil diupload!']);
     }
 }
