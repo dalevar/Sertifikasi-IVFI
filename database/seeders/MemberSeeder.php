@@ -16,7 +16,7 @@ class MemberSeeder extends Seeder
         $faker = \Faker\Factory::create();
 
         $members = [];
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 3; $i++) {
             $members[] = [
                 'user_id' => 2,
                 'fullname' => $faker->name,

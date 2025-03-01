@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\MemberRequest;
+use App\Http\Requests\User\UpdateMemberRequest;
 use Illuminate\Http\Request;
 use App\Models\Member;
 use App\Models\User;
@@ -41,7 +43,7 @@ class MemberController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(\App\Http\Requests\User\MemberRequest $request)
+    public function store(MemberRequest $request)
     {
         $user = Auth::user();
         $validate = $request->validated();
@@ -94,33 +96,12 @@ class MemberController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Member $member)
+    public function update(UpdateMemberRequest $request, Member $member)
     {
-        $request->validate(
-            [
-                'fullname' => 'required|string|max:255',
-                'number_identity' => 'required|string|unique:members,number_identity,' . $member->id,
-                'birthplace' => 'required|string|max:255',
-                'birthday' => 'required|date',
-            ],
-            [
-                'fullname.required' => 'Nama lengkap wajib diisi.',
-                'fullname.string' => 'Nama lengkap harus berupa teks.',
-
-                'number_identity.required' => 'Nomor identitas wajib diisi.',
-                'number_identity.string' => 'Nomor identitas harus berupa teks.',
-                'number_identity.unique' => 'Nomor identitas sudah digunakan.',
-
-                'birthplace.required' => 'Tempat lahir wajib diisi.',
-                'birthplace.string' => 'Tempat lahir harus berupa teks.',
-
-                'birthday.required' => 'Tanggal lahir wajib diisi.',
-                'birthday.date' => 'Tanggal lahir harus berupa tanggal.',
-            ]
-        );
+        $validate = $request->validated();
 
         try {
-            $member =  $member->update($request->all());
+            $member =  $member->update($validate);
             return response()->json([
                 'success' => true,
                 'message' => 'Anggota berhasil diperbarui!',

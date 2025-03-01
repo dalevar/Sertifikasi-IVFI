@@ -4,7 +4,7 @@ namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class MemberRequest extends FormRequest
+class UpdateMemberRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,7 +23,7 @@ class MemberRequest extends FormRequest
     {
         return [
             'fullname' => 'required|string|max:255',
-            'number_identity' => 'required|string|unique:members,number_identity',
+            'number_identity' => 'required|string|unique:members,number_identity,' . $this->member->id,
             'birthplace' => 'required|string|max:255',
             'birthday' => 'required|date',
             'gender' => 'required|in:L,P',
@@ -39,8 +39,9 @@ class MemberRequest extends FormRequest
             'fullname.required' => 'Nama Lengkap Wajib Diisi',
             'fullname.string' => 'Nama Lengkap Harus Berupa Huruf',
 
-            'number_identity.required' => 'Nomor Identitas Wajib Diisi',
-            'number_identity.unique' => 'Nomor Identitas Sudah Terdaftar',
+            'number_identity.required' => 'Nomor identitas wajib diisi.',
+            'number_identity.string' => 'Nomor identitas harus berupa teks.',
+            'number_identity.unique' => 'Nomor identitas sudah digunakan.',
 
             'birthplace.required' => 'Tempat Lahir Wajib Diisi',
             'birthplace.string' => 'Tempat Lahir Harus Berupa Huruf',

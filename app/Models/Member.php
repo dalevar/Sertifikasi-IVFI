@@ -18,6 +18,10 @@ class Member extends Model
         'number_identity',
         'birthplace',
         'birthday',
+        'gender',
+        'address',
+        'phone',
+        'email'
     ];
 
     protected $casts = [

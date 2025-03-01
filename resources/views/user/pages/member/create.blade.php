@@ -1,92 +1,121 @@
 @extends('layouts.user')
 
 @section('breadcrumb')
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('members.index') }}">Kelola
-                    Anggota</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Tambah Anggota</li>
-        </ol>
-    </nav>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('members.index') }}">Kelola Anggota</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Tambah Anggota</li>
+  </ol>
+</nav>
 @endsection
 
 @section('page-heading')
-    <div class="row">
-        <div class="order-last col-12 col-md-6 order-md-1">
-            <h3>Tambah Anggota</h3>
-            <p class="text-subtitle text-muted">
-                Tambahkan anggota baru ke dalam sistem dengan mengisi form di bawah ini.
-            </p>
-        </div>
-    </div>
+<div class="row">
+  <div class="order-last col-12 col-md-6 order-md-1">
+    <h3>Tambah Anggota</h3>
+    <p class="text-subtitle text-muted">
+      Tambahkan anggota baru ke dalam sistem dengan mengisi form di bawah ini.
+    </p>
+  </div>
+</div>
 @endsection
 
 @section('content')
-    <section class="row">
-        <div class="col-12 col-lg-12">
-            <div class="row">
-                <div class="col-12 col-xl-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="divider divider-left">
-                                <div class="divider-text h4">Tambah Anggota</div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <form id="addForm" class="form" action="{{ route('members.store') }}" method="POST"
-                                data-parsley-validate>
-                                @csrf
+<section class="row">
+  <div class="col-12 col-lg-12">
+    <div class="row">
+      <div class="col-12 col-xl-12">
+        <div class="card">
+          <div class="card-header">
+            <div class="divider divider-left">
+              <div class="divider-text h4">Tambah Anggota</div>
+            </div>
+          </div>
+          <div class="card-body">
+            <form id="addForm" class="form" action="{{ route('members.store') }}" method="POST"
+              data-parsley-validate>
+              @csrf
 
-                                <div class="row">
-                                    <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
-                                            <label for="fullname" class="form-label">Nama
-                                                Lengkap</label>
-                                            <input type="text" id="fullname" class="form-control" name="fullname"
-                                                data-parsley-required="true" />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
-                                            <label for="number_identity" class="form-label">No.
-                                                Indentitas</label>
-                                            <input type="text" id="number_identity" class="form-control"
-                                                name="number_identity" data-parsley-required="true" />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
-                                            <label for="birthplace" class="form-label">Tempat
-                                                Lahir</label>
-                                            <input type="text" id="birthplace" class="form-control" name="birthplace"
-                                                data-parsley-required="true" />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-12">
-                                        <div class="form-group mandatory">
-                                            <label for="birthday" class="form-label">Tanggal
-                                                Lahir</label>
-                                            <input type="date" id="birthday" class="form-control" name="birthday"
-                                                data-parsley-required="true" />
-                                        </div>
-                                    </div>
-                                    <div class="col-12 d-flex justify-content-start">
-                                        <!-- Kembali -->
-                                        <a href="{{ route('members.index') }}"
-                                            class="mb-1 btn btn-outline-secondary me-1">Kembali</a>
-                                        <button type="submit" class="mb-1 btn btn-primary me-1">
-                                            Tambah
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
+              <div class="row">
+                <div class="col-md-6 col-12">
+                  <div class="form-group mandatory">
+                    <label for="fullname" class="form-label">Nama Lengkap</label>
+                    <input type="text" id="fullname" class="form-control" name="fullname" data-parsley-required="true" />
+                  </div>
+                </div>
+                <div class="col-md-6 col-12">
+                    <div class="form-group mandatory">
+                      <label for="number_identity" class="form-label">No. Indentitas (NIK)</label>
+                      <input type="text" id="number_identity" class="form-control" name="number_identity" data-parsley-required="true" />
                     </div>
                 </div>
-            </div>
+                <div class="col-md-6 col-12">
+                  <div class="form-group mandatory">
+                      <label for="birthplace" class="form-label">Tempat Lahir</label>
+                      <input type="text" id="birthplace" class="form-control" name="birthplace" data-parsley-required="true" />
+                  </div>
+                </div>
+                <div class="col-md-6 col-12">
+                  <div class="form-group mandatory">
+                    <label for="birthday" class="form-label">Tanggal Lahir</label>
+                    <input type="date" id="birthday" class="form-control" name="birthday" data-parsley-required="true" />
+                  </div>
+                </div>
+                <div class="col-md-6 col-12">
+                  <div class="form-group mandatory">
+                    <label for="" class="form-label">Jenis Kelamin</label>
+                    <div class="mb-1">
+                      <div class="form-check form-check-inline">
+                        <input type="radio" class="form-check-input" name="gender" id="Laki-Laki" value="L">
+                        <label class="form-check-label" for="Laki-Laki">
+                          Laki-Laki
+                        </label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input type="radio" class="form-check-input" name="gender" id="Perempuan" value="P">
+                        <label class="form-check-label" for="Perempuan">
+                          Perempuan
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr>
+                <div class="col-md-12 col-12">
+                  <div class="form-group mandatory">
+                    <label for="address" class="form-label">Alamat</label>
+                    <textarea name="address" id="address" cols="20" rows="5" class="form-control" style="resize: none" data-parsley-required="true"></textarea>
+                  </div>
+                </div>
+                <div class="co-md-12 col-12">
+                  <div class="form-group mandatory">
+                    <label for="phone" class="form-label">No. Telepon/HP</label>
+                    <input type="text" name="phone" id="phone" class="form-control" data-parsley-required="true">
+                  </div>
+                </div>
+                <div class="co-md-12 col-12">
+                  <div class="form-group mandatory">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" name="email" id="email" class="form-control" data-parsley-required="true">
+                  </div>
+                </div>
+                <div class="col-12 d-flex justify-content-start">
+                  <!-- Kembali -->
+                  <a href="{{ route('members.index') }}"
+                    class="mb-1 btn btn-outline-secondary me-1">Kembali</a>
+                  <button type="submit" class="mb-1 btn btn-primary me-1">
+                    Tambah
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </div>
+</section>
 @endsection
 
 @push('scripts')

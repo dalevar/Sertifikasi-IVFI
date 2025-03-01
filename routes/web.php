@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CertificationController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\MemberController as AdminMemberController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\RegistrationController;
 use App\Http\Controllers\Admin\UserController;
@@ -37,6 +38,7 @@ Route::middleware(['admin'])->name('admin.')->prefix('admin')->group(function ()
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('/certificates', CertificationController::class);
     Route::resource('/users', UserController::class);
+    Route::get('users/{id}/member/', [AdminMemberController::class, 'show'])->name('users.member');
     Route::resource('/payments', PaymentController::class);
     Route::post('/payments/{id}/validation/', [PaymentController::class, 'validationPayment'])->name('payments.validation');
     Route::get('/registrations/index', [RegistrationController::class, 'index'])->name('registrations.index');

@@ -25,7 +25,8 @@
             <th>No</th>
             <th>Nama Lengkap</th>
             <th>Nomor Identitas</th>
-            <th>Tempat dan Tanggal Lahir</th>
+            <th>Jenis Kelamin</th>
+            <th>#</th>
           </tr>
         </thead>
         <tbody>
@@ -34,7 +35,10 @@
               <td>{{ $loop->iteration }}</td>
               <td>{{ $member->fullname }}</td>
               <td>{{ $member->number_identity }}</td>
-              <td>{{ $member->birthplace }}, {{ \Carbon\Carbon::parse($member->birthday)->locale('id')->translatedFormat('d F Y') }}</td>
+              <td>{{ $member->gender === 'L' ? 'Laki-Laki' : 'Perempuan' }}</td>
+              <td>
+                <a href="{{ route('admin.users.member', $member->id) }}" class="btn btn-sm btn-info">Detail</a>
+              </td>
             </tr>
           @empty
             <span class="text-warning">Tidak ada data anggota</span>
