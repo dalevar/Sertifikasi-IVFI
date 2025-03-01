@@ -5,8 +5,8 @@
   <div class="card-body">
     <div class="row mb-4">
       <div class="col-md-2">
-        @if ($user->details->photo === "")
-          <img src="{{ asset('/img/profile-user.png') }}" class="img-thumbnail" width="150" alt="user">
+        @if ($user->details->photo === NULL)
+          <img src="{{ asset('/images/user.png') }}" class="img-thumbnail" width="150" alt="user">
         @else
           
         @endif

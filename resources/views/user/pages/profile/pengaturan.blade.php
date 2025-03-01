@@ -60,8 +60,12 @@
                                     @method('PUT')
 
                                     <div class="d-flex">
-                                        <img src="{{ asset('storage/' . $user->details->photo) }}" alt="Foto Profil"
+                                        @if ($user->details->photo === NULL)
+                                            <img src="{{ asset('/images/user.png') }}" class="img-thumbnail" width="150" alt="user">
+                                        @else
+                                            <img src="{{ asset('storage/' . $user->details->photo) }}" alt="Foto Profil"
                                             class="img-thumbnail w-25">
+                                        @endif
                                         <div class="w-full col-6 ms-3">
                                             <div class="filepond--root image-preview-filepond filepond--hopper"
                                                 data-style-button-remove-item-position="left"

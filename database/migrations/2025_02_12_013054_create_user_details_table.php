@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // OnDelete cascade to delete user details when user is deleted
             // $table->bigInteger('users_id');
-            $table->string('photo');
-            $table->string('address');
-            $table->string('phone');
+            $table->string('photo')->nullable();
+            $table->string('address')->nullable();
+            $table->string('phone')->nullable();
             $table->timestamps();
         });
     }

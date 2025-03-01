@@ -26,8 +26,12 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center">
                             {{-- Gambar Profil --}}
-                            <img src="{{ asset($user->details->photo) ?: asset('assets/static/images/default-profile.png') }}"
-                                alt="Foto Profil" class="img-thumbnail img-fluid" width="150px">
+                            @if ($user->details->photo === NULL)
+                                <img src="{{ asset('/images/user.png') }}" class="img-thumbnail" width="150" alt="user">
+                            @else
+                                <img src="{{ asset('storage/' . $user->details->photo) }}" alt="Foto Profil"
+                                class="img-thumbnail w-25">
+                            @endif
                             <div class="ms-4">
                                 {{-- Nama Instansi --}}
                                 <h3 class="card-title text-primary">
