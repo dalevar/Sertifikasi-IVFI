@@ -38,17 +38,31 @@ class PaymentHistoryController extends Controller
      */
     public function show($id)
     {
+        // Pastikan ada anggota sebelum mengakses registrasi dan sertifikasi
         $payment = Payment::with(['user', 'members.registrations.certification'])->findOrFail($id);
 
-        // Ambil sertifikasi pertama jika ada
-        $certification = $payment->members->first()->registrations->first()->certification ?? null;
+        // Cek member yang terdaftar dalam sertifikasi dan hitung total member yang terdaftar
+        $registeredMembers = $payment->members->filter(function ($member) {
+            return $member->registrations->contains(function ($registration) {
+                return $registration->certification !== null;
+            });
+        });
+
+        $totalRegisteredMembers = $registeredMembers->count();
+
+        $certification = $registeredMembers
+            ->flatMap->registrations
+            ->firstWhere('certification', '!=', null)
+            ->certification ?? null;
+
+        $fullname = $payment->user->fullname;
 
         return response()->json([
-            'invoice_number' => 'INV-' . str_pad($payment->id, 6, '0', STR_PAD_LEFT),
+            'invoice_number' => $payment->id,
             'payment_date' => $payment->date ? $payment->date->format('d F Y') : '-',
-            'certification_type' => $certification ? $certification->title : '-',
+            'certification_type' => $certification->title ?? '-', // Ambil judul sertifikasi
             'certification_price' => $certification ? $certification->price : 0,
-            'total_members' => $payment->total_members,
+            'total_members' => $totalRegisteredMembers,
             'total_price' => $payment->total_amount,
             'payment_status' => $payment->status,
         ]);
@@ -73,7 +87,7 @@ class PaymentHistoryController extends Controller
         // Cek member yang terdaftar dalam sertifikasi dan hitung total member yang terdaftar
         $registeredMembers = $payment->members->filter(function ($member) {
             return $member->registrations->contains(function ($registration) {
-            return $registration->certification !== null;
+                return $registration->certification !== null;
             });
         });
 

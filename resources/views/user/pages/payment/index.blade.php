@@ -62,7 +62,7 @@
 
                                                 <td>{{ $payment->total_members }}</td>
                                                 <td>Rp. {{ number_format($payment->total_amount, 0, ',', '.') }}</td>
-                                                <td>{{ $payment->date->format('d-m-Y') }}</td>
+                                                <td>{{ $payment->date->format('d F Y') }}</td>
                                                 <td>
                                                     <span
                                                         class="badge {{ $payment->status == 'paid' || $payment->status == 'success' ? 'bg-light-success' : ($payment->status == 'pending' ? 'bg-light-warning' : 'bg-light-danger') }}">

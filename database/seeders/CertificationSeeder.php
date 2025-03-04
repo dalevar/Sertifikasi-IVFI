@@ -13,7 +13,7 @@ class CertificationSeeder extends Seeder
      */
     public function run(): void
     {
-        $faker = \Faker\Factory::create();
+        $faker = \Faker\Factory::create('id_ID');
 
         for ($i = 0; $i < 2; $i++) {
             DB::table('certifications')->insert([
