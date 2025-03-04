@@ -41,10 +41,10 @@ class PaymentHistoryController extends Controller
         // Pastikan ada anggota sebelum mengakses registrasi dan sertifikasi
         $payment = Payment::with(['user', 'members.registrations.certification'])->findOrFail($id);
 
-        // Cek member yang terdaftar dalam sertifikasi dan hitung total member yang terdaftar
-        $registeredMembers = $payment->members->filter(function ($member) {
-            return $member->registrations->contains(function ($registration) {
-                return $registration->certification !== null;
+        // Cek member yang terdaftar dalam sertifikasi dan hitung total member yang terdaftar berdasarkan waktunya saat terdaftar
+        $registeredMembers = $payment->members->filter(function ($member) use ($payment) {
+            return $member->registrations->contains(function ($registration) use ($payment) {
+                return $registration->certification !== null && $registration->created_at->eq($payment->created_at);
             });
         });
 
@@ -73,21 +73,18 @@ class PaymentHistoryController extends Controller
      *
      * @param  \App\Models\Payment  $payment
      */
-    public function invoice($id)
+    public function invoice($id): \Illuminate\View\View
     {
         $title = 'Payment Invoice';
         $user = Auth::user();
-        $payments = Payment::where('user_id', $user->id)
-            ->with(['user', 'members.registrations.certification'])
-            ->get();
 
         // Pastikan ada anggota sebelum mengakses registrasi dan sertifikasi
         $payment = Payment::with(['user', 'members.registrations.certification'])->findOrFail($id);
 
-        // Cek member yang terdaftar dalam sertifikasi dan hitung total member yang terdaftar
-        $registeredMembers = $payment->members->filter(function ($member) {
-            return $member->registrations->contains(function ($registration) {
-                return $registration->certification !== null;
+        // Cek member yang terdaftar dalam sertifikasi dan hitung total member yang terdaftar berdasarkan waktunya saat terdaftar
+        $registeredMembers = $payment->members->filter(function ($member) use ($payment) {
+            return $member->registrations->contains(function ($registration) use ($payment) {
+                return $registration->certification !== null && $registration->created_at->eq($payment->created_at);
             });
         });
 

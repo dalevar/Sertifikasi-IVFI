@@ -84,6 +84,7 @@
             </div>
         </div>
 
+
         <!-- Bagian Status Pembayaran -->
         <div class="col-12 col-sm-4">
             <div class="card">
@@ -152,8 +153,8 @@
                                 <div class="gap-2 mt-4 d-grid">
                                     <button class="btn btn-primary">Kirim Pembayaran</button>
                                 </div>
+                            </form>
                         @endif
-                        </form>
                     </div>
                 </div>
             </div>

@@ -22,7 +22,6 @@
     </div>
 @endsection
 
-
 @section('content')
     <section class="row">
         <div class="col-12 col-lg-12">
@@ -104,8 +103,6 @@
                             </div>
                         </div>
                     </form>
-
-
                 </div>
             </div>
         </div>
@@ -114,125 +111,61 @@
 
 @push('scripts')
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const table = $("#table2").DataTable(); // Inisialisasi DataTables
-            let selectedMembers = new Set(); // Menyimpan anggota yang dipilih
-            let isAllSelected = false; // Status apakah semua data dipilih
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkAll = document.getElementById('checkAll');
+            const checkItems = document.querySelectorAll('.checkItem');
+            const selectAllLink = document.getElementById('selectAllLink');
+            const deselectAllLink = document.getElementById('deselectAllLink');
+            const selectedCount = document.getElementById('selectedCount');
+            const bulkAction = document.getElementById('bulkAction');
 
-            const checkAll = document.getElementById("checkAll");
-            const selectedCount = document.getElementById("selectedCount");
-            const bulkAction = document.getElementById("bulkAction");
-            const selectAllLink = document.getElementById("selectAllLink");
-            const deselectAllLink = document.getElementById("deselectAllLink");
+            let allSelected = false;
 
-            const totalMembers = table.rows().count(); // Total anggota dalam tabel
-
-            function updateCount() {
-                selectedCount.textContent = selectedMembers.size;
-                bulkAction.disabled = selectedMembers.size === 0;
-
-                if (selectedMembers.size === totalMembers) {
-                    deselectAllLink.classList.remove("d-none");
-                    selectAllLink.style.display = "none";
-                } else {
-                    deselectAllLink.classList.add("d-none");
-                    selectAllLink.style.display = "inline";
-                }
-
-                // Periksa apakah semua checkbox di halaman ini sudah dipilih
-                const visibleRows = table.rows({
-                    search: "applied"
-                }).nodes();
-                const checkedRows = $(visibleRows).find(".checkItem:checked").length;
-                checkAll.checked = checkedRows === visibleRows.length;
+            function updateSelectedCount() {
+                const selectedItems = document.querySelectorAll('.checkItem:checked').length;
+                selectedCount.textContent = selectedItems;
+                bulkAction.disabled = selectedItems === 0;
             }
 
-            function syncCheckboxState() {
-                const rows = table.rows({
-                    search: "applied"
-                }).nodes();
-                $(rows).find(".checkItem").each(function() {
-                    this.checked = selectedMembers.has(this.value);
+            checkAll.addEventListener('change', function() {
+                checkItems.forEach(item => item.checked = checkAll.checked);
+                updateSelectedCount();
+                toggleSelectLinks();
+            });
+
+            checkItems.forEach(item => {
+                item.addEventListener('change', function() {
+                    updateSelectedCount();
+                    toggleSelectLinks();
                 });
-
-                const checkedRows = $(rows).find(".checkItem:checked").length;
-                checkAll.checked = checkedRows === rows.length;
-            }
-
-            // Event untuk checkbox utama "Pilih Semua" di halaman saat ini
-            checkAll.addEventListener("change", function() {
-                const rows = table.rows({
-                    search: "applied"
-                }).nodes();
-                $(rows).find(".checkItem").each(function() {
-                    this.checked = checkAll.checked;
-                    if (checkAll.checked) {
-                        selectedMembers.add(this.value);
-                    } else {
-                        selectedMembers.delete(this.value);
-                    }
-                });
-                updateCount();
             });
 
-            // Event untuk setiap checkbox individu
-            $("#table2 tbody").on("change", ".checkItem", function() {
-                if (this.checked) {
-                    selectedMembers.add(this.value);
-                } else {
-                    selectedMembers.delete(this.value);
-                }
-                updateCount();
-            });
-
-            // Event untuk "Pilih Semua (Total X)"
-            selectAllLink.addEventListener("click", function(e) {
+            selectAllLink.addEventListener('click', function(e) {
                 e.preventDefault();
-                if (!isAllSelected) {
-                    // Pilih semua data dari database
-                    selectedMembers.clear();
-                    table.rows().data().each(function(row) {
-                        selectedMembers.add(row[0]); // Asumsikan ID ada di kolom pertama
-                    });
-
-                    // Centang semua checkbox yang terlihat di halaman ini
-                    table.rows().nodes().to$().find(".checkItem").prop("checked", true);
-                    checkAll.checked = true;
-
-                    selectAllLink.style.display = "none";
-                    deselectAllLink.classList.remove("d-none");
-                    isAllSelected = true;
-                }
-                updateCount();
+                allSelected = true;
+                checkItems.forEach(item => item.checked = true);
+                checkAll.checked = true;
+                updateSelectedCount();
+                toggleSelectLinks();
             });
 
-            // Event untuk "Batalkan Pilihan Semua"
-            deselectAllLink.addEventListener("click", function(e) {
+            deselectAllLink.addEventListener('click', function(e) {
                 e.preventDefault();
-                selectedMembers.clear();
-                isAllSelected = false;
-
-                table.rows().nodes().to$().find(".checkItem").prop("checked", false);
+                allSelected = false;
+                checkItems.forEach(item => item.checked = false);
                 checkAll.checked = false;
-                selectAllLink.style.display = "inline";
-                deselectAllLink.classList.add("d-none");
-
-                updateCount();
+                updateSelectedCount();
+                toggleSelectLinks();
             });
 
-            // Sinkronisasi saat halaman tabel berubah
-            $('#table2').on('draw.dt', function() {
-                syncCheckboxState();
-            });
+            function toggleSelectLinks() {
+                const allChecked = document.querySelectorAll('.checkItem:checked').length === checkItems.length;
+                selectAllLink.classList.toggle('d-none', allChecked || allSelected);
+                deselectAllLink.classList.toggle('d-none', !(allChecked || allSelected));
+            }
 
-            // Saat form dikirim, tambahkan input hidden untuk menyimpan data yang dipilih
-            document.getElementById("certificationForm").addEventListener("submit", function(e) {
-                const input = document.createElement("input");
-                input.type = "hidden";
-                input.name = "selected_members";
-                input.value = Array.from(selectedMembers).join(",");
-                this.appendChild(input);
-            });
+            updateSelectedCount();
+            toggleSelectLinks();
         });
     </script>
 @endpush
