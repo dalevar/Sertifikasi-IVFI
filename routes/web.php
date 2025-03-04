@@ -114,6 +114,7 @@ Route::patch('/payment/{paymentHistory}/update', [PaymentHistoryController::clas
 
 /**
  * BUG LIST
- * 1. Registrasi Sertifikasi Anggota (CheckBox)
- * 2. Riwayat Pembayaran (Data Relation)
+ * 1. Registrasi Sertifikasi Anggota (CheckBox) +
+ * 2. Riwayat Pembayaran (Data Relation) +
+ * 3. Download Sertifikat -
  */
