@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Certification extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'certifications';
 
@@ -21,6 +22,11 @@ class Certification extends Model
     protected $casts = [
         'valid_periode' => 'date',
     ];
+
+    public function competencyUnits()
+    {
+        return $this->hasMany(CompetencyUnit::class);
+    }
 
     public function registrations()
     {

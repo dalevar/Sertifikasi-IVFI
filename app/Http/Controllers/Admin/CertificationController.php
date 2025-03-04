@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CertificationRequest;
 use App\Models\Certification;
+use App\Models\CompetencyUnit;
 use Illuminate\Http\Request;
 
 class CertificationController extends Controller
@@ -47,7 +48,13 @@ class CertificationController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $certification = Certification::findOrFail($id);
+        $competencyUnits = CompetencyUnit::where('certification_id', $certification->id)->get();
+        return view('admin.certificates.show', [
+            'title' => 'Detail Sertifikasi ' . $certification->title,
+            'certification' => $certification,
+            'units' => $competencyUnits
+        ]);
     }
 
     /**

@@ -16,8 +16,8 @@
             <th>No</th>
             <th>Jenis Sertifikat</th>
             <th>Deskripsi</th>
-            <th>Harga</th>
-            <th>#</th>
+            <th width="20%">Harga</th>
+            <th width="20%">#</th>
           </tr>
         </thead>
         <tbody>
@@ -28,6 +28,7 @@
               <td>{{ $show->description }}</td>
               <td>Rp. {{ number_format($show->price, 0,',','.') }}</td>
               <td>
+                <a href="{{ route('admin.certificates.show', $show->id) }}" class="btn btn-sm btn-info"><i class="bi bi-zoom-in"></i></a>
                 <a href="{{ route('admin.certificates.edit', $show->id) }}" class="btn btn-sm btn-warning"><i class="bi bi-pencil-square"></i></a>
                 <form action="{{ route('admin.certificates.destroy', $show->id) }}" method="POST" class="d-inline" onsubmit="confirmDelete(event)">
                   @csrf

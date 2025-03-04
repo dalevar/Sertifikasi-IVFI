@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CertificationController;
+use App\Http\Controllers\Admin\CompetencyUnitController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MemberController as AdminMemberController;
 use App\Http\Controllers\Admin\PaymentController;
@@ -37,6 +38,9 @@ Route::post('/admin/login', [AuthAdminController::class, 'adminAuthentication'])
 Route::middleware(['admin'])->name('admin.')->prefix('admin')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('/certificates', CertificationController::class);
+    Route::get('/certifications/{id}/create-units', [CompetencyUnitController::class, 'create'])->name('certifications.create-units');
+    Route::post('/certifications/{id}/store-units', [CompetencyUnitController::class, 'store'])->name('certifications.store-units');
+    Route::post('/certifications/{id}/delete-units/{unit_id}', [CompetencyUnitController::class, 'destroy'])->name('certifications.delete_units');
     Route::resource('/users', UserController::class);
     Route::get('users/{id}/member/', [AdminMemberController::class, 'show'])->name('users.member');
     Route::resource('/payments', PaymentController::class);

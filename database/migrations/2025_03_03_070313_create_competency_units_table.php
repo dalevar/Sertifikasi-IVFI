@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('certifications', function (Blueprint $table) {
+        Schema::create('competency_units', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('description')->nullable();
-            $table->integer('price');
-            $table->integer('valid_period')->nullable();
+            $table->string('unit_name');
+            $table->string('unit_code');
+            $table->foreignId('certification_id')->constrained('certifications')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('certifications');
+        Schema::dropIfExists('competency_units');
     }
 };
