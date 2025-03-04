@@ -63,17 +63,30 @@ class PaymentHistoryController extends Controller
     {
         $title = 'Payment Invoice';
         $user = Auth::user();
-        $payment = Payment::with(['user', 'members.registrations.certification'])->findOrFail($id);
+        $payments = Payment::where('user_id', $user->id)
+            ->with(['user', 'members.registrations.certification'])
+            ->get();
 
         // Pastikan ada anggota sebelum mengakses registrasi dan sertifikasi
-        $certification = $payment->members
+        $payment = Payment::with(['user', 'members.registrations.certification'])->findOrFail($id);
+
+        // Cek member yang terdaftar dalam sertifikasi dan hitung total member yang terdaftar
+        $registeredMembers = $payment->members->filter(function ($member) {
+            return $member->registrations->contains(function ($registration) {
+            return $registration->certification !== null;
+            });
+        });
+
+        $totalRegisteredMembers = $registeredMembers->count();
+
+        $certification = $registeredMembers
             ->flatMap->registrations
             ->firstWhere('certification', '!=', null)
             ->certification ?? null;
 
         $fullname = $payment->user->fullname; // Ambil nama lengkap pengguna dari pembayaran
 
-        return view('user.pages.payment.invoice', compact('payment', 'fullname', 'title', 'user', 'certification'));
+        return view('user.pages.payment.invoice', compact('payment', 'fullname', 'title', 'user', 'certification', 'totalRegisteredMembers'));
     }
 
 

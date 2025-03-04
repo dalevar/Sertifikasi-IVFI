@@ -60,7 +60,7 @@
                         <div class="col-md-6 col-12">
                             <div class="mb-4">
                                 <p class="text-muted">Total Anggota</p>
-                                <h6 class="font-bold">{{ $payment->members->count() }}</h6>
+                                <h6 class="font-bold">{{ $totalRegisteredMembers }}</h6>
                             </div>
                         </div>
                         <div class="col-md-6 col-12">

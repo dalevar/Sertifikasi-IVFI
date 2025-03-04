@@ -61,7 +61,7 @@
                                                 </td>
 
                                                 <td>{{ $payment->total_members }}</td>
-                                                <td>Rp {{ number_format($payment->total_amount, 0, ',', '.') }}</td>
+                                                <td>Rp. {{ number_format($payment->total_amount, 0, ',', '.') }}</td>
                                                 <td>{{ $payment->date->format('d-m-Y') }}</td>
                                                 <td>
                                                     <span

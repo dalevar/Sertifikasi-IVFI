@@ -50,7 +50,7 @@
                                                 <td>{{ $certification->id }}</td>
                                                 <td>{{ $certification->title }}</td>
                                                 <td>{{ $certification->description }}</td>
-                                                <td>Rp.{{ $certification->price }}.000</td>
+                                                <td>Rp.{{ $certification->price }}</td>
                                                 <td>{{ $certification->valid_period }} Tahun</td>
                                                 <td>
                                                     <a href="{{ route('certifications.create', $certification) }}"
