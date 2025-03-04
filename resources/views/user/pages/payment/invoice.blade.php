@@ -109,45 +109,50 @@
                         </h6>
                     </div>
                     <div class="mb-4">
-                        <p class="text-muted">Bukti Pembayaran</p>
-                        <form id="updateForm" action="{{ route('payment.upload-proof', $payment->id) }}" method="POST"
-                            enctype="multipart/form-data">
-                            @method('PATCH')
-                            @csrf
-                            <div class="filepond--root image-preview-filepond filepond--hopper"
-                                data-style-button-remove-item-position="left"
-                                data-style-button-process-item-position="right" data-style-load-indicator-position="right"
-                                data-style-progress-indicator-position="right" data-style-button-remove-item-align="false"
-                                style="height: 76px;"><input class="filepond--browser" type="file"
-                                    id="filepond--browser-956xbvmtz" name="proof"
-                                    aria-controls="filepond--assistant-956xbvmtz"
-                                    aria-labelledby="filepond--drop-label-956xbvmtz"
-                                    accept="image/png,image/jpg,image/jpeg">
-                                <div class="filepond--drop-label"
-                                    style="transform: translate3d(0px, 0px, 0px); opacity: 1;"><label
-                                        for="filepond--browser-956xbvmtz" id="filepond--drop-label-956xbvmtz"
-                                        aria-hidden="true">Seret &amp;
-                                        Lepaskan file Anda atau <span class="filepond--label-action"
-                                            tabindex="0">Pilih</span></label></div>
-                                <div class="filepond--list-scroller" style="transform: translate3d(0px, 0px, 0px);">
-                                    <ul class="filepond--list" role="list"></ul>
-                                </div>
-                                <div class="filepond--panel filepond--panel-root" data-scalable="true">
-                                    <div class="filepond--panel-top filepond--panel-root"></div>
-                                    <div class="filepond--panel-center filepond--panel-root"
-                                        style="transform: translate3d(0px, 8px, 0px) scale3d(1, 0.6, 1);">
+                        @if ($payment->status != 'paid')
+                            <p class="text-muted">Bukti Pembayaran</p>
+                            <form id="updateForm" action="{{ route('payment.upload-proof', $payment->id) }}" method="POST"
+                                enctype="multipart/form-data">
+                                @method('PATCH')
+                                @csrf
+                                <div class="filepond--root image-preview-filepond filepond--hopper"
+                                    data-style-button-remove-item-position="left"
+                                    data-style-button-process-item-position="right"
+                                    data-style-load-indicator-position="right"
+                                    data-style-progress-indicator-position="right"
+                                    data-style-button-remove-item-align="false" style="height: 76px;">
+                                    <input class="filepond--browser" type="file" id="filepond--browser-956xbvmtz"
+                                        name="proof" aria-controls="filepond--assistant-956xbvmtz"
+                                        aria-labelledby="filepond--drop-label-956xbvmtz"
+                                        accept="image/png,image/jpg,image/jpeg">
+                                    <div class="filepond--drop-label"
+                                        style="transform: translate3d(0px, 0px, 0px); opacity: 1;">
+                                        <label for="filepond--browser-956xbvmtz" id="filepond--drop-label-956xbvmtz"
+                                            aria-hidden="true">Seret &amp; Lepaskan file Anda atau
+                                            <span class="filepond--label-action" tabindex="0">Pilih</span>
+                                        </label>
                                     </div>
-                                    <div class="filepond--panel-bottom filepond--panel-root"
-                                        style="transform: translate3d(0px, 68px, 0px);"></div>
-                                </div><span class="filepond--assistant" id="filepond--assistant-956xbvmtz" role="status"
-                                    aria-live="polite" aria-relevant="additions"></span>
-                                <fieldset class="filepond--data"></fieldset>
-                                <div class="filepond--drip"></div>
-                            </div>
-                            <!-- Tombol Pembayaran -->
-                            <div class="gap-2 mt-4 d-grid">
-                                <button class="btn btn-primary">Kirim Pembayaran</button>
-                            </div>
+                                    <div class="filepond--list-scroller" style="transform: translate3d(0px, 0px, 0px);">
+                                        <ul class="filepond--list" role="list"></ul>
+                                    </div>
+                                    <div class="filepond--panel filepond--panel-root" data-scalable="true">
+                                        <div class="filepond--panel-top filepond--panel-root"></div>
+                                        <div class="filepond--panel-center filepond--panel-root"
+                                            style="transform: translate3d(0px, 8px, 0px) scale3d(1, 0.6, 1);">
+                                        </div>
+                                        <div class="filepond--panel-bottom filepond--panel-root"
+                                            style="transform: translate3d(0px, 68px, 0px);"></div>
+                                    </div>
+                                    <span class="filepond--assistant" id="filepond--assistant-956xbvmtz" role="status"
+                                        aria-live="polite" aria-relevant="additions"></span>
+                                    <fieldset class="filepond--data"></fieldset>
+                                    <div class="filepond--drip"></div>
+                                </div>
+                                <!-- Tombol Pembayaran -->
+                                <div class="gap-2 mt-4 d-grid">
+                                    <button class="btn btn-primary">Kirim Pembayaran</button>
+                                </div>
+                        @endif
                         </form>
                     </div>
                 </div>
@@ -219,7 +224,8 @@
 
                             // Reload halaman setelah sukses
                             setTimeout(() => {
-                                location.reload();
+                                window.location.href =
+                                    "{{ route('payment-histories.index') }}";
                             }, 3000);
                         } else {
                             Swal.fire({
