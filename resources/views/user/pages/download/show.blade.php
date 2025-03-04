@@ -35,27 +35,22 @@
                                             <th scope="col">Status</th>
                                             <th scope="col">Nomor Identitas</th>
                                             <th scope="col">Tanggal Registrasi</th>
-                                            <th scope="col">Aksi</th>
+                                            <th scope="col">#</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse ($passedMembers as $member)
+                                        @forelse ($registered->unique('member_id') as $registration)
                                             <tr>
-                                                <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $member['fullname'] }}</td>
-                                                <td>{{ $member['number_identity'] }}</td>
-                                                <td>{{ $member['registration_date'] }}</td>
-                                                <td>
-                                                    <span
-                                                        class="badge {{ $member['status'] == 'approved' ? 'text-bg-success' : 'text-bg-danger' }}">
-                                                        {{ ucfirst($member['status']) }}
-                                                    </span>
+                                                <td scope="row">{{ $loop->iteration }}</td>
+                                                <td>{{ $registration->member->fullname }}</td>
+                                                <td><span
+                                                        class="badge {{ $registration->status == 'approved' ? 'text-bg-success' : ' text-bg-danger' }}">{{ $registration->status }}</span>
                                                 </td>
+                                                <td>{{ $registration->member->number_identity }}</td>
+                                                <td>{{ $registration->registration_date->format('d-m-Y') }}</td>
                                                 <td>
-                                                    <a href="{{ route('download-certificate.download', $member['member_id']) }}"
-                                                        class="btn btn-primary btn-sm" target="_blank">
-                                                        Download
-                                                    </a>
+                                                    <a href="{{ route('download-certificate.download', $registration->id) }}"
+                                                        class="btn btn-primary btn-sm" target="_blink">Download</a>
                                                 </td>
                                             </tr>
                                         @empty
