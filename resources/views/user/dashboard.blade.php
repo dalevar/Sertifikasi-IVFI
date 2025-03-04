@@ -16,7 +16,7 @@
                                 <div class="row">
                                     <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
                                         <div class="mb-2 stats-icon purple">
-                                            <i class="iconly-boldShow"></i>
+                                            <i class="bi-people-fill"></i>
                                         </div>
                                     </div>
                                     <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
@@ -33,7 +33,7 @@
                                 <div class="row">
                                     <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
                                         <div class="mb-2 stats-icon green">
-                                            <i class="iconly-boldAdd-User"></i>
+                                            <i class="bi-person-badge-fill"></i>
                                         </div>
                                     </div>
                                     <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
@@ -50,12 +50,29 @@
                                 <div class="row">
                                     <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
                                         <div class="mb-2 stats-icon red">
-                                            <i class="iconly-boldBookmark"></i>
+                                            <i class="bi-award-fill"></i>
                                         </div>
                                     </div>
                                     <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
                                         <h6 class="font-semibold text-muted">Sertifikat</h6>
                                         <h6 class="mb-0 font-extrabold">{{ $certificate }}</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3 col-md-6">
+                        <div class="card">
+                            <div class="px-4 card-body py-4-5">
+                                <div class="row">
+                                    <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
+                                        <div class="mb-2 stats-icon blue">
+                                            <i class="bi-graph-up"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
+                                        <h6 class="font-semibold text-muted">Aktivitas Terbaru</h6>
+                                        <h6 class="mb-0 font-extrabold">{{ count($recent_activities) ?? 'N/A' }}</h6>
                                     </div>
                                 </div>
                             </div>

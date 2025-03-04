@@ -47,10 +47,17 @@ class HomeController extends Controller
             ->where('status', 'approved')
             ->get();
 
+        // Ambil aktivitas terbaru berdasarkan member yang dimiliki user
+        $recent_activities = collect();
+        if ($members->isNotEmpty()) {
+            $recent_activities = Registration::whereIn('member_id', $members->pluck('id'))
+                ->orderBy('updated_at', 'desc')
+                ->take(5)
+                ->get();
+        }
 
         $certificate = Certification::all()->count();
-
-        return view('user.dashboard', compact('user', 'title', 'members', 'total_members', 'approved_registrations', 'certificate', 'member_certificated'));
+        return view('user.dashboard', compact('user', 'title', 'members', 'total_members', 'approved_registrations', 'certificate', 'member_certificated', 'recent_activities'));
     }
 
     public function getMemberDetails($id)
