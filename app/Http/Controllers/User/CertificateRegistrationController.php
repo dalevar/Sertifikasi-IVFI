@@ -30,8 +30,13 @@ class CertificateRegistrationController extends Controller
         $user = Auth::user();
         $title = 'Certificate Registration';
         $registration = Registration::find($certification->id);
-        $members = Member::where('user_id', $user->id)->get();
-        $total_members = Member::where('user_id', $user->id)->count();
+        $registeredMemberIds = Registration::where('certification_id', $certification->id)
+            ->pluck('member_id')
+            ->toArray();
+        $members = Member::where('user_id', $user->id)
+            ->whereNotIn('id', $registeredMemberIds)
+            ->get();
+        $total_members = $members->count();
 
         return view('user.pages.certificate.create', compact('members', 'certification', 'title', 'user', 'total_members'));
     }
