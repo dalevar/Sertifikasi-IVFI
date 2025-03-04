@@ -60,7 +60,7 @@ class PaymentHistoryController extends Controller
         return response()->json([
             'invoice_number' => $payment->id,
             'payment_date' => $payment->date ? $payment->date->format('d F Y') : '-',
-            'certification_type' => $certification->title ?? '-', // Ambil judul sertifikasi
+            'certification_type' => $certification ? $certification->title : '-',
             'certification_price' => $certification ? $certification->price : 0,
             'total_members' => $totalRegisteredMembers,
             'total_price' => $payment->total_amount,
