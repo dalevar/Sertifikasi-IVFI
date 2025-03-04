@@ -77,7 +77,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Sertifikasi</h5>
-                    <div class="table-responsive table-active table-borderless">
+                    <div class="table-responsive table-active table-striped">
                         <table class="table table-hover table-borderless" id="table2">
                             <thead>
                                 <tr>
@@ -98,11 +98,7 @@
                                         <td><span class="badge text-bg-success">{{ $member_certificated->status }}</span>
                                         </td>
                                     </tr>
-
                                 @empty
-                                    <tr>
-                                        <td colspan="5" class="text-center">Tidak ada data</td>
-                                    </tr>
                                 @endforelse
                             </tbody>
                         </table>
