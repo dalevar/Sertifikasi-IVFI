@@ -49,8 +49,8 @@
                                                 <td>{{ $registration->member->number_identity }}</td>
                                                 <td>{{ $registration->registration_date->format('d-m-Y') }}</td>
                                                 <td>
-                                                    <a href="{{ route('download-certificate.download', $registration->id) }}"
-                                                        class="btn btn-primary btn-sm" target="_blink">Download</a>
+                                                    <a href="{{ route('download-certificate.download', ['registrationId' => $registration->id, 'certificationId' => $certification->id]) }}"
+                                                        class="btn btn-primary btn-sm" target="_blank">Download</a>
                                                 </td>
                                             </tr>
                                         @empty

@@ -37,16 +37,20 @@ class DownloadCertificateController extends Controller
         $title = 'Download Certificate';
         $user = Auth::user();
 
-        // Mengambil data member berdasarkan id sertifikasi
+        // Mengambil data sertifikasi berdasarkan id
         $certification = Certification::findOrFail($id);
-        $members = $certification->registrations()->with('member')->get()->map(function ($registration) {
-            return $registration->member;
-        });
 
-        // Mengambil data registerasi yang terhubung dengan member dan mengambil status 'registered'
-        $registered = $members->map(function ($member) {
-            return $member->registrations->where('status', 'approved');
-        })->flatten();
+        // Mengambil data member yang terdaftar pada sertifikasi ini
+        $members = $certification->registrations()
+            ->with('member')
+            ->get()
+            ->pluck('member')
+            ->unique();
+
+        // Mengambil data registrasi yang memiliki status 'approved'
+        $registered = $certification->registrations()
+            ->where('status', 'approved')
+            ->get();
 
         return view('user.pages.download.show', compact('user', 'certification', 'members', 'registered', 'title'));
     }

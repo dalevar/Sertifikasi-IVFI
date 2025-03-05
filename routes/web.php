@@ -97,7 +97,9 @@ Route::get('/certifications/{registration}', [CertificateRegistrationController:
 Route::get('/download-certificate', [DownloadCertificateController::class, 'index'])->name('download-certificate.index');
 Route::get('/download-certificate/{registration}', [DownloadCertificateController::class, 'show'])->name('download-certificate.show');
 
-Route::get('/download-certificate/download/{id}', [PDFController::class, 'download'])->name('download-certificate.download');
+Route::get('/download-certificate/{registrationId}/{certificationId}', [PDFController::class, 'download'])
+    ->name('download-certificate.download')
+    ->middleware('auth');
 
 /**
  * Route for Payment Histories
@@ -116,5 +118,5 @@ Route::patch('/payment/{paymentHistory}/update', [PaymentHistoryController::clas
  * BUG LIST
  * 1. Registrasi Sertifikasi Anggota (CheckBox) +
  * 2. Riwayat Pembayaran (Data Relation) +
- * 3. Download Sertifikat -
+ * 3. Download Sertifikat +
  */
