@@ -18,6 +18,8 @@ use App\Http\Controllers\User\CertificateRegistrationController;
 use App\Http\Controllers\User\DownloadCertificateController;
 use App\Http\Controllers\User\PaymentHistoryController;
 use App\Http\Controllers\PDFController;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 Route::get('/', function () {
     return view('welcome');
@@ -84,6 +86,16 @@ Route::put('/profile/update/akun', [ProfileController::class, 'updateAkun'])->na
  * Route for Member
  */
 Route::resource('members', MemberController::class);
+Route::post('members/create', [MemberController::class, 'import'])->name('members.import');
+Route::get('/download-template', function () {
+    $file = storage_path('app/templates/template.xlsx');
+
+    if (!file_exists($file)) {
+        return response()->json(['error' => 'File tidak ditemukan!'], 404);
+    }
+
+    return response()->download($file);
+});
 
 
 /**

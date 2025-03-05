@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Models\User;
+use App\Models\Member;
+use App\Models\Registration;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\User\MemberRequest;
 use App\Http\Requests\User\UpdateMemberRequest;
-use Illuminate\Http\Request;
-use App\Models\Member;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-use App\Models\Registration;
 
 class MemberController extends Controller
 {
@@ -39,6 +41,50 @@ class MemberController extends Controller
         $title = 'Add Member';
         return view('user.pages.member.create', compact('user', 'title'));
     }
+
+    public function import(Request $request)
+    {
+        $this->validate($request, [
+            'file' => 'required|mimes:csv,xls,xlsx'
+        ]);
+
+        $file = $request->file('file');
+
+        // Simpan file ke storage/app/excel/
+        $nama_file = $file->hashName();
+        $path = $file->storeAs('excel', $nama_file);
+
+        // Ambil path yang benar
+        $filePath = Storage::path($path);
+
+        // Pastikan file benar-benar ada sebelum diimport
+        if (!Storage::exists($path)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'File tidak ditemukan setelah diunggah!',
+            ], 500);
+        }
+
+        try {
+            Excel::import(new \App\Imports\MembersImport(), $filePath);
+            // Hapus file setelah sukses import
+            Storage::delete($path);
+            return response()->json([
+                'success' => true,
+                'message' => 'Data Berhasil Diimport!'
+            ], 200);
+        } catch (\Exception $e) {
+            // Hapus file jika terjadi error
+            Storage::delete($path);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Data Gagal Diimport!',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
 
     /**
      * Store a newly created resource in storage.
