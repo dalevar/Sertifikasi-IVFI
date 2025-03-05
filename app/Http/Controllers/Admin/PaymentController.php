@@ -25,7 +25,7 @@ class PaymentController extends Controller
      */
     public function show(string $id)
     {
-        $payment = Payment::where('id', $id)->first();
+        $payment = Payment::with('bankAccount')->where('id', $id)->first();
         return view('admin.payments.detail', [
             'title' => 'Detail Pembayaran',
             'payment' => $payment

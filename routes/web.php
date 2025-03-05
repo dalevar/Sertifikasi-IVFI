@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\BankAccountController;
 use App\Http\Controllers\Admin\CertificationController;
 use App\Http\Controllers\Admin\CompetencyUnitController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -48,6 +49,7 @@ Route::middleware(['admin'])->name('admin.')->prefix('admin')->group(function ()
     Route::get('/registrations/index', [RegistrationController::class, 'index'])->name('registrations.index');
     Route::get('registrations/{user_id}/show', [RegistrationController::class, 'show'])->name('registrations.show');
     Route::post('/registrations/approved', [RegistrationController::class, 'approvedCertification'])->name('registrations.approved');
+    Route::resource('/bank-accounts', BankAccountController::class);
 });
 Route::post('logout', [AuthAdminController::class, 'logout'])->name('logout');
 

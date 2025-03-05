@@ -30,6 +30,10 @@
             <td>: {{ \Carbon\Carbon::parse($payment->date)->locale('id')->translatedFormat('d F Y') }}</td>
           </tr>
           <tr>
+            <td>Tujuan Transfer</td>
+            <td>: {{ $payment->bankAccount->bank_name }}, {{ $payment->bankAccount->account_holder }}</td>
+          </tr>
+          <tr>
             <td>Status</td>
             <td>: 
               @if ($payment->status === "pending")

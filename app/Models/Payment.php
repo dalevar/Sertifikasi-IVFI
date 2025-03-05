@@ -18,6 +18,7 @@ class Payment extends Model
         'status',
         'date',
         'validation',
+        'bank_account_id'
     ];
 
     protected $casts = [
@@ -33,6 +34,11 @@ class Payment extends Model
     public function members()
     {
         return $this->hasMany(Member::class, 'user_id', 'user_id');
+    }
+
+    public function bankAccount()
+    {
+        return $this->belongsTo(BankAccount::class, 'bank_account_id');
     }
 
     // Mengambil Sertifikasi dari Registrations melalui Members

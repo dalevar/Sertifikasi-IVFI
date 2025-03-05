@@ -79,14 +79,16 @@
 							</a>
 					</li>
 
-					{{-- <li class="sidebar-item {{ request()->routeIs('admin.assign.*') ? 'active' : '' }}">
-							<a href="{{ route('admin.assign.index') }}" class='sidebar-link'>
-									<i class="bi bi-person-lines-fill"></i>
-									<span>Riwayat Kelas</span>
-							</a>
-					</li> --}}
+					<li class="sidebar-title">Menu Lain</li>
+					
+					<li class="sidebar-item {{ request()->routeIs('admin.bank-accounts.*') ? 'active' : '' }}">
+						<a href="{{ route('admin.bank-accounts.index') }}" class='sidebar-link'>
+							<i class="bi bi-wallet2"></i>
+							<span>Akun Bank</span>
+						</a>
+					</li>
 
-				<li class="sidebar-title">Akun</li>
+					<li class="sidebar-title">Akun</li>
 
 				<li class="sidebar-item">
 						<form action="{{ route('logout') }}" method="POST">
