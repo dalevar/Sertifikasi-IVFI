@@ -16,7 +16,7 @@
                                 <div class="row">
                                     <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
                                         <div class="mb-2 stats-icon purple">
-                                            <i class="iconly-boldShow"></i>
+                                            <i class="bi-people-fill"></i>
                                         </div>
                                     </div>
                                     <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
@@ -33,7 +33,7 @@
                                 <div class="row">
                                     <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
                                         <div class="mb-2 stats-icon green">
-                                            <i class="iconly-boldAdd-User"></i>
+                                            <i class="bi-person-badge-fill"></i>
                                         </div>
                                     </div>
                                     <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
@@ -50,7 +50,7 @@
                                 <div class="row">
                                     <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
                                         <div class="mb-2 stats-icon red">
-                                            <i class="iconly-boldBookmark"></i>
+                                            <i class="bi-award-fill"></i>
                                         </div>
                                     </div>
                                     <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
