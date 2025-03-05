@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Payment;
+use App\Models\BankAccount;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class PaymentHistoryController extends Controller
 {
@@ -39,10 +40,8 @@ class PaymentHistoryController extends Controller
     public function show($id)
     {
         $payment = Payment::with(['user', 'members.registrations.certification'])->findOrFail($id);
-
         // Ambil sertifikasi pertama jika ada
         $certification = $payment->members->first()->registrations->first()->certification ?? null;
-
         return response()->json([
             'invoice_number' => 'INV-' . str_pad($payment->id, 6, '0', STR_PAD_LEFT),
             'payment_date' => $payment->date ? $payment->date->format('d F Y') : '-',
@@ -72,12 +71,10 @@ class PaymentHistoryController extends Controller
             ->certification ?? null;
 
         $fullname = $payment->user->fullname; // Ambil nama lengkap pengguna dari pembayaran
+        $bankAccounts = BankAccount::all(); // Ambil semua data bank
 
-        return view('user.pages.payment.invoice', compact('payment', 'fullname', 'title', 'user', 'certification'));
+        return view('user.pages.payment.invoice', compact('payment', 'fullname', 'title', 'user', 'certification', 'bankAccounts'));
     }
-
-
-
 
     /**
      * Update the specified payment in storage.
@@ -90,6 +87,7 @@ class PaymentHistoryController extends Controller
         // Validasi Request
         $request->validate([
             'proof' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'bank' => 'required|exists:bank_accounts,id'
         ]);
 
         // Pastikan file diunggah
@@ -104,6 +102,7 @@ class PaymentHistoryController extends Controller
         $paymentHistory->status = 'paid';
         $paymentHistory->validation = 'pending';
         $paymentHistory->proof = $proof;
+        $paymentHistory->bank_account_id = $request->bank; // Simpan ID rekening bank
         $paymentHistory->save();
 
         return response()->json(['success' => true, 'message' => 'Bukti pembayran berhasil diupload!']);

@@ -39,6 +39,15 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
+                        <div class="mb-4">
+                            <p class="text-muted">Status :
+                                @if ($payment->status == 'paid')
+                                    <span class="badge text-bg-success">Lunas</span>
+                                @else
+                                    <span class="badge text-bg-warning">Belum Lunas</span>
+                                @endif
+                            </p>
+                        </div>
                         <div class="col-md-6 col-12">
                             <div class="mb-4">
                                 <p class="text-muted">Nomor Invoice</p>
@@ -75,6 +84,8 @@
                                 <h6 class="font-bold">Rp. {{ number_format($payment->total_amount, 0, ',', '.') }}</h6>
                             </div>
                         </div>
+
+
                         <div class="gap-2 mt-5 d-grid">
                             <a href="{{ route('payment-histories.index') }}" class="btn btn-outline-secondary">Cek Riwayat
                                 Pembayaran</a>
@@ -89,31 +100,37 @@
             <div class="card">
                 <div class="card-header">
                     <div class="divider divider-center">
-                        <span class="divider-text h4">Status Pembayaran</span>
+                        <span class="divider-text h4">Pembayaran</span>
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="mb-4">
-                        <p class="text-muted">Status :
-                            @if ($payment->status == 'paid')
-                                <span class="badge text-bg-success">Lunas</span>
-                            @else
-                                <span class="badge text-bg-warning">Belum Lunas</span>
-                            @endif
-                        </p>
-                    </div>
-                    <div class="mb-4">
-                        <p class="text-muted">Batas Pembayaran</p>
-                        <h6 class="font-bold">
-                            {{ $payment->due_date ? \Carbon\Carbon::parse($payment->due_date)->format('d F Y') : '-' }}
-                        </h6>
-                    </div>
-                    <div class="mb-4">
-                        <p class="text-muted">Bukti Pembayaran</p>
-                        <form id="updateForm" action="{{ route('payment.upload-proof', $payment->id) }}" method="POST"
-                            enctype="multipart/form-data">
-                            @method('PATCH')
-                            @csrf
+                    <form id="updateForm" action="{{ route('payment.upload-proof', $payment->id) }}" method="POST"
+                        enctype="multipart/form-data">
+                        @method('PATCH')
+                        @csrf
+                        <div class="mb-4">
+                            <p class="text-muted">Transfer Bank : </p>
+                            <select class="form-select col-md-1" name="bank" id="bankSelect" required>
+                                <option value="">Pilih Bank</option>
+                                @foreach ($bankAccounts as $bank)
+                                    <option value="{{ $bank->id }}" data-account-number="{{ $bank->account_number }}"
+                                        data-account-holder="{{ $bank->account_holder }}"
+                                        {{ $payment->bank_account_id == $bank->id ? 'selected' : '' }}>
+                                        {{ strtoupper($bank->bank_name) }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-12 col-12">
+                            <div class="mb-4">
+                                <p class="text-muted">Rekening Pembayaran :
+                                </p>
+                                <h6 class="font-bold" id="accountNumber">
+                                    {{ $payment->bankAccount->account_number ?? 'Pilih bank terlebih dahulu' }}</h6>
+                            </div>
+                        </div>
+                        <div class="mb-4" id="payment">
+                            <p class="text-muted">Bukti Pembayaran</p>
                             <div class="filepond--root image-preview-filepond filepond--hopper"
                                 data-style-button-remove-item-position="left"
                                 data-style-button-process-item-position="right" data-style-load-indicator-position="right"
@@ -148,8 +165,8 @@
                             <div class="gap-2 mt-4 d-grid">
                                 <button class="btn btn-primary">Kirim Pembayaran</button>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -249,5 +266,30 @@
                 });
             });
         });
+    </script>
+
+    <script>
+        document.getElementById('bankSelect').addEventListener('change', function() {
+            let selectedOption = this.options[this.selectedIndex];
+            let accountNumber = selectedOption.getAttribute('data-account-number') || 'Pilih bank terlebih dahulu';
+            document.getElementById('accountNumber').innerText = accountNumber;
+
+            let payment = document.getElementById('payment');
+            if (this.value) {
+                payment.classList.remove('d-none');
+                payment.classList.add('d-block');
+            } else {
+                payment.classList.remove('d-block');
+                payment.classList.add('d-none');
+            }
+        });
+
+        window.onload = function() {
+            let bankSelect = document.getElementById('bankSelect');
+            let payment = document.getElementById('payment');
+            if (!bankSelect.value) {
+                payment.classList.add('d-none');
+            }
+        };
     </script>
 @endpush
