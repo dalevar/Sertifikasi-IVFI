@@ -178,4 +178,16 @@ class MemberController extends Controller
 
         return response()->json(['message' => 'Anggota berhasil dihapus!']);
     }
+
+    // Download Template
+    public function downloadTemplate()
+    {
+        $file = public_path() . "/download/template.xlsx";
+
+        $headers = [
+            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        ];
+
+        return response()->download($file, 'template.xlsx', $headers);
+    }
 }

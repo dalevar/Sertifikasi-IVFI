@@ -159,11 +159,9 @@
                         <button type="button" class="btn btn-outline-secondary me-auto" data-bs-dismiss="modal"
                             aria-label="Close">Tutup</button>
 
-                        <a href="{{ url('/download-template') }}" class="btn btn-outline-success">
+                        <a href="{{ route('members.download-template') }}" class="btn btn-outline-success">
                             Unduh Template
                         </a>
-
-
                         <button type="submit" class="btn btn-success">Import</button>
                     </div>
                 </form>

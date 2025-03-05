@@ -87,15 +87,7 @@ Route::put('/profile/update/akun', [ProfileController::class, 'updateAkun'])->na
  */
 Route::resource('members', MemberController::class);
 Route::post('members/create', [MemberController::class, 'import'])->name('members.import');
-Route::get('/download-template', function () {
-    $file = storage_path('app/templates/template.xlsx');
-
-    if (!file_exists($file)) {
-        return response()->json(['error' => 'File tidak ditemukan!'], 404);
-    }
-
-    return response()->download($file);
-});
+Route::get('download-template', [MemberController::class, 'downloadTemplate'])->name('members.download-template');
 
 
 /**
@@ -130,10 +122,3 @@ Route::get('/payment-histories', [PaymentHistoryController::class, 'index'])->na
 // Route::get('payment-histories/{id}', [PaymentHistoryController::class, 'show'])->name('payment-histories.show');
 Route::get('/payment/{id}', [PaymentHistoryController::class, 'invoice'])->name('payment-histories.invoice');
 Route::patch('/payment/{paymentHistory}/update', [PaymentHistoryController::class, 'update'])->name('payment.upload-proof');
-
-
-/**
- * BUG LIST
- * 1. Registrasi Sertifikasi Anggota (CheckBox)
- * 2. Riwayat Pembayaran (Data Relation)
- */
