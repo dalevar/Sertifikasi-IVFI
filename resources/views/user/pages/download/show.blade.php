@@ -23,7 +23,7 @@
                             </div>
                             <h3>Sertifikat {{ $certification->title }}</h3>
                             <p class="font-bold">Total Anggota yang lulus kompetensi:
-                                {{ $certification->registrations()->where('status', 'approved')->count() }}</p>
+                                {{ $registered->count() }}</p>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -39,29 +39,21 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse ($passedMembers as $member)
+                                        @forelse ($registered->unique('member_id') as $registration)
                                             <tr>
-                                                <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $member['fullname'] }}</td>
-                                                <td>{{ $member['number_identity'] }}</td>
-                                                <td>{{ $member['registration_date'] }}</td>
-                                                <td>
-                                                    <span
-                                                        class="badge {{ $member['status'] == 'approved' ? 'text-bg-success' : 'text-bg-danger' }}">
-                                                        {{ ucfirst($member['status']) }}
-                                                    </span>
+                                                <td scope="row">{{ $loop->iteration }}</td>
+                                                <td>{{ $registration->member->fullname }}</td>
+                                                <td><span
+                                                        class="badge {{ $registration->status == 'approved' ? 'text-bg-success' : ' text-bg-danger' }}">{{ $registration->status }}</span>
                                                 </td>
+                                                <td>{{ $registration->member->number_identity }}</td>
+                                                <td>{{ $registration->registration_date->format('d-m-Y') }}</td>
                                                 <td>
-                                                    <a href="{{ route('download-certificate.download', $member['member_id']) }}"
-                                                        class="btn btn-primary btn-sm" target="_blank">
-                                                        Download
-                                                    </a>
+                                                    <a href="{{ route('download-certificate.download', ['registrationId' => $registration->id, 'certificationId' => $certification->id]) }}"
+                                                        class="btn btn-primary btn-sm" target="_blank">Download</a>
                                                 </td>
                                             </tr>
                                         @empty
-                                            <tr>
-                                                <td colspan="6" class="text-center">Tidak ada peserta yang lulus.</td>
-                                            </tr>
                                         @endforelse
                                     </tbody>
                                 </table>

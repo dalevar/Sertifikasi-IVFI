@@ -234,9 +234,10 @@
                                 timerProgressBar: true
                             });
 
-                            // Reload halaman setelah sukses
+
                             setTimeout(() => {
-                                location.reload();
+                                window.location.href =
+                                    "{{ route('payment-histories.index') }}";
                             }, 3000);
                         } else {
                             Swal.fire({

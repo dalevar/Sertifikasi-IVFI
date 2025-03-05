@@ -105,6 +105,6 @@ class PaymentHistoryController extends Controller
         $paymentHistory->bank_account_id = $request->bank; // Simpan ID rekening bank
         $paymentHistory->save();
 
-        return response()->json(['success' => true, 'message' => 'Bukti pembayran berhasil diupload!']);
+        return response()->json(['success' => true, 'message' => 'Bukti pembayaran berhasil diunggah!']);
     }
 }
