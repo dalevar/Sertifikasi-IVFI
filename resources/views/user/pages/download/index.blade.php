@@ -48,7 +48,7 @@
                                                 <td scope="row">{{ $loop->iteration }}</td>
                                                 <td>{{ $certificate->title }}</td>
                                                 <td class="col-2">
-                                                    {{ $countMembersWithCertificates }}
+                                                    {{ $certificateCounts[$certificate->id] ?? 0 }}
                                                 </td>
                                                 <td class="">
                                                     <a href="{{ route('download-certificate.show', $certificate->id) }}"

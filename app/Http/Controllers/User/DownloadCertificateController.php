@@ -19,22 +19,23 @@ class DownloadCertificateController extends Controller
         // Data member yang terhubung dengan user yang login
         $members = Member::where('user_id', $user->id)->get();
 
-        // Mengambil data registerasi yang terhubung dengan member dan mengambil status 'approved'
+        // Mengambil data registrasi yang terhubung dengan member dan mengambil status 'approved'
         $registered = $members->map(function ($member) {
             return $member->registrations->where('status', 'approved');
         })->flatten();
 
-        // Mengambil data sertifikat yang terhubung dengan registerasi
+        // Mengambil data sertifikat yang terhubung dengan registrasi
         $certificates = $registered->map(function ($registration) {
             return $registration->certification;
         })->unique();
 
-        // Hitung jumlah anggota yang memiliki sertifikat
-        $countMembersWithCertificates = $certificates->count();
+        // Hitung jumlah anggota yang memiliki sertifikat berdasarkan sertifikat
+        $certificateCounts = $registered->groupBy('certification_id')->map(function ($group) {
+            return $group->count();
+        });
 
-        return view('user.pages.download.index', compact('user', 'registered', 'certificates', 'title', 'countMembersWithCertificates'));
+        return view('user.pages.download.index', compact('user', 'registered', 'certificates', 'title', 'certificateCounts'));
     }
-
 
     public function show($id)
     {

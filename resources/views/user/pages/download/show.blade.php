@@ -57,9 +57,9 @@
                                         @endforelse
                                     </tbody>
                                 </table>
-                                <a href="{{ route('download-certificate.index') }}"
-                                    class="mt-3 btn btn-outline-secondary">Kembali</a>
                             </div>
+                            <a href="{{ route('download-certificate.index') }}"
+                                class="mt-3 btn btn-outline-secondary">Kembali</a>
                         </div>
                     </div>
                 </div>
