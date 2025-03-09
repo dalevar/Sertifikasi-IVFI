@@ -2,7 +2,7 @@
 	<div class="sidebar-header position-relative">
 		<div class="d-flex justify-content-between align-items-center">
 			<div class="logo">
-				<a href="index.html"><img src="{{ asset('assets/compiled/svg/logo.svg') }}" alt="Logo"srcset=""></a>
+				<a href=""><img src="{{ asset('assets/static/images/logo/logo_ivfi_horizontal.svg') }}" alt="Logo"srcset=""></a>
 			</div>
 			<div class="gap-2 mt-2 theme-toggle d-flex align-items-center">
 				<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"

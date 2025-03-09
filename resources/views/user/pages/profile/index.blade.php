@@ -48,6 +48,11 @@
                                 <p class="mb-1"><i class="bi bi-telephone-fill me-2"></i>
                                     {{ $user->details->phone ?? 'Nomor Tidak Tersedia' }}
                                 </p>
+                                
+                                {{-- Kepala Sekolah --}}
+                                <p class="mb-1"><i class="bi bi-person-check-fill me-2"></i>
+                                    {{ $user->details->headmaster ?? 'Nomor Tidak Tersedia' }}
+                                </p>
 
                                 {{-- Email --}}
                                 <div class="mt-3 form-group">

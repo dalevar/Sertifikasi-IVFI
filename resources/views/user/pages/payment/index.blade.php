@@ -38,7 +38,6 @@
                                         <tr>
                                             <th class="col-1">ID</th>
                                             <th>Nama Instansi</th>
-                                            <th>Jenis Sertifikasi</th>
                                             <th>Total Anggota</th>
                                             <th>Total Harga</th>
                                             <th>Tanggal Pembayaran</th>
@@ -51,14 +50,6 @@
                                             <tr>
                                                 <td>{{ $payment->id }}</td>
                                                 <td>{{ $payment->user->fullname }}</td>
-                                                {{-- Ambil jenis sertifikasi pertama jika ada --}}
-                                                <td>
-                                                    @if ($payment->members->isNotEmpty())
-                                                        {{ $payment->members->first()->registrations->first()->certification->title ?? 'Tidak Ada' }}
-                                                    @else
-                                                        Tidak Ada
-                                                    @endif
-                                                </td>
 
                                                 <td>{{ $payment->total_members }}</td>
                                                 <td>Rp {{ number_format($payment->total_amount, 0, ',', '.') }}</td>

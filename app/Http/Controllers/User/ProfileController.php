@@ -45,6 +45,7 @@ class ProfileController extends Controller
             'address' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:20',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048',
+            'headmaster' => 'nullable|string|max:255'
         ]);
 
         $changes = false;
@@ -56,10 +57,11 @@ class ProfileController extends Controller
         }
 
         // Cek perubahan address dan phone
-        if ($request->address !== $user->details->address || $request->phone !== $user->details->phone) {
+        if ($request->address !== $user->details->address || $request->phone !== $user->details->phone || $request->headmaster !== $user->details->headmaster) {
             $user->details->update([
                 'address' => $request->address,
                 'phone' => $request->phone,
+                'headmaster' => $request->headmaster
             ]);
             $changes = true;
         }

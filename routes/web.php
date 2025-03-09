@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 Route::get('/', function () {
-    return view('welcome');
+    return to_route('login');
 });
 
 Route::get('/login', function () {

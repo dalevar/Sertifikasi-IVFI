@@ -120,6 +120,10 @@
                                         <input type="text" class="form-control" id="phone" name="phone"
                                             value="{{ $user->details->phone }}">
                                     </div>
+                                    <div class="form-group">
+                                        <label for="headmaster">Kepala Sekolah</label>
+                                        <input type="text" class="form-control" id="headmaster" name="headmaster" value={{ $user->details->headmaster }}>
+                                    </div>
                                     <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                                 </form>
                             </div>
