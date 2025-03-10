@@ -4,41 +4,6 @@
                 class="img-fluid" width="100px"></a>
     </div>
     <div class="header-top-right">
-        <ul class="my-auto ms-auto mb-lg-0" style="list-style-type: none;">
-            <li class="nav-item dropdown me-3">
-                <a class="text-gray-600 nav-link active dropdown-toggle" href="#" data-bs-toggle="dropdown"
-                    data-bs-display="static" aria-expanded="false">
-                    <i class='bi bi-bell bi-sub fs-4'></i>
-                    <span class="badge badge-notification bg-danger">7</span>
-                </a>
-                <ul class="dropdown-menu dropdown-center navbar-top dropdown-menu-sm-end notification-dropdown"
-                    aria-labelledby="dropdownMenuButton">
-                    <li class="dropdown-header">
-                        <h6>Pemberitahuan</h6>
-                    </li>
-                    <li class="dropdown-item notification-item">
-                        <a class="d-flex align-items-center" href="#">
-                            <div class="notification-icon bg-success">
-                                <i class="bi bi-file-earmark-check"></i>
-                            </div>
-                            <div class="notification-text ms-4">
-                                <p class="font-bold notification-title">Sertifikasi Telah Diterima
-                                </p>
-                                <p class="text-sm font-thin notification-subtitle">Jenis Sertifikasi
-                                </p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li>
-                        <p class="py-2 mb-0 text-center"><a href="#">Lihat Semua Pemberitahuan</a>
-                        </p>
-                    </li>
-                </ul>
-            </li>
-        </ul>
         <div class="dropdown">
             <a href="#" id="topbarUserDropdown"
                 class="user-dropdown d-flex align-items-center dropend dropdown-toggle " data-bs-toggle="dropdown"
