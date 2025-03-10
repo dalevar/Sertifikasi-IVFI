@@ -30,8 +30,13 @@ class CertificateRegistrationController extends Controller
         $user = Auth::user();
         $title = 'Certificate Registration';
         $registration = Registration::find($certification->id);
-        $members = Member::where('user_id', $user->id)->get();
-        $total_members = Member::where('user_id', $user->id)->count();
+        $registeredMemberIds = Registration::where('certification_id', $certification->id)
+            ->pluck('member_id')
+            ->toArray();
+        $members = Member::where('user_id', $user->id)
+            ->whereNotIn('id', $registeredMemberIds)
+            ->get();
+        $total_members = $members->count();
 
         return view('user.pages.certificate.create', compact('members', 'certification', 'title', 'user', 'total_members'));
     }
@@ -51,30 +56,42 @@ class CertificateRegistrationController extends Controller
             'registration_date' => 'required|date',
         ]);
 
-        foreach ($request->member_id as $memberId) {
-            Registration::create([
-                'member_id' => $memberId,
-                'certification_id' => $request->certification_id,
-                'registration_date' => $request->registration_date,
-            ]);
+        // Menghapus duplikasi dari request sebelum diproses
+        $uniqueMemberIds = array_unique($request->member_id);
+
+        foreach ($uniqueMemberIds as $memberId) {
+            // Cek apakah kombinasi member_id dan certification_id sudah terdaftar
+            $existingRegistration = Registration::where('member_id', $memberId)
+                ->where('certification_id', $request->certification_id)
+                ->exists();
+
+            if (!$existingRegistration) {
+                Registration::create([
+                    'member_id' => $memberId,
+                    'certification_id' => $request->certification_id,
+                    'registration_date' => $request->registration_date,
+                ]);
+            }
         }
+
         $certification = Certification::find($request->certification_id);
 
         $user = auth()->user();
-        $total_price = $certification->price * count($request->member_id);
+        $total_price = $certification->price * count($uniqueMemberIds);
 
         $paymentHistory = \App\Models\Payment::create([
             'user_id' => $user->id,
             'certification_id' => $certification->id,
-            'total_members' => count($request->member_id),
+            'total_members' => count($uniqueMemberIds),
             'total_amount' => $total_price,
             'date' => now(),
             'status' => 'pending',
         ]);
 
         return redirect()->route('payment-histories.invoice', ['id' => $paymentHistory->id])
-            ->with('success', 'Pendaftaran berhasil disimpan.');
+            ->with('success', 'Pendaftaran berhasil disimpan tanpa duplikasi.');
     }
+
 
     /**
      * Invoice for payment after registration member

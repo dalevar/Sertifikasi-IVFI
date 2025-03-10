@@ -114,56 +114,86 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const checkAll = document.getElementById('checkAll');
-            const checkItems = document.querySelectorAll('.checkItem');
             const selectAllLink = document.getElementById('selectAllLink');
             const deselectAllLink = document.getElementById('deselectAllLink');
             const selectedCount = document.getElementById('selectedCount');
             const bulkAction = document.getElementById('bulkAction');
+            const certificationForm = document.getElementById('certificationForm');
 
+            let table = $('#table2').DataTable(); // Inisialisasi DataTable
             let allSelected = false;
 
             function updateSelectedCount() {
-                const selectedItems = document.querySelectorAll('.checkItem:checked').length;
+                const selectedItems = table.$('.checkItem:checked').length;
                 selectedCount.textContent = selectedItems;
                 bulkAction.disabled = selectedItems === 0;
             }
 
+            // Pilih semua checkbox di halaman saat ini
             checkAll.addEventListener('change', function() {
-                checkItems.forEach(item => item.checked = checkAll.checked);
+                let rows = table.rows({
+                    'page': 'current'
+                }).nodes();
+                $('input[type="checkbox"].checkItem', rows).prop('checked', checkAll.checked);
                 updateSelectedCount();
                 toggleSelectLinks();
             });
 
-            checkItems.forEach(item => {
-                item.addEventListener('change', function() {
-                    updateSelectedCount();
-                    toggleSelectLinks();
-                });
-            });
-
+            // Pilih semua data dalam tabel, termasuk yang tidak terlihat
             selectAllLink.addEventListener('click', function(e) {
                 e.preventDefault();
                 allSelected = true;
-                checkItems.forEach(item => item.checked = true);
+                let rows = table.rows().nodes();
+                $('input[type="checkbox"].checkItem', rows).prop('checked', true);
                 checkAll.checked = true;
                 updateSelectedCount();
                 toggleSelectLinks();
             });
 
+            // Batalkan semua pilihan
             deselectAllLink.addEventListener('click', function(e) {
                 e.preventDefault();
                 allSelected = false;
-                checkItems.forEach(item => item.checked = false);
+                let rows = table.rows().nodes();
+                $('input[type="checkbox"].checkItem', rows).prop('checked', false);
                 checkAll.checked = false;
                 updateSelectedCount();
                 toggleSelectLinks();
             });
 
+            // Update tampilan tombol Pilih Semua / Batalkan Pilihan
             function toggleSelectLinks() {
-                const allChecked = document.querySelectorAll('.checkItem:checked').length === checkItems.length;
-                selectAllLink.classList.toggle('d-none', allChecked || allSelected);
-                deselectAllLink.classList.toggle('d-none', !(allChecked || allSelected));
+                const selectedItems = table.$('.checkItem:checked').length;
+                const totalItems = table.$('.checkItem').length;
+
+                if (selectedItems === totalItems && totalItems > 0) {
+                    selectAllLink.classList.add('d-none');
+                    deselectAllLink.classList.remove('d-none');
+                } else {
+                    selectAllLink.classList.remove('d-none');
+                    deselectAllLink.classList.add('d-none');
+                }
             }
+
+            // Tambahkan event listener pada setiap checkbox individual
+            table.on('change', '.checkItem', function() {
+                updateSelectedCount();
+                toggleSelectLinks();
+            });
+
+            // Tambahkan event listener pada pengiriman formulir untuk mengumpulkan semua checkbox yang dipilih
+            certificationForm.addEventListener('submit', function(e) {
+                let rows = table.rows().nodes();
+                $('input[type="checkbox"].checkItem', rows).each(function() {
+                    if (this.checked) {
+                        $('<input>').attr({
+                            type: 'hidden',
+                            name: 'member_id[]',
+                            value: this.value
+                        }).appendTo(certificationForm);
+                    }
+                });
+            });
 
             updateSelectedCount();
             toggleSelectLinks();
