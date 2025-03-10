@@ -62,6 +62,7 @@ class HomeController extends Controller
         $members = Member::where('user_id', $user->id)->get();
         $member_certificated = Registration::whereIn('member_id', $members->pluck('id'))
             ->where('status', 'approved')
+            ->where('id', $id)
             ->first();
 
         if (!$member_certificated) {
