@@ -15,8 +15,25 @@
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
     <!-- Styling-->
-    <link rel="stylesheet" href="{{ asset('landing-page/css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('storage/landing-page/css/app.css') }}">
+    <style>
+        .card {
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
 
+        .btn-custom {
+            background-color: #ff7f3f;
+            border: none;
+            color: white;
+        }
+
+        .btn-custom:hover {
+            background-color: #e76e2a;
+        }
+    </style>
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
