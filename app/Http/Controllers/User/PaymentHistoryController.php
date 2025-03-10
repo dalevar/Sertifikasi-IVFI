@@ -39,19 +39,26 @@ class PaymentHistoryController extends Controller
      */
     public function show($id)
     {
-        $payment = Payment::with(['user', 'members.registrations.certification'])->findOrFail($id);
-        // Ambil sertifikasi pertama jika ada
-        $certification = $payment->members->first()->registrations->first()->certification ?? null;
+        $payment = Payment::with(['user', 'members.registrations.certification', 'bankAccount'])->findOrFail($id);
+
+        // Ambil sertifikasi terbaru untuk setiap member
+        $registeredMembers = $payment->members->map(function ($member) {
+            return $member->registrations->sortByDesc('created_at')->first();
+        })->filter();
+
+        $totalRegisteredMembers = $registeredMembers->count();
+
         return response()->json([
-            'invoice_number' => 'INV-' . str_pad($payment->id, 6, '0', STR_PAD_LEFT),
+            'invoice_number' => $payment->id,
             'payment_date' => $payment->date ? $payment->date->format('d F Y') : '-',
-            'certification_type' => $certification ? $certification->title : '-',
-            'certification_price' => $certification ? $certification->price : 0,
             'total_members' => $payment->total_members,
             'total_price' => $payment->total_amount,
             'payment_status' => $payment->status,
+            'bank_account' => $payment->bankAccount ?
+                ($payment->bankAccount->account_number . ' A/N ' . $payment->bankAccount->account_holder) : '-',
         ]);
     }
+
 
     /**
      * Display the specified payment.
@@ -64,17 +71,26 @@ class PaymentHistoryController extends Controller
         $user = Auth::user();
         $payment = Payment::with(['user', 'members.registrations.certification'])->findOrFail($id);
 
-        // Pastikan ada anggota sebelum mengakses registrasi dan sertifikasi
-        $certification = $payment->members
-            ->flatMap->registrations
-            ->firstWhere('certification', '!=', null)
-            ->certification ?? null;
+        // Cek member yang terdaftar dalam sertifikasi dan hitung total member yang terdaftar berdasarkan waktunya saat terdaftar
+        $registeredMembers = $payment->members->filter(function ($member) use ($payment) {
+            return $member->registrations->contains(function ($registration) use ($payment) {
+                return $registration->certification !== null && $registration->created_at->eq($payment->created_at);
+            });
+        });
+
+        $totalRegisteredMembers = $registeredMembers->count();
+
+        // Ambil semua sertifikasi terbaru dari masing-masing member
+        $certifications = $registeredMembers->map(function ($member) {
+            return $member->registrations->sortByDesc('created_at')->first()->certification;
+        })->unique();
 
         $fullname = $payment->user->fullname; // Ambil nama lengkap pengguna dari pembayaran
         $bankAccounts = BankAccount::all(); // Ambil semua data bank
 
-        return view('user.pages.payment.invoice', compact('payment', 'fullname', 'title', 'user', 'certification', 'bankAccounts'));
+        return view('user.pages.payment.invoice', compact('payment', 'fullname', 'title', 'user', 'certifications', 'bankAccounts', 'totalRegisteredMembers'));
     }
+
 
     /**
      * Update the specified payment in storage.

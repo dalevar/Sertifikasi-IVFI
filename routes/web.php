@@ -119,6 +119,6 @@ Route::get('/download-certificate/{registrationId}/{certificationId}', [PDFContr
  * Payment-histories.update -> Mengupdate status pembayaran
  */
 Route::get('/payment-histories', [PaymentHistoryController::class, 'index'])->name('payment-histories.index');
-// Route::get('payment-histories/{id}', [PaymentHistoryController::class, 'show'])->name('payment-histories.show');
+Route::get('payment-histories/{id}', [PaymentHistoryController::class, 'show'])->name('payment-histories.show');
 Route::get('/payment/{id}', [PaymentHistoryController::class, 'invoice'])->name('payment-histories.invoice');
 Route::patch('/payment/{paymentHistory}/update', [PaymentHistoryController::class, 'update'])->name('payment.upload-proof');

@@ -111,14 +111,6 @@
                                     <td id="payment-date">-</td>
                                 </tr>
                                 <tr>
-                                    <th>Jenis Sertifikat</th>
-                                    <td id="certification-type">-</td>
-                                </tr>
-                                <tr>
-                                    <th>Harga Sertifikasi</th>
-                                    <td id="certification-price">-</td>
-                                </tr>
-                                <tr>
                                     <td colspan="2">
                                         <hr>
                                     </td>
@@ -134,6 +126,10 @@
                                 <tr>
                                     <th>Status Pembayaran</th>
                                     <td id="payment-status">-</td>
+                                </tr>
+                                <tr>
+                                    <th>Transfer Bank</th>
+                                    <td id="bank-account">-</td>
                                 </tr>
                             </table>
                         </div>
@@ -158,37 +154,36 @@
                 // Kosongkan data saat modal pertama kali dibuka
                 $('#invoice-number').text('-');
                 $('#payment-date').text('-');
-                $('#certification-type').text('-');
-                $('#certification-price').text('-');
                 $('#total-members').text('-');
                 $('#total-price').text('-');
                 $('#payment-status').text('-');
+                $('#bank-account').text('-');
 
                 // AJAX untuk ambil data pembayaran
                 $.ajax({
-                    url: '/payment-histories/' + paymentId, // Endpoint API atau route Laravel
+                    url: '/payment-histories/' + paymentId, // Endpoint API Laravel
                     type: 'GET',
                     dataType: 'json',
                     success: function(response) {
                         $('#invoice-number').text(response.invoice_number || '-');
                         $('#payment-date').text(response.payment_date || '-');
-                        $('#certification-type').text(response.certification_type || '-');
-                        $('#certification-price').text('Rp. ' + new Intl.NumberFormat().format(
-                            response.certification_price));
                         $('#total-members').text(response.total_members);
                         $('#total-price').text('Rp. ' + new Intl.NumberFormat().format(response
                             .total_price));
 
                         // Status pembayaran dengan warna
                         let statusClass = 'bg-light-secondary';
-                        if (response.payment_status == 'paid') statusClass = 'bg-light-success';
-                        if (response.payment_status == 'pending') statusClass =
+                        if (response.payment_status === 'paid') statusClass =
+                            'bg-light-success';
+                        if (response.payment_status === 'pending') statusClass =
                             'bg-light-warning';
-                        if (response.payment_status == 'failed') statusClass =
+                        if (response.payment_status === 'failed') statusClass =
                             'bg-light-danger';
 
                         $('#payment-status').html('<span class="badge ' + statusClass + '">' +
                             response.payment_status + '</span>');
+
+                        $('#bank-account').text(response.bank_account || '-');
                     },
                     error: function() {
                         alert('Gagal mengambil data, silakan coba lagi.');

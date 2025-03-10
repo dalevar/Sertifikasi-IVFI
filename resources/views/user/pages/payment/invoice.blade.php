@@ -62,20 +62,24 @@
                         </div>
                         <div class="col-md-6 col-12">
                             <div class="mb-4">
-                                <p class="text-muted">Jenis Sertifikat</p>
-                                <h6 class="font-bold">{{ $certification->title ?? '-' }}</h6>
+                                <p class="text-muted">Sertifikat</p>
+                                @foreach ($certifications as $certification)
+                                    <h6 class="font-bold">{{ $certification->title }}</h6>
+                                @endforeach
                             </div>
                         </div>
                         <div class="col-md-6 col-12">
                             <div class="mb-4">
                                 <p class="text-muted">Total Anggota</p>
-                                <h6 class="font-bold">{{ $payment->members->count() }}</h6>
+                                <h6 class="font-bold">{{ $totalRegisteredMembers }}</h6>
                             </div>
                         </div>
                         <div class="col-md-6 col-12">
                             <div class="mb-4">
                                 <p class="text-muted">Harga</p>
-                                <h6 class="font-bold">Rp. {{ number_format($certification->price, 0, ',', '.') }}</h6>
+                                <h6 class="font-bold">
+                                    Rp. {{ number_format($certifications->sum('price'), 0, ',', '.') }}
+                                </h6>
                             </div>
                         </div>
                         <div class="col-md-6 col-12">
@@ -126,7 +130,12 @@
                                 <p class="text-muted">Rekening Pembayaran :
                                 </p>
                                 <h6 class="font-bold" id="accountNumber">
-                                    {{ $payment->bankAccount->account_number ?? 'Pilih bank terlebih dahulu' }}</h6>
+                                    {{ $payment->bankAccount
+                                        ? $payment->bankAccount->account_number . ' a/n ' . $payment->bankAccount->account_holder
+                                        : 'Pilih bank terlebih dahulu' }}
+                                </h6>
+
+
                             </div>
                         </div>
                         <div class="mb-4" id="payment">
@@ -292,5 +301,29 @@
                 payment.classList.add('d-none');
             }
         };
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const bankSelect = document.getElementById("bankSelect");
+            const accountNumber = document.getElementById("accountNumber");
+
+            bankSelect.addEventListener("change", function() {
+                const selectedOption = bankSelect.options[bankSelect.selectedIndex];
+                const accountNum = selectedOption.getAttribute("data-account-number");
+                const accountHolder = selectedOption.getAttribute("data-account-holder");
+
+                if (accountNum && accountHolder) {
+                    accountNumber.textContent = `${accountNum} A/N ${accountHolder}`;
+                } else {
+                    accountNumber.textContent = "Pilih bank terlebih dahulu";
+                }
+            });
+
+            // Trigger event change jika ada bank yang sudah dipilih sebelumnya
+            if (bankSelect.value) {
+                bankSelect.dispatchEvent(new Event("change"));
+            }
+        });
     </script>
 @endpush
