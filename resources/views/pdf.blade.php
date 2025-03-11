@@ -130,7 +130,7 @@
             </table>
         </header>
 
-        <main style="padding: 3rem 3rem 0 3rem;">
+        <main style="padding: 0 3rem 0 3rem;">
             <h1>Daftar Unit Kompetensi</h1>
             <h2 class="subtitle">List of Units of Competency</h2>
 
