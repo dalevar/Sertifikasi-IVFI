@@ -17,7 +17,13 @@
         }
 
         #second {
-            padding: 3rem;
+            height: 100%;
+            max-height: 100vh;
+            background-image: url("{{ public_path('images/background-second.png') }}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: top;
+            /* padding: 3rem; */
             page-break-before: always
         }
     </style>
@@ -69,7 +75,7 @@
             <div class="achievement-text">Telah mengikuti Uji Kompetensi Keahlian</div>
             <div class="achievement-text-en">has taken the competency test</div>
 
-            <div class="competency-field">Kompetensi Keahlian Farmasi Klinis dan Komunitas</div>
+            <div class="competency-field">{{ $data->certification->title }}</div>
             <div class="competency-field-en">Skill competency of clinical and community pharmacy</div>
 
             <div class="achievement-level">dengan Predikat :
@@ -108,7 +114,7 @@
         </div>
     </div>
     <div class="certificate" id="second">
-        <header>
+        <header style="padding-top: 3rem;">
             <table class="logo-table">
                 <tr>
                     <td class="logo-box">
@@ -124,7 +130,7 @@
             </table>
         </header>
 
-        <main>
+        <main style="padding: 3rem 3rem 0 3rem;">
             <h1>Daftar Unit Kompetensi</h1>
             <h2 class="subtitle">List of Units of Competency</h2>
 
