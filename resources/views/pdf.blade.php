@@ -8,26 +8,122 @@
 </head>
 
 <body>
-    {{-- <h1>Certificate</h1>
-    <h3>{{ $data->member->fullname }}</h3>
-    <p>Menerima Serifikat</p>
-    <h3>{{ $data->certification->title }}</h3>
-    <p>Dengan status</p>
-    <h4>{{ $data->status === 'approved' ? 'Kompeten' : 'Tidak Kompeten' }}</h4> --}}
+    <div class="certificate">
+        <!-- Background elements -->
+        <div class="background-pattern"></div>
+        <!-- Dot patterns -->
+        <div class="dot-pattern top-left" id="topLeftDots"></div>
+        <div class="dot-pattern bottom-right" id="bottomRightDots"></div>
+
+        <!-- Border design -->
+        <div class="border-design">
+            <div class="curve"></div>
+        </div>
+
+        <!-- Certificate content -->
+        <div class="content">
+            <header>
+                <table class="logo-table">
+                    <tr>
+                        <td class="logo-box">
+                            <img src="{{ public_path('images/apmfi_logo.png') }}" alt="APMFI Logo" class="logo">
+                        </td>
+                        <td class="logo-box">
+                            <img src="{{ public_path('images/ivfi-pusat_logo.png') }}" alt="IVFI Logo" class="logo">
+                        </td>
+                        <td class="logo-box">
+                            <img src="{{ public_path('images/isfi_logo.png') }}" alt="Instansi Logo" class="logo">
+                        </td>
+                    </tr>
+                </table>
+            </header>
+
+
+            <div class="title">
+                <h1>SERTIFIKAT KOMPETENSI</h1>
+                <h2>Certificate of Competency</h2>
+            </div>
+
+            <div class="certificate-number">
+                <p>Nomor : 001/PDIVFI-KALSEL/Serkom/VI/2024</p>
+            </div>
+
+            <div class="subtitle-title">UJI KOMPETENSI KEAHLIAN</div>
+            <div class="subtitle-en">SKILLS COMPETENCE TEST</div>
+
+            <div class="recipient-intro">Dengan ini menyatakan bahwa,</div>
+            <div class="recipient-intro-en">this is to certifity that,</div>
+
+            <div class="recipient-name">{{ $data->member->fullname }}</div>
+
+            <div class="institution-label">Dari</div>
+            <div class="institution-label-en">From</div>
+
+            <div class="institution-name">SMK ISFI BANJARMASIN</div>
+
+            <div class="achievement-text">Telah mengikuti Uji Kompetensi Keahlian</div>
+            <div class="achievement-text-en">has taken the competency test</div>
+
+            <div class="competency-field">Kompetensi Keahlian Farmasi Klinis dan Komunitas</div>
+            <div class="competency-field-en">Skill competency of clinical and community pharmacy</div>
+
+            <div class="achievement-level">dengan Predikat :
+                {{ $data->status === 'approved' ? 'Kompeten' : 'Tidak Kompeten' }}</div>
+            <div class="achievement-level-en">with achievement :
+                {{ $data->status === 'approved' ? 'Competent' : 'Not Competent' }}</div>
+
+            <div class="date">Yogyakarta, 6 Mei 2024</div>
+
+            <table class="signatures-table">
+                <tr>
+                    <td class="signature">
+                        <div class="signature-title">Ketua Umum</div>
+                        <div class="signature-org">Asosiasi Pendidikan Menengah Farmasi Indonesia</div>
+                        <div class="logo">
+                            <img src="{{ public_path('images/apmfi_logo.png') }}" alt="APMFI Logo">
+                        </div>
+                        {{-- <div class="signature-line"><img src="{{ public_path('images/sign_leonov.png') }}"
+                                alt=""></div> --}}
+                        <div class="signature-name">apt. Leonov Rianto, S.Si, M.Farm</div>
+                    </td>
+                    <td class="signature">
+                        <div class="signature-title">Ketua Umum</div>
+                        <div class="signature-org">Ikatan Vokasi Farmasi Indonesia</div>
+                        <div class="logo">
+                            <img src="{{ public_path('images/ivfi-pusat_logo.png') }}" alt="IVFI Logo">
+                        </div>
+                        {{-- <div class="signature-line"><img src="{{ public_path('images/sign_ipansyah.png') }}"
+                                alt=""></div> --}}
+                        <div class="signature-name">apt. H.M. Noor Ipansyah, S.Si., MM</div>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+
     <div class="certificate">
         <header>
-            <div class="logos">
-                <img src="{{ public_path('images/apmfi_logo.png') }}" alt="APMFI Logo" class="logo">
-                <img src="{{ public_path('images/ivfi-pusat_logo.png') }}" alt="IVFI Logo" class="logo">
-                <img src="{{ public_path('images/isfi_logo.png') }}" alt="Instansi Logo" class="logo">
-            </div>
+            <table class="logo-table">
+                <tr>
+                    <td class="logo-box">
+                        <img src="{{ public_path('images/apmfi_logo.png') }}" alt="APMFI Logo" class="logo">
+                    </td>
+                    <td class="logo-box">
+                        <img src="{{ public_path('images/ivfi-pusat_logo.png') }}" alt="IVFI Logo" class="logo">
+                    </td>
+                    <td class="logo-box">
+                        <img src="{{ public_path('images/isfi_logo.png') }}" alt="Instansi Logo" class="logo">
+                    </td>
+                </tr>
+            </table>
         </header>
 
         <main>
             <h1>Daftar Unit Kompetensi</h1>
             <h2 class="subtitle">List of Units of Competency</h2>
 
-            <table>
+            <table class="competency-table">
                 <thead>
                     <tr>
                         <th>No</th>
@@ -95,28 +191,28 @@
                     <p>Yogyakarta, 6 Mei 2024</p>
                 </div>
 
-                <div class="signature-grid">
-                    <div class="signature-box">
-                        <p class="title">Ketua Korwil APMFI</p>
-                        <p class="region">Kalsel-Teng</p>
-                        <div class="sign-line"></div>
-                        <p class="name">Indra Maulana,Amd.Farm</p>
-                    </div>
-
-                    <div class="signature-box">
-                        <p class="title">Ketua Pengurus Daerah IVFI</p>
-                        <p class="region">Kalimantan Selatan</p>
-                        <div class="sign-line"></div>
-                        <p class="name">apt.H.M.Noor Ipansyah,S.Si,MM</p>
-                    </div>
-
-                    <div class="signature-box">
-                        <p class="title">Kepala Sekolah</p>
-                        <p class="region">SMK ISFI Banjarmasin</p>
-                        <div class="sign-line"></div>
-                        <p class="name">apt.H.M.Noor Ipansyah,S.Si,MM</p>
-                    </div>
-                </div>
+                <table class="signature-table">
+                    <tr>
+                        <td class="signature-box">
+                            <p class="title">Ketua Korwil APMFI</p>
+                            <p class="region">Kalsel-Teng</p>
+                            <div class="sign-line"></div>
+                            <p class="name">apt. H.M. Noor Ipansyah, S.Si, MM</p>
+                        </td>
+                        <td class="signature-box">
+                            <p class="title">Ketua Pengurus Daerah IVFI</p>
+                            <p class="region">Kalimantan Selatan</p>
+                            <div class="sign-line"></div>
+                            <p class="name">Indra Maulana, Amd.Farm</p>
+                        </td>
+                        <td class="signature-box">
+                            <p class="title">Kepala Sekolah</p>
+                            <p class="region">SMK ISFI Banjarmasin</p>
+                            <div class="sign-line"></div>
+                            <p class="name">apt. H.M. Noor Ipansyah, S.Si, MM</p>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </main>
     </div>

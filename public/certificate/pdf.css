@@ -1,8 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap");
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
+
 body {
     font-family: Arial, sans-serif;
 }
@@ -16,98 +19,289 @@ body {
     border-radius: 10px;
 }
 
-header .logos {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 4rem;
+.logo-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    padding: 0 10rem;
+    border: none; /* Menghapus border tabel utama */
+}
+
+.logo-box {
+    border: none; /* Menghapus border sel */
 }
 
 .logo {
-    width: 12%;
+    width: 100px;
     height: 100px;
     object-fit: contain;
-    border: 1px solid #ddd;
+    margin-bottom: 10px;
 }
 
+/** Certificate Section 1 */
+.title {
+    text-align: center;
+}
+
+.title h1 {
+    font-family: "Playfair Display", serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: #1a2b5f;
+}
+
+.title h2 {
+    font-family: "Playfair Display", serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #d4af37;
+    font-style: italic;
+}
+
+.certificate-number {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.subtitle-title {
+    text-align: center;
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.subtitle-en {
+    text-align: center;
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 40px;
+    font-style: italic;
+}
+
+.recipient-intro {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.recipient-intro-en {
+    text-align: center;
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 10px;
+    font-style: italic;
+}
+
+.recipient-name {
+    text-align: center;
+    font-family: "Playfair Display", serif;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    color: #1a2b5f;
+}
+
+.recipient-name:after {
+    content: "";
+    display: block;
+    width: 60%;
+    height: 1px;
+    background-color: #1a2b5f;
+    margin: 10px auto;
+}
+
+.institution-label {
+    text-align: center;
+    font-size: 16px;
+    font-style: bold;
+}
+
+.institution-label-en {
+    text-align: center;
+    font-size: 12px;
+    font-style: italic;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.institution-name {
+    text-align: center;
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.achievement-text {
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.achievement-text-en {
+    text-align: center;
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+.competency-field {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.competency-field-en {
+    text-align: center;
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+.achievement-level {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.achievement-level-en {
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+    font-style: italic;
+}
+
+.date {
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+.signatures-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    margin-top: 20px;
+    border: none; /* Menghapus border tabel utama */
+}
+
+.signature {
+    padding: 20px;
+    vertical-align: top;
+    border: none; /* Menghapus border sel */
+}
+
+.signature-title {
+    font-weight: 600;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.signature-org {
+    font-size: 12px;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.logo img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    margin-bottom: 10px;
+    text-align: center;
+    margin-left: 30px;
+}
+
+.signature-name {
+    font-size: 12px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/** Certificate Section 2 */
 h1 {
     text-align: center;
     color: #333;
     font-size: 1.75rem;
-    margin-bottom: 0.5rem;
+    /* margin-bottom: 0.5rem; */
 }
 
 .subtitle {
     text-align: center;
     color: #666;
     font-size: 0.8rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
     font-style: italic;
 }
 
-table {
+.competency-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.8rem;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
 }
 
-th,
-td {
+.competency-table th,
+.competency-table td {
     border: solid #191919;
     padding: 0.5rem;
     text-align: left;
 }
 
-th {
+.competency-table th {
     background-color: #191919;
     color: white;
     font-weight: bold;
     text-align: center;
 }
 
-tr:nth-child(even) {
+.competency-table tr:nth-child(even) {
     background-color: #f9f9f9;
-}
-
-.signatures {
-    margin-top: 0.5rem;
 }
 
 .location-date {
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 8rem;
+    font-size: 12px;
     font-weight: bold;
 }
 
-.signature-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
+.signature-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: none;
 }
 
 .signature-box {
-    text-align: center;
+    vertical-align: top;
+    border: none;
 }
 
 .title {
+    font-size: 16px;
     font-weight: bold;
-    margin-bottom: 0.5rem;
+    margin-bottom: 5px;
 }
 
 .region {
     color: #666;
-    margin-bottom: 2rem;
+    margin-bottom: 15px;
+    text-align: center;
 }
 
 .sign-line {
     width: 80%;
-    height: 1px;
-    background-color: #000;
-    margin: 2rem auto;
+    /* height: 1px; */
+    /* background-color: #000; */
+    margin: 40px auto;
 }
 
 .name {
+    font-size: 14px;
     font-weight: bold;
+    margin-bottom: 5px;
+    text-align: center;
 }
 
 @media (max-width: 768px) {
