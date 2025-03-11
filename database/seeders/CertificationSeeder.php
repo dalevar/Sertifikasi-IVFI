@@ -13,15 +13,23 @@ class CertificationSeeder extends Seeder
      */
     public function run(): void
     {
-        $faker = \Faker\Factory::create();
-
-        for ($i = 0; $i < 2; $i++) {
-            DB::table('certifications')->insert([
-                'title' => $faker->sentence(3),
-                'description' => $faker->paragraph,
-                'price' => $faker->numberBetween(100, 500),
-                'valid_period' => $faker->numberBetween(2, 3),
-            ]);
-        }
+        DB::table('certifications')->insert([
+            [
+                'title' => 'Kompetensi Keahlian Farmasi Klinis dan Komunitas',
+                'description' => 'Sertifikasi ini diperuntukkan bagi tenaga kesehatan yang bekerja di bidang farmasi klinis dan komunitas.',
+                'price' => 500000,
+                'valid_period' => 3,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'title' => 'Kompetensi Keahlian Farmasi Industri',
+                'description' => 'Sertifikasi ini diperuntukkan bagi tenaga kesehatan yang bekerja di bidang farmasi industri.',
+                'price' => 600000,
+                'valid_period' => 2,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
+        ]);
     }
 }
