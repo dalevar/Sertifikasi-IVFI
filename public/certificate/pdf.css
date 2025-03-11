@@ -1,0 +1,140 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: Arial, sans-serif;
+}
+
+.certificate {
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 3rem;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+header .logos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4rem;
+}
+
+.logo {
+    width: 12%;
+    height: 100px;
+    object-fit: contain;
+    border: 1px solid #ddd;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    text-align: center;
+    color: #666;
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+    font-style: italic;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+}
+
+th,
+td {
+    border: solid #191919;
+    padding: 0.5rem;
+    text-align: left;
+}
+
+th {
+    background-color: #191919;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.signatures {
+    margin-top: 0.5rem;
+}
+
+.location-date {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-weight: bold;
+}
+
+.signature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.signature-box {
+    text-align: center;
+}
+
+.title {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.region {
+    color: #666;
+    margin-bottom: 2rem;
+}
+
+.sign-line {
+    width: 80%;
+    height: 1px;
+    background-color: #000;
+    margin: 2rem auto;
+}
+
+.name {
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+
+    .certificate {
+        padding: 1.5rem;
+    }
+
+    .signature-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+
+    .logos {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    table {
+        font-size: 0.9rem;
+    }
+
+    th,
+    td {
+        padding: 0.75rem;
+    }
+}
