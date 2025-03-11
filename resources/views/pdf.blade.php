@@ -5,25 +5,29 @@
     <meta charset="UTF-8">
     <title>{{ $title }}</title>
     <link rel="stylesheet" href="{{ public_path('certificate/pdf.css') }}">
+
+    <style>
+        #first {
+            height: 100%;
+            max-height: 100vh;
+            background-image: url("{{ public_path('images/background.png') }}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        #second {
+            padding: 3rem;
+            page-break-before: always
+        }
+    </style>
+
 </head>
 
 <body>
-
     <div class="certificate" id="first">
-        <!-- Background elements -->
-        <div class="background-pattern"></div>
-        <!-- Dot patterns -->
-        <div class="dot-pattern top-left" id="topLeftDots"></div>
-        <div class="dot-pattern bottom-right" id="bottomRightDots"></div>
-
-        <!-- Border design -->
-        <div class="border-design">
-            <div class="curve"></div>
-        </div>
-
-        <!-- Certificate content -->
         <div class="content">
-            <header>
+            <header style="padding-top: 3rem;">
                 <table class="logo-table">
                     <tr>
                         <td class="logo-box">
@@ -103,7 +107,6 @@
 
         </div>
     </div>
-
     <div class="certificate" id="second">
         <header>
             <table class="logo-table">
