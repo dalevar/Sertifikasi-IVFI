@@ -8,7 +8,8 @@
 </head>
 
 <body>
-    <div class="certificate">
+
+    <div class="certificate" id="first">
         <!-- Background elements -->
         <div class="background-pattern"></div>
         <!-- Dot patterns -->
@@ -82,18 +83,19 @@
                         <div class="logo">
                             <img src="{{ public_path('images/apmfi_logo.png') }}" alt="APMFI Logo">
                         </div>
-                        {{-- <div class="signature-line"><img src="{{ public_path('images/sign_leonov.png') }}"
-                                alt=""></div> --}}
+                        <div class="signature-line"><img src="{{ public_path('images/sign_leonov.png') }}"
+                                alt=""></div>
                         <div class="signature-name">apt. Leonov Rianto, S.Si, M.Farm</div>
                     </td>
                     <td class="signature">
                         <div class="signature-title">Ketua Umum</div>
                         <div class="signature-org">Ikatan Vokasi Farmasi Indonesia</div>
                         <div class="logo">
-                            <img src="{{ public_path('images/ivfi-pusat_logo.png') }}" alt="IVFI Logo">
+                            <img src="{{ public_path('images/ivfi-pusat_logo.png') }}" alt="IVFI Logo"
+                                style="padding-left: 40px;">
                         </div>
-                        {{-- <div class="signature-line"><img src="{{ public_path('images/sign_ipansyah.png') }}"
-                                alt=""></div> --}}
+                        <div class="signature-line"><img src="{{ public_path('images/sign_ipansyah.png') }}"
+                                alt=""></div>
                         <div class="signature-name">apt. H.M. Noor Ipansyah, S.Si., MM</div>
                     </td>
                 </tr>
@@ -102,7 +104,7 @@
         </div>
     </div>
 
-    <div class="certificate">
+    <div class="certificate" id="second">
         <header>
             <table class="logo-table">
                 <tr>
@@ -196,20 +198,32 @@
                         <td class="signature-box">
                             <p class="title">Ketua Korwil APMFI</p>
                             <p class="region">Kalsel-Teng</p>
-                            <div class="sign-line"></div>
-                            <p class="name">apt. H.M. Noor Ipansyah, S.Si, MM</p>
+                            <div class="logo">
+                                <img src="{{ public_path('images/apmfi_logo.png') }}" alt="IVFI Logo">
+                            </div>
+                            <div class="signature-line"><img src="{{ public_path('images/sign_ipansyah.png') }}"
+                                    alt=""></div>
+                            <div class="signature-name">apt. H.M. Noor Ipansyah, S.Si., MM</div>
                         </td>
                         <td class="signature-box">
                             <p class="title">Ketua Pengurus Daerah IVFI</p>
                             <p class="region">Kalimantan Selatan</p>
-                            <div class="sign-line"></div>
+                            <div class="logo">
+                                <img src="{{ public_path('images/ivfi-pusat_logo.png') }}" alt="IVFI Logo">
+                            </div>
+                            <div class="signature-line"><img src="{{ public_path('images/ghost-sign.png') }}"
+                                    alt=""></div>
                             <p class="name">Indra Maulana, Amd.Farm</p>
                         </td>
                         <td class="signature-box">
                             <p class="title">Kepala Sekolah</p>
                             <p class="region">SMK ISFI Banjarmasin</p>
-                            <div class="sign-line"></div>
-                            <p class="name">apt. H.M. Noor Ipansyah, S.Si, MM</p>
+                            <div class="logo">
+                                <img src="{{ public_path('images/isfi_logo.png') }}" alt="IVFI Logo">
+                            </div>
+                            <div class="signature-line"><img src="{{ public_path('images/sign_ipansyah.png') }}"
+                                    alt=""></div>
+                            <div class="signature-name">apt. H.M. Noor Ipansyah, S.Si., MM</div>
                         </td>
                     </tr>
                 </table>
