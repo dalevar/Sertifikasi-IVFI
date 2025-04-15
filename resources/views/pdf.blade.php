@@ -212,7 +212,7 @@
                             </div>
                             <div class="signature-line"><img src="{{ public_path('images/sign_ipansyah.png') }}"
                                     alt=""></div>
-                            <div class="signature-name">apt. H.M. Noor Ipansyah, S.Si., MM</div>
+                            <div class="signature-name">{{ $headmaster }}</div>
                         </td>
                         <td class="signature-box">
                             <p class="title">Ketua Pengurus Daerah IVFI</p>
