@@ -55,16 +55,18 @@
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title">Profil</h4>
-                                <form id="updateAccountForm" action="{{ route('profile.update.profil') }}" method="POST">
+                                <form id="updateAccountForm" action="{{ route('profile.update.profil') }}" method="POST"
+                                    enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT')
 
                                     <div class="d-flex">
-                                        @if ($user->details->photo === NULL)
-                                            <img src="{{ asset('/images/user.png') }}" class="img-thumbnail" width="150" alt="user">
+                                        @if ($user->details->photo === null)
+                                            <img src="{{ asset('/images/user.png') }}" class="img-thumbnail" width="150"
+                                                alt="user">
                                         @else
                                             <img src="{{ asset('storage/' . $user->details->photo) }}" alt="Foto Profil"
-                                            class="img-thumbnail w-25">
+                                                class="img-thumbnail w-25">
                                         @endif
                                         <div class="w-full col-6 ms-3">
                                             <div class="filepond--root image-preview-filepond filepond--hopper"
@@ -122,7 +124,8 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="headmaster">Kepala Sekolah</label>
-                                        <input type="text" class="form-control" id="headmaster" name="headmaster" value={{ $user->details->headmaster }}>
+                                        <input type="text" class="form-control" id="headmaster" name="headmaster"
+                                            value={{ $user->details->headmaster }}>
                                     </div>
                                     <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                                 </form>
@@ -195,7 +198,9 @@
     </script>
     <script src="{{ asset('assets/extensions/filepond-plugin-image-resize/filepond-plugin-image-resize.min.js') }}">
     </script>
-    <script src="{{ asset('assets/extensions/filepond/filepond.js') }}"></script>
+    {{-- <script src="{{ asset('assets/extensions/filepond/filepond.js') }}"></script> --}}
+    <script src="{{ asset('assets/extensions/filepond/filepond-profile.js') }}"></script>
+
     <script src="{{ asset('assets/extensions/toastify-js/src/toastify.js') }}"></script>
     <script src="{{ asset('assets/static/js/pages/filepond.js') }}"></script>
 

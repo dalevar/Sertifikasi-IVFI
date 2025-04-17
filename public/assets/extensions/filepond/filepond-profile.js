@@ -4071,7 +4071,7 @@
         id: [null, Type.STRING],
 
         // input field name to use
-        name: ["proof", Type.STRING],
+        name: ["photo", Type.STRING],
 
         // disable the field
         disabled: [false, Type.BOOLEAN],

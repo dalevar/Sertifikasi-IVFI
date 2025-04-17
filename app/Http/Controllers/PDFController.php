@@ -14,10 +14,13 @@ class PDFController extends Controller
         $user = Auth::user()->load('details');
         $headmaster = $user->details->headmaster;
 
-        $data = Registration::where('id', $id)->with(['member', 'certification'])->firstOrFail();
+        $data = Registration::where('id', $id)->with(['member', 'certification.competencyUnits'])->firstOrFail();
+
+        $logo = $user->details->photo;
+
         $filename = "{$data->member->fullname} - {$data->certification->title}.pdf";
         $title = "{$data->member->fullname} - {$data->certification->title}";
-        $pdf = Pdf::loadView('pdf', ['data' => $data, 'title' => $title, 'user' => $user, 'headmaster' => $headmaster]);
+        $pdf = Pdf::loadView('pdf', ['data' => $data, 'title' => $title, 'user' => $user, 'headmaster' => $headmaster, 'logo' => $logo]);
         return $pdf->stream($filename);
     }
 }

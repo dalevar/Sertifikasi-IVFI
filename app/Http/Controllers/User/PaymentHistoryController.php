@@ -108,7 +108,7 @@ class PaymentHistoryController extends Controller
 
         // Pastikan file diunggah
         if (!$request->hasFile('proof')) {
-            return response()->json(['success' => false, 'message' => 'No file uploaded'], 422);
+            return response()->json(['success' => false, 'message' => 'Tidak ada bukti yang diunggah!'], 422);
         }
 
         // Simpan file ke storage

@@ -43,7 +43,7 @@
                             <img src="{{ public_path('images/ivfi-pusat_logo.png') }}" alt="IVFI Logo" class="logo">
                         </td>
                         <td class="logo-box">
-                            <img src="{{ public_path('images/isfi_logo.png') }}" alt="Instansi Logo" class="logo">
+                            <img src="{{ asset('storage/' . $logo) }}" alt="Logo" class="logo">
                         </td>
                     </tr>
                 </table>
@@ -106,7 +106,7 @@
                         </div>
                         <div class="signature-line"><img src="{{ public_path('images/sign_ipansyah.png') }}"
                                 alt=""></div>
-                        <div class="signature-name">apt. H.M. Noor Ipansyah, S.Si., MM</div>
+                        <div class="signature-name">{{ $headmaster }}</div>
                     </td>
                 </tr>
             </table>
@@ -124,7 +124,7 @@
                         <img src="{{ public_path('images/ivfi-pusat_logo.png') }}" alt="IVFI Logo" class="logo">
                     </td>
                     <td class="logo-box">
-                        <img src="{{ public_path('images/isfi_logo.png') }}" alt="Instansi Logo" class="logo">
+                        <img src="{{ asset('storage/' . $logo) }}" alt="Logo" class="logo">
                     </td>
                 </tr>
             </table>
@@ -142,58 +142,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1.</td>
-                        <td>Mencatat Kebutuhan Sediaan Farmasi Dan Perbekalan Kesehatan</td>
-                    </tr>
-                    <tr>
-                        <td>2.</td>
-                        <td>Menerima Sediaan Farmasi dan Perbekalan Kesehatan</td>
-                    </tr>
-                    <tr>
-                        <td>3.</td>
-                        <td>Melakukan Pengadaan Sediaan Farmasi Dan Perbekalan Kesehatan</td>
-                    </tr>
-                    <tr>
-                        <td>4.</td>
-                        <td>Menerima Sediaan Farmasi Dan Perbekalan Kesehatan</td>
-                    </tr>
-                    <tr>
-                        <td>5.</td>
-                        <td>Menyimpan Sediaan Farmasi Dan Perbekalan Kesehatan</td>
-                    </tr>
-                    <tr>
-                        <td>6.</td>
-                        <td>Melakukan Penyimpanan Sediaan Farmasi Dan Perbekalan Kesehatan</td>
-                    </tr>
-                    <tr>
-                        <td>7.</td>
-                        <td>Melakukan Administrasi Dokumen-Dokumen Sediaan Farmasi Dan Perbekalan Kesehatan</td>
-                    </tr>
-                    <tr>
-                        <td>8.</td>
-                        <td>Menyiapkan dan meracik sediaan farmasi</td>
-                    </tr>
-                    <tr>
-                        <td>9.</td>
-                        <td>Menulis etiket dan menempelkannya pada kemasan sediaan farmasi</td>
-                    </tr>
-                    <tr>
-                        <td>10.</td>
-                        <td>Menulis copy Resep</td>
-                    </tr>
-                    <tr>
-                        <td>11.</td>
-                        <td>Membuat sediaan obat guna keperluan/ persediaan obat di apotek</td>
-                    </tr>
-                    <tr>
-                        <td>12.</td>
-                        <td>Menghitung/kalkulasi biaya obat dan perbekalan kesehatan</td>
-                    </tr>
-                    <tr>
-                        <td>13.</td>
-                        <td>Berkomunikasi dengan orang lain</td>
-                    </tr>
+                    @foreach ($data->certification->competencyUnits as $index => $unit)
+                        <tr>
+                            <td>{{ $unit->unit_code }}</td>
+                            <td>{{ $unit->unit_name }}</td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
 
@@ -205,34 +159,18 @@
                 <table class="signature-table">
                     <tr>
                         <td class="signature-box">
-                            <p class="title">Ketua Korwil APMFI</p>
-                            <p class="region">Kalsel-Teng</p>
+                        </td>
+                        <td class="signature-box">
+                            <p class="title">Kepala Sekolah</p>
+                            <p class="region">SMK ISFI Banjarmasin</p>
                             <div class="logo">
-                                <img src="{{ public_path('images/apmfi_logo.png') }}" alt="IVFI Logo">
+                                <img src="{{ asset('storage/' . $logo) }}" alt="Logo" style="margin-left: 12em">
                             </div>
                             <div class="signature-line"><img src="{{ public_path('images/sign_ipansyah.png') }}"
                                     alt=""></div>
                             <div class="signature-name">{{ $headmaster }}</div>
                         </td>
                         <td class="signature-box">
-                            <p class="title">Ketua Pengurus Daerah IVFI</p>
-                            <p class="region">Kalimantan Selatan</p>
-                            <div class="logo">
-                                <img src="{{ public_path('images/ivfi-pusat_logo.png') }}" alt="IVFI Logo">
-                            </div>
-                            <div class="signature-line"><img src="{{ public_path('images/ghost-sign.png') }}"
-                                    alt=""></div>
-                            <p class="name">Indra Maulana, Amd.Farm</p>
-                        </td>
-                        <td class="signature-box">
-                            <p class="title">Kepala Sekolah</p>
-                            <p class="region">SMK ISFI Banjarmasin</p>
-                            <div class="logo">
-                                <img src="{{ public_path('images/isfi_logo.png') }}" alt="IVFI Logo">
-                            </div>
-                            <div class="signature-line"><img src="{{ public_path('images/sign_ipansyah.png') }}"
-                                    alt=""></div>
-                            <div class="signature-name">apt. H.M. Noor Ipansyah, S.Si., MM</div>
                         </td>
                     </tr>
                 </table>

@@ -9,7 +9,9 @@
                 class="user-dropdown d-flex align-items-center dropend dropdown-toggle " data-bs-toggle="dropdown"
                 aria-expanded="false">
                 <div class="avatar avatar-md2">
-                    <img src="../../assets/compiled/jpg/1.jpg" alt="Avatar">
+                    @if (Auth::user()->details->photo)
+                        <img src="{{ asset('storage/' . Auth::user()->details->photo) }}" width="150px">
+                    @endif
                 </div>
                 <div class="text">
                     <h6 class="user-dropdown-name">{{ $user->fullname }}</h6>

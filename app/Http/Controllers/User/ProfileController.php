@@ -44,7 +44,7 @@ class ProfileController extends Controller
             'fullname' => 'required|string|max:255',
             'address' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:20',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'headmaster' => 'nullable|string|max:255'
         ]);
 
@@ -68,10 +68,7 @@ class ProfileController extends Controller
 
         // Cek perubahan foto profil
         if ($request->hasFile('photo')) {
-            if ($user->details->photo) {
-                Storage::disk('public')->delete($user->details->photo);
-            }
-            $photoPath = $request->file('photo')->store('images/user', 'public');
+            $photoPath = $request->file('photo')->store('photos');
             $user->details->update(['photo' => $photoPath]);
             $changes = true;
         }
