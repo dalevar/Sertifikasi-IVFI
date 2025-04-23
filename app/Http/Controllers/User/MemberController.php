@@ -12,6 +12,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\User\MemberRequest;
 use App\Http\Requests\User\UpdateMemberRequest;
+use App\Imports\MembersImport;
 
 class MemberController extends Controller
 {
@@ -66,7 +67,7 @@ class MemberController extends Controller
         }
 
         try {
-            Excel::import(new \App\Imports\MembersImport(), $filePath);
+            Excel::import(new MembersImport, $filePath);
             // Hapus file setelah sukses import
             Storage::delete($path);
             return response()->json([

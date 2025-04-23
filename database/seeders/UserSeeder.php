@@ -17,28 +17,28 @@ class UserSeeder extends Seeder
         DB::table('users')->insert([
             [
                 'fullname' => 'Admininstrator',
-                'email' => 'admin@ivfi.com',
-                'password' => Hash::make('password'),
+                'email' => 'administrator@ivfi.or.id',
+                'password' => Hash::make('Adminivfi246'),
                 'role' => 'admin',
             ],
-            [
-                'fullname' => 'Ikatan Vokasi Farmasi Indonesia',
-                'email' => 'ivfi@ivfi.com',
-                'password' => Hash::make('password'),
-                'role' => 'user',
-            ],
-            [
-                'fullname' => 'Gore Dale',
-                'email' => 'dale@ivfi.com',
-                'password' => Hash::make('password'),
-                'role' => 'user',
-            ],
-            [
-                'fullname' => 'Joko',
-                'email' => 'joko@ivfi.com',
-                'password' => Hash::make('password'),
-                'role' => 'user',
-            ]
+            // [
+            //     'fullname' => 'Ikatan Vokasi Farmasi Indonesia',
+            //     'email' => 'ivfi@ivfi.com',
+            //     'password' => Hash::make('password'),
+            //     'role' => 'user',
+            // ],
+            // [
+            //     'fullname' => 'Gore Dale',
+            //     'email' => 'dale@ivfi.com',
+            //     'password' => Hash::make('password'),
+            //     'role' => 'user',
+            // ],
+            // [
+            //     'fullname' => 'Joko',
+            //     'email' => 'joko@ivfi.com',
+            //     'password' => Hash::make('password'),
+            //     'role' => 'user',
+            // ]
         ]);
     }
 }

@@ -3,9 +3,11 @@
 @section('content')
     <div class="container" style="padding-top: 2em;">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-5">
                 <div class="card">
-                    <h3 class="font-bold " style="color: #c04b29;">{{ __('Daftar Akun Instansi') }}</h3>
+                    <img src="{{ asset('assets/static/images/logo/logo_ivfi_horizontal.svg') }}" alt="Logo" class="img-fluid mb-3" width="100px">
+                    <h3 class="font-bold " style="color: #c04b29;">{{ __('Daftar Akun Instansi - Sertifikasi IVFI') }}</h3>
+                    <p>Silahkan daftar untuk medapatkan akun anda.</p>
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
                         <div class="mb-3">
