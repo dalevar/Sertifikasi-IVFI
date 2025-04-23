@@ -40,6 +40,7 @@ class RegistrationController extends Controller
         ]);
     }
 
+ 
     public function approvedCertification(Request $request)
     {
         $request->validate([
@@ -47,6 +48,7 @@ class RegistrationController extends Controller
             'registers.*.id' => 'exists:registrations,id',
             'registers.*.status' => 'required'
         ]);
+        
 
         foreach ($request->registers as $register) {
             Registration::where('id', $register['id'])->update([
