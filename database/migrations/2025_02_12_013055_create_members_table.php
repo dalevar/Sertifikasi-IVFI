@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('fullname');
             $table->string('number_identity')->unique();
             $table->string('birthplace')->nullable();
-            $table->string('birthday')->nullable();
+            $table->date('birthday')->nullable();
             $table->timestamps();
         });
     }

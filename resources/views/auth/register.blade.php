@@ -59,7 +59,7 @@
                         </div>
                     </form>
                     <p class="mt-3 text-center">Sudah punya akun? <a href="{{ route('login') }}"
-                            class="text-primary">Masuk</a></p>
+                            class="text-primary text-decoration-none fw-bold">Masuk</a></p>
                 </div>
             </div>
         </div>

@@ -52,7 +52,10 @@
                             </div>
                         </div>
                     </form>
-
+                    <p class="text-center mt-3">
+                        Belum punya akun ? 
+                        <a href="{{ route('register') }}" class="text-decoration-none fw-bold">Daftar</a>
+                    </p>
                 </div>
             </div>
         </div>
