@@ -37,8 +37,12 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="{{ route('admin.payments.show', $payment->id) }}" class="btn btn-sm btn-info"><i
+                                    @if ($payment->status === 'pending')
+                                        
+                                    @else
+                                        <a href="{{ route('admin.payments.show', $payment->id) }}" class="btn btn-sm btn-info"><i
                                             class="bi bi-zoom-in"></i> Detail</a>
+                                    @endif
                                 </td>
                             </tr>
                         @empty

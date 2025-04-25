@@ -8,7 +8,7 @@
         @if ($payment->proof === "")
           <img src="{{ asset('/img/folded.png') }}" alt="" class="img-thumbnail" />
         @else
-          <img src="{{ Storage::url("$payment->proof") }}" alt="{{ $payment->proof  }}" class="img-thumbnail" />
+          <img src="{{ asset('storage/' . $payment->proof) }}" alt="{{ $payment->proof  }}" class="img-thumbnail" />
         @endif
       </div>
       <div class="col-md-7">
