@@ -44,7 +44,7 @@ class MembersImport implements ToCollection
                 'fullname'        => $row[0], // Sesuai dengan header Excel
                 'number_identity' => $row[1],
                 'birthplace'      => $row[2],
-                'birthday' => Carbon::parse($row[3])->format('Y-m-d'), // Format ke Y-m-d
+                'birthday'        => $row[3], // Format ke Y-m-d
                 'gender'          => $row[4],
                 'address'         => $row[5],
                 'phone'           => $row[6],
