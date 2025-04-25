@@ -16,7 +16,7 @@
         </div>
         <div class="col-md-6 col-12">
           <h6>Tempat, Tanggal Lahir</h6>
-          <p>{{ $member->birthplace }}, {{ \Carbon\Carbon::parse($member->birtday)->locale('id')->translatedFormat('d F Y') }}</p>
+          <p>{{ $member->birthplace }}, {{ \Carbon\Carbon::parse($member->birthday)->locale('id')->translatedFormat('d F Y') }}</p>
         </div>
         <div class="col-md-6 col-12">
           <h6>Jenis Kelamin</h6>
