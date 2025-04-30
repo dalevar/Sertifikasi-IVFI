@@ -41,7 +41,7 @@
                                 </p>
                                 {{-- Lokasi --}}
                                 <p class="mb-1"><i class="bi bi-pin-map-fill me-2"></i>
-                                    {{ $user->details->address ?? 'Lokasi Tidak Diketahui' }}
+                                    {{ $user->details->address ?? 'Lokasi Tidak Diketahui' }}, {{ $province ?? '' }}
                                 </p>
 
                                 {{-- Nomor HP --}}

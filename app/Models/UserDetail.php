@@ -15,6 +15,7 @@ class UserDetail extends Model
         'user_id',
         'photo',
         'address',
+        'province',
         'phone',
         'headmaster'
     ];

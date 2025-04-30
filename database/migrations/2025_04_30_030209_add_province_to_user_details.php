@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('registrations', function (Blueprint $table) {
-            $table->unsignedInteger('serial_number')->nullable()->after('status');
+        Schema::table('user_details', function (Blueprint $table) {
+            $table->string('province')->after('address');
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('registrations', function (Blueprint $table) {
-            $table->dropColumn('serial_number');
+        Schema::table('user_details', function (Blueprint $table) {
+            $table->dropColumn('province');
         });
     }
 };

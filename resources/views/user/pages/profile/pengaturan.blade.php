@@ -108,22 +108,34 @@
                                     <br>
 
                                     <div class="form-group">
-                                        <label for="fullname">Nama Lengkap *</label>
+                                        <label for="fullname">Nama Lengkap <small class="text-danger">*</small></label>
                                         <input type="text" class="form-control" id="fullname" name="fullname"
                                             value="{{ $user->fullname }}" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="address">Alamat *</label>
+                                        <label for="address">Alamat <small class="text-danger">*</small></label>
                                         <input type="text" class="form-control" id="address" name="address"
                                             value="{{ $user->details->address }}">
                                     </div>
                                     <div class="form-group">
-                                        <label for="phone">Nomor Telepon *</label>
+                                        <label for="address">Provinsi <small class="text-danger">*</small></label>
+                                        <select name="province" id="province" class="form-select">
+                                            <option value="">Pilih Provinsi</option>
+                                            @foreach ($provinces as $province)
+                                                {{-- @if ($user->details->province == $province['id'])
+                                                    <option value="{{ $province['id'] }}" selected>{{ $province['name'] }}</option>
+                                                @endif --}}
+                                                <option value="{{ $province['id'] }}" {{ $user->details->province == $province['id'] ? 'selected' : ''}}>{{ $province['name'] }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="phone">Nomor Telepon <small class="text-danger">*</small></label>
                                         <input type="text" class="form-control" id="phone" name="phone"
                                             value="{{ $user->details->phone }}">
                                     </div>
                                     <div class="form-group">
-                                        <label for="headmaster">Kepala Sekolah</label>
+                                        <label for="headmaster">Kepala Sekolah <small class="text-danger">*</small></label>
                                         <input type="text" class="form-control" id="headmaster" name="headmaster"
                                             value={{ $user->details->headmaster }}>
                                     </div>

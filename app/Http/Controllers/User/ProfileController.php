@@ -20,10 +20,25 @@ class ProfileController extends Controller
      */
     public function index()
     {
+        $province = "";
         $user = Auth::user()->load('details'); // Ambil data user + user_details
+
+        $json = Storage::get("provinces.json");
+        $provinces = json_decode($json, true);
+        
+        foreach ($provinces as $data) {
+            if ($user->details->province == $data['id']) {
+                $province = $data['name'];
+            }
+        }
+
         $title = 'Profil Instansi';
 
-        return view('user.pages.profile.index', compact('user', 'title'));
+        return view('user.pages.profile.index', [
+            'user' => $user,
+            'title' => $title,
+            'province' => $province
+        ]);
     }
 
     /**
@@ -32,8 +47,14 @@ class ProfileController extends Controller
     public function pengaturan()
     {
         $user = Auth::user()->load('details'); // Ambil data user + user_details
+        $json = Storage::get('provinces.json');
+        $provinces = json_decode($json, true);
         $title = 'Pengaturan Profil';
-        return view('user.pages.profile.pengaturan', compact('user', 'title'));
+        return view('user.pages.profile.pengaturan', [
+            'user' => $user,
+            'title' => $title,
+            'provinces' => $provinces
+        ]);
     }
 
     public function updateProfil(Request $request)
@@ -43,9 +64,10 @@ class ProfileController extends Controller
         $request->validate([
             'fullname' => 'required|string|max:255',
             'address' => 'nullable|string|max:255',
+            'province' => 'nullable|string|',
             'phone' => 'nullable|string|max:20',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'headmaster' => 'nullable|string|max:255'
+            'headmaster' => 'nullable|string|max:255',
         ]);
 
         $changes = false;
@@ -60,6 +82,7 @@ class ProfileController extends Controller
         if ($request->address !== $user->details->address || $request->phone !== $user->details->phone || $request->headmaster !== $user->details->headmaster) {
             $user->details->update([
                 'address' => $request->address,
+                'province' => $request->province,
                 'phone' => $request->phone,
                 'headmaster' => $request->headmaster
             ]);
