@@ -37,6 +37,9 @@
         </tbody>
       </table>
     </div>
+    <div class="mx-3">
+      {{ $payments->links() }}
+    </div>
   </div>
 </div>
 @endsection
