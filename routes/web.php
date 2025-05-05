@@ -50,7 +50,8 @@ Route::middleware(['admin'])->name('admin.')->prefix('admin')->group(function ()
     Route::post('/payments/{id}/validation/', [PaymentController::class, 'validationPayment'])->name('payments.validation');
     Route::get('/registrations/index', [RegistrationController::class, 'index'])->name('registrations.index');
     Route::get('registrations/{user_id}/show', [RegistrationController::class, 'show'])->name('registrations.show');
-    Route::post('/registrations/approved', [RegistrationController::class, 'approvedCertification'])->name('registrations.approved');
+    Route::get('/registrations/{user_id}/approved/{id}', [RegistrationController::class, 'approved'])->name('registrations.approved');
+    Route::post('/registrations/approved-certification', [RegistrationController::class, 'approvedCertification'])->name('registrations.approved-certification');
     Route::resource('/bank-accounts', BankAccountController::class);
 });
 Route::post('logout', [AuthAdminController::class, 'logout'])->name('logout');
