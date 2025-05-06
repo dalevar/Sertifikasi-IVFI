@@ -14,6 +14,13 @@
         @enderror
       </div>
       <div class="mb-3">
+        <label for="title_en" class="form-label">Judul Jenis Setifikasi dalam Inggris</label>
+        <input type="text" name="title_en" id="title_en" class="form-control @error('title_en') is-invalid @enderror" value="{{ old('title_en', $certification->title_en) }}" />
+        @error('title_en')
+          <small class="text-danger">{{ $message }}</small>
+        @enderror
+      </div>
+      <div class="mb-3">
         <label for="description" class="form-label">Deskripsi</label>
         <textarea name="description" id="description" class="form-control @error('description') is-invalid @enderror" cols="30" rows="10">{{ old('description', $certification->description) }}</textarea>
         @error('description')

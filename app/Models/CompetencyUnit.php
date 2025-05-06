@@ -13,6 +13,7 @@ class CompetencyUnit extends Model
 
     protected $fillable = [
         'unit_name',
+        'unit_name_en',
         'unit_code',
         'certification_id'
     ];

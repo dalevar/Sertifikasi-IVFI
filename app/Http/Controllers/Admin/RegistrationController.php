@@ -71,7 +71,8 @@ class RegistrationController extends Controller
         }
         Registration::where('id', $request->registration_id)->update([
             'status' => $validate['status'],
-            'certification_number' => $certification_number
+            'certification_number' => $certification_number,
+            'publication' => Carbon::now()
         ]);
 
         return redirect()->back();

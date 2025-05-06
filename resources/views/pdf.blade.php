@@ -37,13 +37,7 @@
                 <table class="logo-table">
                     <tr>
                         <td class="logo-box">
-                            <img src="{{ public_path('images/apmfi_logo.png') }}" alt="APMFI Logo" class="logo">
-                        </td>
-                        <td class="logo-box">
                             <img src="{{ public_path('images/ivfi-pusat_logo.png') }}" alt="IVFI Logo" class="logo">
-                        </td>
-                        <td class="logo-box">
-                            <img src="{{ asset('storage/' . $logo) }}" alt="Logo" class="logo">
                         </td>
                     </tr>
                 </table>
@@ -56,7 +50,7 @@
             </div>
 
             <div class="certificate-number">
-                <p>Nomor : 001/PDIVFI-KALSEL/Serkom/VI/2024</p>
+                <p>Nomor: {{ $data->certification_number }}</p>
             </div>
 
             <div class="subtitle-title">UJI KOMPETENSI KEAHLIAN</div>
@@ -70,20 +64,20 @@
             <div class="institution-label">Dari</div>
             <div class="institution-label-en">From</div>
 
-            <div class="institution-name">SMK ISFI BANJARMASIN</div>
+            <div class="institution-name">{{ $user->fullname }}</div>
 
             <div class="achievement-text">Telah mengikuti Uji Kompetensi Keahlian</div>
             <div class="achievement-text-en">has taken the competency test</div>
 
             <div class="competency-field">{{ $data->certification->title }}</div>
-            <div class="competency-field-en">Skill competency of clinical and community pharmacy</div>
+            <div class="competency-field-en">{{ $data->certification->title_en }}</div>
 
             <div class="achievement-level">dengan Predikat :
                 {{ $data->status === 'approved' ? 'Kompeten' : 'Tidak Kompeten' }}</div>
             <div class="achievement-level-en">with achievement :
                 {{ $data->status === 'approved' ? 'Competent' : 'Not Competent' }}</div>
 
-            <div class="date">Yogyakarta, 6 Mei 2024</div>
+            <div class="date">{{ $province }}, {{ \Carbon\Carbon::parse($data->publication)->locale('id')->translatedFormat('d F Y') }}</div>
 
             <table class="signatures-table">
                 <tr>
@@ -106,7 +100,7 @@
                         </div>
                         <div class="signature-line"><img src="{{ public_path('images/sign_ipansyah.png') }}"
                                 alt=""></div>
-                        <div class="signature-name">{{ $headmaster }}</div>
+                        <div class="signature-name">apt. H.M. Noor Ipansyah, S.Si., MM</div>
                     </td>
                 </tr>
             </table>
@@ -115,7 +109,7 @@
     </div>
     <div class="certificate" id="second">
         <header style="padding-top: 3rem;">
-            <table class="logo-table">
+            {{-- <table class="logo-table">
                 <tr>
                     <td class="logo-box">
                         <img src="{{ public_path('images/apmfi_logo.png') }}" alt="APMFI Logo" class="logo">
@@ -127,7 +121,7 @@
                         <img src="{{ asset('storage/' . $logo) }}" alt="Logo" class="logo">
                     </td>
                 </tr>
-            </table>
+            </table> --}}
         </header>
 
         <main style="padding: 0 3rem 0 3rem;">
@@ -138,33 +132,33 @@
                 <thead>
                     <tr>
                         <th>No</th>
+                        <th>Kode Kompetensi</th>
                         <th>Unit Kompetensi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($data->certification->competencyUnits as $index => $unit)
                         <tr>
+                            <td>{{ $loop->iteration }}</td>
                             <td>{{ $unit->unit_code }}</td>
-                            <td>{{ $unit->unit_name }}</td>
+                            <td>{{ $unit->unit_name }} <br/> <span style="font-style: italic">{{ $unit->unit_name_en }}</span></td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
 
             <div class="signatures">
-                <div class="location-date">
-                    <p>Yogyakarta, 6 Mei 2024</p>
-                </div>
 
                 <table class="signature-table">
                     <tr>
                         <td class="signature-box">
                         </td>
                         <td class="signature-box">
+                            <p class="title">Panitia Penyelenggara</p>
                             <p class="title">Kepala Sekolah</p>
-                            <p class="region">SMK ISFI Banjarmasin</p>
+                            <p class="region">{{ $user->fullname }}</p>
                             <div class="logo">
-                                <img src="{{ asset('storage/' . $logo) }}" alt="Logo" style="margin-left: 12em">
+                                {{-- <img src="{{ asset('storage/' . $logo) }}" alt="Logo" style="margin-left: 12em"> --}}
                             </div>
                             <div class="signature-line"><img src="{{ public_path('images/sign_ipansyah.png') }}"
                                     alt=""></div>

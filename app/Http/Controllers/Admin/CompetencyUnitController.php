@@ -36,13 +36,15 @@ class CompetencyUnitController extends Controller
     {
         $request->validate(([
             'competency_units.*.unit_name' => 'required|string|max:255',
+            'competency_units.*.unit_name_en' => 'required|string|max:255',
             'competency_units.*.unit_code' => 'required|string|max:255|unique:competency_units,unit_code',
         ]));
 
         foreach ($request->competency_units as $unit) {
             CompetencyUnit::create([
-                'unit_name' => $unit['unit_name'],
-                'unit_code' => $unit['unit_code'],
+                'unit_name'     => $unit['unit_name'],
+                'unit_name_en'  => $unit['unit_name_en'],
+                'unit_code'     => $unit['unit_code'],
                 'certification_id' => $id
             ]);
         }

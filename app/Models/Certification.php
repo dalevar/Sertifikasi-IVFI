@@ -14,6 +14,7 @@ class Certification extends Model
 
     protected $fillable = [
         'title',
+        'title_en',
         'description',
         'price',
         'valid_periode',

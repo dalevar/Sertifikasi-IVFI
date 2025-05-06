@@ -8,10 +8,13 @@
       <div id="competency-units-container" class="mb-2">
         <div class="competency-unit">
           <div class="row g-3 align-items-center mb-2">
-            <div class="col-5">
+            <div class="col-4">
               <input type="text" name="competency_units[0][unit_name]" placeholder="Nama Unit Kompetensi" class="form-control" required>
             </div>
-            <div class="col-5">
+            <div class="col-4">
+              <input type="text" name="competency_units[0][unit_name_en]" placeholder="Nama Unit Kompetensi Inggris" class="form-control" required>
+            </div>
+            <div class="col-4">
               <input type="text" name="competency_units[0][unit_code]" placeholder="Kode Unit Kompetensi" class="form-control" required>
             </div>
           </div>

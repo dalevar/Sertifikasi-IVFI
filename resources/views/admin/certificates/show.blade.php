@@ -9,6 +9,10 @@
         <p>{{ $certification->title }}</p>
       </div>
       <div class="col-md-12 col-12">
+        <h6>Nama Sertifikasi dalam inggris:</h6>
+        <p class="fst-italic">{{ $certification->title_en }}</p>
+      </div>
+      <div class="col-md-12 col-12">
         <h6>Deskripsi:</h6>
         <p>{{ $certification->description }}</p>
       </div>
@@ -27,6 +31,7 @@
             <th>No</th>
             <th>Kode Unit</th>
             <th>Unit Kompetensi</th>
+            <th>Unit Kompetensi Inggris</th>
             <th>#</th>
           </tr>
         </thead>
@@ -36,6 +41,7 @@
               <td>{{ $loop->iteration }}</td>
               <td>{{ $show->unit_code }}</td>
               <td>{{ $show->unit_name }}</td>
+              <td>{{ $show->unit_name_en }}</td>
               <td>
                 <form action="{{ route('admin.certifications.delete_units', ['id' => $certification->id, 'unit_id' => $show->id]) }}" method="POST" class="d-inline">
                   @csrf

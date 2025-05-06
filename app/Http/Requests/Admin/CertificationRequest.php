@@ -23,6 +23,7 @@ class CertificationRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255',
+            'title_en' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|integer'
         ];
@@ -32,6 +33,7 @@ class CertificationRequest extends FormRequest
     {
         return [
             'title.required' => 'Judul Jenis Sertifikasi Wajib Diisi',
+            'title_en.required' => 'Judul Jenis Sertifikasi Wajib Diisi',
             'description.required' => 'Deskripsi Wajib Diisi',
             'price.required' => 'Harga Wajib Diisi',
             'price.integer' => 'Harga hanya boleh angka',
