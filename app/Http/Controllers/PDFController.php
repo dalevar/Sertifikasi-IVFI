@@ -17,7 +17,7 @@ class PDFController extends Controller
 
         $json = Storage::get("provinces.json");
         $provinces = json_decode($json, true);
-        
+
         foreach ($provinces as $data) {
             if ($user->details->province == $data['id']) {
                 $province = $data['name'];
@@ -31,13 +31,18 @@ class PDFController extends Controller
         $filename = "{$data->member->fullname} - {$data->certification->title}.pdf";
         $title = "{$data->member->fullname} - {$data->certification->title}";
 
+        // $qrCodePath = $data->qrcode_path ? public_path($data->qrcode_path) : null;
+        $qrCodePath = $data->qrcode_path;
+
         $pdf = Pdf::loadView('pdf', [
-            'data' => $data, 
-            'title' => $title, 
-            'user' => $user, 
-            'headmaster' => $headmaster, 
+            'data' => $data,
+            'title' => $title,
+            'user' => $user,
+            'headmaster' => $headmaster,
             'province' => $province,
-            'logo' => $logo]);
+            'qrCodePath' => $qrCodePath,
+            'logo' => $logo
+        ]);
         return $pdf->stream($filename);
     }
 }

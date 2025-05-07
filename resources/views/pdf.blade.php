@@ -77,7 +77,8 @@
             <div class="achievement-level-en">with achievement :
                 {{ $data->status === 'approved' ? 'Competent' : 'Not Competent' }}</div>
 
-            <div class="date">{{ $province }}, {{ \Carbon\Carbon::parse($data->publication)->locale('id')->translatedFormat('d F Y') }}</div>
+            <div class="date">{{ $province }},
+                {{ \Carbon\Carbon::parse($data->publication)->locale('id')->translatedFormat('d F Y') }}</div>
 
             <table class="signatures-table">
                 <tr>
@@ -141,7 +142,8 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $unit->unit_code }}</td>
-                            <td>{{ $unit->unit_name }} <br/> <span style="font-style: italic">{{ $unit->unit_name_en }}</span></td>
+                            <td>{{ $unit->unit_name }} <br /> <span
+                                    style="font-style: italic">{{ $unit->unit_name_en }}</span></td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -157,12 +159,18 @@
                             <p class="title">Panitia Penyelenggara</p>
                             <p class="title">Kepala Sekolah</p>
                             <p class="region">{{ $user->fullname }}</p>
-                            <div class="logo">
-                                {{-- <img src="{{ asset('storage/' . $logo) }}" alt="Logo" style="margin-left: 12em"> --}}
+                            {{-- <div class="logo">
+                                <img src="{{ asset('storage/' . $logo) }}" alt="Logo" style="margin-left: 12em">
                             </div>
                             <div class="signature-line"><img src="{{ public_path('images/sign_ipansyah.png') }}"
-                                    alt=""></div>
-                            <div class="signature-name">{{ $headmaster }}</div>
+                                    alt=""></div> --}}
+                            @if ($qrCodePath)
+                                <div style="margin-top: 10px; text-align:center;">
+                                    <img src="{{ public_path($qrCodePath) }}" width="80" alt="QR Code">
+                                    <div class="signature-name">{{ $headmaster }}</div>
+                                </div>
+                            @endif
+                            {{-- <div class="signature-name">{{ $headmaster }}</div> --}}
                         </td>
                         <td class="signature-box">
                         </td>

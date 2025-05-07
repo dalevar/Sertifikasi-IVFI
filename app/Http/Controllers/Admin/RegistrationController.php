@@ -11,6 +11,8 @@ use App\Models\UserDetail;
 use App\Services\CertificationNumberService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class RegistrationController extends Controller
 {
@@ -30,9 +32,9 @@ class RegistrationController extends Controller
             ->whereHas('member.user', function ($query) use ($user_id) {
                 $query->where('id', $user_id);
             })->get();
-        
+
         $countPending = 0;
-        foreach($registrations as $register) {
+        foreach ($registrations as $register) {
             if ($register->status === "pending") {
                 $countPending++;
             }
@@ -56,7 +58,7 @@ class RegistrationController extends Controller
         ]);
     }
 
- 
+
     public function approvedCertification(Request $request)
     {
         $user = UserDetail::where('user_id', $request->user_id)->first();
@@ -65,14 +67,33 @@ class RegistrationController extends Controller
         ]);
 
         $certification_number = $this->generateCertificationNumber($user->province);
+
+        //Initialize QrCode
+        $qrCodePath = null;
+
         if ($validate['status'] === 'approved') {
+            // Get the registration data
+            $schoolName = $user->fullname;
+            $headMaster = $user->headmaster;
+
+            // Content for QR Code
+            $qrCodeContent = "Sekolah: $schoolName\nKepala Sekolah: $headMaster\nNo. Sertifikat: $certification_number";
+
+            // Generate QR Code
+            $qrFileName = 'qrcodes/' . uniqid('qr_') . '.svg';
+            $qrFullPath = storage_path('app/public/' . $qrFileName);
+            QrCode::format('svg')->size(300)->generate($qrCodeContent, $qrFullPath);
+
+            // Store the QR Code path in the database
+            $qrCodePath = 'storage/' . $qrFileName;
         } else {
             $certification_number = null;
         }
         Registration::where('id', $request->registration_id)->update([
             'status' => $validate['status'],
             'certification_number' => $certification_number,
-            'publication' => Carbon::now()
+            'publication' => Carbon::now(),
+            'qrcode_path' => $qrCodePath
         ]);
 
         return redirect()->back();
@@ -83,8 +104,8 @@ class RegistrationController extends Controller
         $provinceId = str_pad($province_id, 3, '0', STR_PAD_LEFT);
 
         $last = Registration::whereNotNull('certification_number')
-                ->orderByRaw("CAST(SUBSTRING_INDEX(certification_number, '-', 1) AS UNSIGNED) DESC")
-                ->first();
+            ->orderByRaw("CAST(SUBSTRING_INDEX(certification_number, '-', 1) AS UNSIGNED) DESC")
+            ->first();
 
         if ($last && preg_match('/^(\d{3})-/', $last->certification_number, $matches)) {
             $lastNumber = (int)$matches[1];

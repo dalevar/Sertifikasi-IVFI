@@ -22,23 +22,11 @@ class UserSeeder extends Seeder
                 'role' => 'admin',
             ],
             // [
-            //     'fullname' => 'Ikatan Vokasi Farmasi Indonesia',
-            //     'email' => 'ivfi@ivfi.com',
+            //     'fullname' => 'SMK ISFI BANJARMASIN',
+            //     'email' => 'smkisfi@smkisfi.com',
             //     'password' => Hash::make('password'),
             //     'role' => 'user',
             // ],
-            // [
-            //     'fullname' => 'Gore Dale',
-            //     'email' => 'dale@ivfi.com',
-            //     'password' => Hash::make('password'),
-            //     'role' => 'user',
-            // ],
-            // [
-            //     'fullname' => 'Joko',
-            //     'email' => 'joko@ivfi.com',
-            //     'password' => Hash::make('password'),
-            //     'role' => 'user',
-            // ]
         ]);
     }
 }

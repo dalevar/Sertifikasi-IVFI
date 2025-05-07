@@ -18,7 +18,8 @@ class Registration extends Model
         'registration_date',
         'status',
         'certification_number',
-        'publication'
+        'publication',
+        'qrcode_path'
     ];
 
 
