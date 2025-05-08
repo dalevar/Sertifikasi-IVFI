@@ -37,7 +37,7 @@
                 <table class="logo-table">
                     <tr>
                         <td class="logo-box">
-                            <img src="{{ public_path('images/ivfi-pusat_logo.png') }}" alt="IVFI Logo" class="logo">
+                            <img src="{{ public_path('images/ivfi.png') }}" alt="IVFI Logo" class="logo">
                         </td>
                     </tr>
                 </table>
@@ -167,7 +167,7 @@
                             @if ($qrCodePath)
                                 <div style="margin-top: 10px; text-align:center;">
                                     <img src="{{ public_path($qrCodePath) }}" width="80" alt="QR Code">
-                                    <div class="signature-name">{{ $headmaster }}</div>
+                                    <div class="signature-name" style="margin-top: 10px">{{ $headmaster }}</div>
                                 </div>
                             @endif
                             {{-- <div class="signature-name">{{ $headmaster }}</div> --}}
