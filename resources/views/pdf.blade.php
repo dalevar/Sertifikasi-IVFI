@@ -88,9 +88,11 @@
                         <div class="logo">
                             <img src="{{ public_path('images/apmfi_logo.png') }}" alt="APMFI Logo">
                         </div>
-                        <div class="signature-line"><img src="{{ public_path('images/sign_leonov.png') }}"
-                                alt=""></div>
-                        <div class="signature-name">apt. Leonov Rianto, S.Si, M.Farm</div>
+                        <div class="signature-line">
+
+                            <img src="{{ public_path('images/sign_ipansyah.png') }}" alt="">
+                        </div>
+                        <div class="signature-name">Dr. apt. Leonov Rianto, S.Si, M.Farm</div>
                     </td>
                     <td class="signature">
                         <div class="signature-title">Ketua Umum</div>
@@ -99,8 +101,9 @@
                             <img src="{{ public_path('images/ivfi-pusat_logo.png') }}" alt="IVFI Logo"
                                 style="padding-left: 40px;">
                         </div>
-                        <div class="signature-line"><img src="{{ public_path('images/sign_ipansyah.png') }}"
-                                alt=""></div>
+                        <div class="signature-line">
+                            <img src="{{ public_path('images/sign_leonov.png') }}" alt="">
+                        </div>
                         <div class="signature-name">apt. H.M. Noor Ipansyah, S.Si., MM</div>
                     </td>
                 </tr>
