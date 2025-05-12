@@ -33,6 +33,7 @@ class PDFController extends Controller
 
         // $qrCodePath = $data->qrcode_path ? public_path($data->qrcode_path) : null;
         $qrCodePath = $data->qrcode_path;
+        $barcodePath = $data->barcode_path;
 
         $pdf = Pdf::loadView('pdf', [
             'data' => $data,
@@ -41,6 +42,7 @@ class PDFController extends Controller
             'headmaster' => $headmaster,
             'province' => $province,
             'qrCodePath' => $qrCodePath,
+            'barcodePath' => $barcodePath,
             'logo' => $logo
         ]);
         return $pdf->stream($filename);

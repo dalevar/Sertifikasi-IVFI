@@ -12,6 +12,8 @@ use App\Services\CertificationNumberService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Picqer\Barcode\BarcodeGeneratorPNG;
+use Picqer\Barcode\Renderers\PngRenderer;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class RegistrationController extends Controller
@@ -67,9 +69,11 @@ class RegistrationController extends Controller
         ]);
 
         $certification_number = $this->generateCertificationNumber($user->province);
+        $member = Registration::with('member')->where('id', $request->registration_id)->first();
 
         //Initialize QrCode
         $qrCodePath = null;
+        $barcodePath = null;
 
         if ($validate['status'] === 'approved') {
             // Get the registration data
@@ -77,15 +81,23 @@ class RegistrationController extends Controller
             $headMaster = $user->headmaster;
 
             // Content for QR Code
-            $qrCodeContent = "Sekolah: $schoolName\nKepala Sekolah: $headMaster\nNo. Sertifikat: $certification_number";
+            $qrCodeContent = "Sekolah: $schoolName\nKepala Sekolah: $headMaster";
+            $barcodeContent = "$certification_number";
 
             // Generate QR Code
             $qrFileName = 'qrcodes/' . uniqid('qr_') . '.svg';
             $qrFullPath = storage_path('app/public/' . $qrFileName);
             QrCode::format('svg')->size(300)->generate($qrCodeContent, $qrFullPath);
 
+            // Generate Barcode
+            $barcodeFilename = 'barcodes/' . uniqid('bar_') . '.png';
+            $geneatorBarcode = new BarcodeGeneratorPNG();
+            $barcode = $geneatorBarcode->getBarcode($barcodeContent, $geneatorBarcode::TYPE_CODE_128);
+            Storage::put($barcodeFilename, $barcode);
+            
             // Store the QR Code path in the database
             $qrCodePath = 'storage/' . $qrFileName;
+            $barcodePath = 'storage/' . $barcodeFilename;
         } else {
             $certification_number = null;
         }
@@ -93,7 +105,8 @@ class RegistrationController extends Controller
             'status' => $validate['status'],
             'certification_number' => $certification_number,
             'publication' => Carbon::now(),
-            'qrcode_path' => $qrCodePath
+            'qrcode_path' => $qrCodePath,
+            'barcode_path' => $barcodePath
         ]);
 
         return redirect()->back();

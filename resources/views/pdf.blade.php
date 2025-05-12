@@ -109,6 +109,12 @@
                 </tr>
             </table>
 
+            @if ($barcodePath)
+                <div style="margin-left: 518px;margin-top: 143px">
+                    <img src="{{ public_path($barcodePath) }}" width="200" alt="Barcode">
+                </div>
+            @endif
+
         </div>
     </div>
     <div class="certificate" id="second">
