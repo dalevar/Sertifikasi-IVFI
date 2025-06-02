@@ -112,13 +112,45 @@ class RegistrationController extends Controller
         return redirect()->back();
     }
 
+    public function resetCertification(Request $request)
+    {
+        $user = UserDetail::where('user_id', $request->user_id)->first();
+        $member = Registration::with('member')->where('id', $request->registration_id)->first();
+        
+        if ($member->qrcode_path && Storage::disk('public')->exists(str_replace('storage/', '', $member->qrcode_path))) {
+            Storage::disk('public')->delete(str_replace('storage/', '', $member->qrcode_path));
+        }
+
+        if ($member->barcode_path && Storage::disk('public')->exists(str_replace('storage/', '', $member->barcode_path))) {
+            Storage::disk('public')->delete(str_replace('storage/', '', $member->barcode_path));
+        }
+
+        Registration::where('id', $request->registration_id)->update([
+            'status' => 'pending',
+            'certification_number' => null,
+            'publication' => null,
+            'qrcode_path' => null,
+            'barcode_path' => null
+        ]);
+
+        return redirect()->back();
+    }
+
     private function generateCertificationNumber($province_id)
     {
         $provinceId = str_pad($province_id, 3, '0', STR_PAD_LEFT);
+        $bulan = Carbon::now()->month;
+        $tahun = Carbon::now()->year;
 
         $last = Registration::whereNotNull('certification_number')
+            ->whereMonth('created_at', $bulan)
+            ->whereYear('created_at', $tahun)
             ->orderByRaw("CAST(SUBSTRING_INDEX(certification_number, '-', 1) AS UNSIGNED) DESC")
             ->first();
+
+        // $last = Registration::whereNotNull('certification_number')
+        //     ->orderByRaw("CAST(SUBSTRING_INDEX(certification_number, '-', 1) AS UNSIGNED) DESC")
+        //     ->first();
 
         if ($last && preg_match('/^(\d{3})-/', $last->certification_number, $matches)) {
             $lastNumber = (int)$matches[1];

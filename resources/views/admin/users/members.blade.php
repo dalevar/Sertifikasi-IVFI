@@ -15,7 +15,9 @@
         <h3>{{ strtoupper($user->fullname) }}</h3>
         <p><span class="fw-bold">Email</span>: {{ $user->email }}</p>
         <p><span class="fw-bold">Alamat</span>: {{ $user->details->address }}</p>
+        <p><span class="fw-bold">Provinsi</span>: {{ $province }}</p>
         <p><span class="fw-bold">Telepon/HP</span>: {{ $user->details->phone }}</p>
+        <p><span class="fw-bold">Kepala Sekolah</span>: {{ $user->details->headmaster == NULL ? "" : $user->details->headmaster }}</p>
       </div>
     </div>
     <div class="table-responsive">

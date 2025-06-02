@@ -21,6 +21,12 @@
         <h6>Status</h6>
         <p>Nomor Sertifikat: {{ $registration->certification_number }}</p>
         <p><strong class="text-success">Sertifikat Telah Diterbitkan</strong></p>
+        <form action="{{ route('admin.registrations.reset-certification') }}" method="POST">
+          @csrf
+          <input type="hidden" name="registration_id" value="{{ $registration->id }}">
+          <input type="hidden" name="user_id" value="{{ $user->id }}">
+          <button type="submit" class="btn btn-warning">Reset</button>
+        </form>
       @else
       <form action="{{ route('admin.registrations.approved-certification') }}" method="POST">
         @csrf

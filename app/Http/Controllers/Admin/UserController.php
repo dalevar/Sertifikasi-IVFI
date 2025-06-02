@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Member;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -21,11 +22,24 @@ class UserController extends Controller
     public function show(string $id)
     {
         $user = User::with('details')->where('id', $id)->first();
+         $json = Storage::get("provinces.json");
+        $provinces = json_decode($json, true);
+        
+        if ($user->details->province == NULL) {
+            $province = "";
+        } else {
+            foreach ($provinces as $data) {
+                if ($user->details->province == $data['id']) {
+                    $province = $data['name'];
+                }
+            }
+        }
         $members = Member::where('user_id', $id)->paginate(10);
         return view('admin.users.members', [
             'title' => 'Detail dan Daftar Anggota',
             'user' => $user,
-            'members' => $members
+            'members' => $members,
+            'province' => $province
         ]);
     }
 }

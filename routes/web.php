@@ -52,6 +52,7 @@ Route::middleware(['admin'])->name('admin.')->prefix('admin')->group(function ()
     Route::get('registrations/{user_id}/show', [RegistrationController::class, 'show'])->name('registrations.show');
     Route::get('/registrations/{user_id}/approved/{id}', [RegistrationController::class, 'approved'])->name('registrations.approved');
     Route::post('/registrations/approved-certification', [RegistrationController::class, 'approvedCertification'])->name('registrations.approved-certification');
+    Route::post('/registrations/reset-certification', [RegistrationController::class, 'resetCertification'])->name('registrations.reset-certification');
     Route::resource('/bank-accounts', BankAccountController::class);
 });
 Route::post('logout', [AuthAdminController::class, 'logout'])->name('logout');
