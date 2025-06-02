@@ -8,19 +8,26 @@ use App\Models\Payment;
 use App\Models\Registration;
 use App\Models\User;
 use App\Models\UserDetail;
-use App\Services\CertificationNumberService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Picqer\Barcode\BarcodeGeneratorPNG;
-use Picqer\Barcode\Renderers\PngRenderer;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class RegistrationController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $payments = Payment::with('user')->where('status', 'success')->latest()->paginate(10);
+        $query = Payment::with('user')->where('status', 'success');
+
+        if ($request->has('search') && $request->search != '') {
+            $query->whereHas('user', function ($q) use ($request) {
+                $q->where('fullname', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        $payments = $query->latest()->paginate(10)->withQueryString();
+
         return view('admin.registrations.index', [
             'title' => 'Daftar Pendaftaran Sertifikasi',
             'payments' => $payments

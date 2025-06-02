@@ -11,9 +11,18 @@ class PaymentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $payments = Payment::with('user')->paginate(10);
+         $query = Payment::with('user');
+
+        if ($request->has('search') && $request->search != '') {
+            $query->whereHas('user', function ($q) use ($request) {
+                $q->where('fullname', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        $payments = $query->latest()->paginate(10)->withQueryString();
+
         return view('admin.payments.index', [
             'title' => 'Daftar Pembayaran',
             'payments' => $payments

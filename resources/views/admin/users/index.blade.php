@@ -3,6 +3,12 @@
 @section('content')
 <div class="card">
   <div class="card-body">
+    <div class="col-5">
+      <form action="{{ route('admin.users.index') }}" method="GET" class="mb-3 d-flex">
+        <input type="text" name="search" class="form-control" placeholder="Cari" value="{{ request('search') }}">
+        <button type="submit" class="btn btn-primary ms-2">Cari</button>
+      </form>
+    </div>
     <div class="table-responsive">
       <table class="table table-striped table-hover">
         <thead>

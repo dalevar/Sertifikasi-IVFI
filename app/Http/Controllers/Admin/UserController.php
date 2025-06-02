@@ -10,9 +10,20 @@ use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::where('role', 'user')->withCount(['members'])->paginate(10);
+        $query = User::where('role', 'user')->withCount('members');
+
+        if ($request->has('search') && $request->search !== '') {
+            $searchTerm = $request->search;
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('fullname', 'like', '%' . $searchTerm . '%')
+                ->orWhere('email', 'like', '%' . $searchTerm . '%');
+            });
+        }
+
+        $users = $query->latest()->paginate(10)->withQueryString();
+
         return view('admin.users.index', [
             'title' => 'Pengguna Terdaftar',
             'users' => $users
