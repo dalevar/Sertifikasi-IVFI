@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Member;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
@@ -52,5 +53,14 @@ class UserController extends Controller
             'members' => $members,
             'province' => $province
         ]);
+    }
+
+    public function resetPassword(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $user->password = Hash::make('12345678');
+        $user->save();
+
+        return redirect()->route('admin.users.index')->with('success', 'Password berhasil direset ke 12345678.');
     }
 }

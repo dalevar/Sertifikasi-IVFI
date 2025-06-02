@@ -45,6 +45,7 @@ Route::middleware(['admin'])->name('admin.')->prefix('admin')->group(function ()
     Route::post('/certifications/{id}/store-units', [CompetencyUnitController::class, 'store'])->name('certifications.store-units');
     Route::post('/certifications/{id}/delete-units/{unit_id}', [CompetencyUnitController::class, 'destroy'])->name('certifications.delete_units');
     Route::resource('/users', UserController::class);
+    Route::post('/users/{user}/reset-password', [UserController::class, 'resetPassword'])->name('users.reset-password');
     Route::get('users/{id}/member/', [AdminMemberController::class, 'show'])->name('users.member');
     Route::resource('/payments', PaymentController::class);
     Route::post('/payments/{id}/validation/', [PaymentController::class, 'validationPayment'])->name('payments.validation');

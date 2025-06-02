@@ -9,6 +9,13 @@
         <button type="submit" class="btn btn-primary ms-2">Cari</button>
       </form>
     </div>
+
+    @if(session('success'))
+      <div class="alert alert-success">
+        {{ session('success') }}
+      </div>
+    @endif
+
     <div class="table-responsive">
       <table class="table table-striped table-hover">
         <thead>
@@ -29,6 +36,11 @@
               <td>{{ $user->members_count }}</td>
               <td>
                 <a href="{{ route('admin.users.show', $user->id) }}" class="btn btn-sm btn-info">Detail</a>
+                <form action="{{ route('admin.users.reset-password', $user->id) }}" method="POST" class="d-inline"
+                      onsubmit="return confirm('Yakin reset password user ini ke 12345678?')">
+                  @csrf
+                  <button type="submit" class="btn btn-sm btn-warning">Reset Password</button>
+                </form>
               </td>
             </tr>
           @empty
