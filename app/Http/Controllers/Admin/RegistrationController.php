@@ -143,6 +143,33 @@ class RegistrationController extends Controller
         return redirect()->back();
     }
 
+    public function updateCertificationNumber(Request $request)
+    {
+        $member = Registration::with('member')->where('id', $request->registration_id)->first();
+
+        if ($member->barcode_path && Storage::disk('public')->exists(str_replace('storage/', '', $member->barcode_path))) {
+            Storage::disk('public')->delete(str_replace('storage/', '', $member->barcode_path));
+        }
+
+        $barcodePath = null;
+        $barcodeContent = $request->certification_number;
+
+        // Generate Barcode
+        $barcodeFilename = 'barcodes/' . uniqid('bar_') . '.png';
+        $geneatorBarcode = new BarcodeGeneratorPNG();
+        $barcode = $geneatorBarcode->getBarcode($barcodeContent, $geneatorBarcode::TYPE_CODE_128);
+        Storage::put($barcodeFilename, $barcode);
+
+        $barcodePath = 'storage/' . $barcodeFilename;
+
+        Registration::where('id', $request->registration_id)->update([
+            'certification_number' => $request->certification_number,
+            'barcode_path' => $barcodePath
+        ]);
+
+        return redirect()->back();
+    }
+
     private function generateCertificationNumber($province_id)
     {
         $provinceId = str_pad($province_id, 3, '0', STR_PAD_LEFT);
