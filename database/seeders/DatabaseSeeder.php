@@ -22,8 +22,12 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             UserSeeder::class,
-            MemberSeeder::class,
-            UserDetailSeeder::class,
+            // MemberSeeder::class,
+            // UserDetailSeeder::class,
+            // RolePermissionSeeder::class,
+            // CertificationSeeder::class,
+            // RegistrationSeeder::class,
+            // PaymentSeeder::class,
         ]);
     }
 }

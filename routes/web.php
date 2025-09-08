@@ -1,15 +1,128 @@
 <?php
 
+use App\Http\Controllers\Admin\BankAccountController;
+use App\Http\Controllers\Admin\CertificationController;
+use App\Http\Controllers\Admin\CompetencyUnitController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\MemberController as AdminMemberController;
+use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\Admin\RegistrationController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\AuthAdminController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\User\ProfileController;
+use App\Http\Controllers\User\MemberController;
+use App\Http\Controllers\User\CertificateRegistrationController;
+use App\Http\Controllers\User\DownloadCertificateController;
+use App\Http\Controllers\User\PaymentHistoryController;
+use App\Http\Controllers\PDFController;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 Route::get('/', function () {
-    return view('welcome');
+    return to_route('login');
 });
 
-Route::get('/admin', function () {
-    return view('admin.dashboard');
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
+
+Route::get('/register', function () {
+    return view('auth.register');
+})->name('register');
+
+/**
+ *  Route for layouting Admin Page (Dashboard)
+ */
+Route::get('/admin/login', [AuthAdminController::class, 'adminLogin'])->name('admin.login');
+Route::post('/admin/login', [AuthAdminController::class, 'adminAuthentication']);
+Route::middleware(['admin'])->name('admin.')->prefix('admin')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('/certificates', CertificationController::class);
+    Route::get('/certifications/{id}/create-units', [CompetencyUnitController::class, 'create'])->name('certifications.create-units');
+    Route::post('/certifications/{id}/store-units', [CompetencyUnitController::class, 'store'])->name('certifications.store-units');
+    Route::post('/certifications/{id}/delete-units/{unit_id}', [CompetencyUnitController::class, 'destroy'])->name('certifications.delete_units');
+    Route::resource('/users', UserController::class);
+    Route::post('/users/{user}/reset-password', [UserController::class, 'resetPassword'])->name('users.reset-password');
+    Route::get('users/{id}/member/', [AdminMemberController::class, 'show'])->name('users.member');
+    Route::resource('/payments', PaymentController::class);
+    Route::post('/payments/{id}/validation/', [PaymentController::class, 'validationPayment'])->name('payments.validation');
+    Route::get('/registrations/index', [RegistrationController::class, 'index'])->name('registrations.index');
+    Route::get('registrations/{user_id}/show', [RegistrationController::class, 'show'])->name('registrations.show');
+    Route::get('/registrations/{user_id}/approved/{id}', [RegistrationController::class, 'approved'])->name('registrations.approved');
+    Route::post('/registrations/approved-certification', [RegistrationController::class, 'approvedCertification'])->name('registrations.approved-certification');
+    Route::post('/registrations/reset-certification', [RegistrationController::class, 'resetCertification'])->name('registrations.reset-certification');
+    Route::post('/registrations/update-certification-number', [RegistrationController::class, 'updateCertificationNumber'])->name('registrations.update-certification-number');
+    Route::resource('/bank-accounts', BankAccountController::class);
+});
+Route::post('logout', [AuthAdminController::class, 'logout'])->name('logout');
+
+/**
+ * Authentification User Route
+ */
+Auth::routes();
+Route::get('/logout', function () {
+    Auth::logout();
+    return redirect('/login');
 });
 
-Route::get('/user', function () {
-    return view('user');
-});
+
+/**
+ * Route for layouting User Page (Dashboard)
+ */
+Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+Route::get('/dashboard/{id}', [HomeController::class, 'getMemberDetails'])->name('dashboard.show');
+
+
+/**
+ * Route for User Profile
+ */
+Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+Route::get('/profile/pengaturan', [ProfileController::class, 'pengaturan'])->name('profile.settings');
+Route::put('/profile/update/profil', [ProfileController::class, 'updateProfil'])->name('profile.update.profil');
+Route::put('/profile/update/akun', [ProfileController::class, 'updateAkun'])->name('profile.update.akun');
+
+
+
+/**
+ * Route for Member
+ */
+Route::resource('members', MemberController::class);
+Route::post('members/create', [MemberController::class, 'import'])->name('members.import');
+Route::get('download-template', [MemberController::class, 'downloadTemplate'])->name('members.download-template');
+
+
+/**
+ * Route for Certificate Registration User
+ */
+Route::get('/certifications', [CertificateRegistrationController::class, 'index'])->name('certifications.index');
+Route::get('/certifications/{certification}/create', [CertificateRegistrationController::class, 'create'])->name('certifications.create');
+Route::post('/certifications/store', [CertificateRegistrationController::class, 'store'])->name('certifications.store');
+Route::get('/certifications/{registration}', [CertificateRegistrationController::class, 'show'])->name('registration.show');
+
+/**
+ * Route for Download Certificate User
+ *
+ * download-certificate.index -> Menampilkan data sertifikat yang telah didaftarkan oleh user
+ * download-certificate.show -> Menampilkan detail sertifikat yang telah didaftarkan oleh user
+ * download-certificate.download -> Mengunduh sertifikat member yang telah didaftarkan oleh user
+ *
+ */
+Route::get('/download-certificate', [DownloadCertificateController::class, 'index'])->name('download-certificate.index');
+Route::get('/download-certificate/{registration}', [DownloadCertificateController::class, 'show'])->name('download-certificate.show');
+Route::get('/download-certificate/{registrationId}/{certificationId}', [PDFController::class, 'download'])
+    ->name('download-certificate.download')
+    ->middleware('auth');
+/**
+ * Route for Payment Histories
+ * Payment-histories.index -> Menampilkan data pembayaran yang telah dilakukan oleh user
+ * Payment-histories.show -> Menampilkan detail pembayaran
+ * Payment-histories.invoice -> Menampilkan invoice pembayaran
+ * Payment-histories.update -> Mengupdate status pembayaran
+ */
+Route::get('/payment-histories', [PaymentHistoryController::class, 'index'])->name('payment-histories.index');
+Route::get('payment-histories/{id}', [PaymentHistoryController::class, 'show'])->name('payment-histories.show');
+Route::get('/payment/{id}', [PaymentHistoryController::class, 'invoice'])->name('payment-histories.invoice');
+Route::patch('/payment/{paymentHistory}/update', [PaymentHistoryController::class, 'update'])->name('payment.upload-proof');

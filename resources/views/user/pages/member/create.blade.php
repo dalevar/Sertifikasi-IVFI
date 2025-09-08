@@ -1,0 +1,325 @@
+@extends('layouts.user')
+
+@section('breadcrumb')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('members.index') }}">Kelola Anggota</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Tambah Anggota</li>
+        </ol>
+    </nav>
+@endsection
+
+@section('page-heading')
+    <div class="row">
+        <div class="order-last col-12 col-md-6 order-md-1">
+            <h3>Tambah Anggota</h3>
+            <p class="text-subtitle text-muted">
+                Tambahkan anggota baru ke dalam sistem dengan mengisi form di bawah ini.
+            </p>
+        </div>
+        <div class="order-first col-12 col-md-6 order-md-2">
+            <button type="button" class="btn btn-success float-end" data-bs-toggle="modal" data-bs-target="#import"><i
+                    class="bi bi-person-fill-add"></i>
+                Unggah File Excel
+            </button>
+        </div>
+    </div>
+@endsection
+
+@section('content')
+    <section class="row">
+        <div class="col-12 col-lg-12">
+            <div class="row">
+                <div class="col-12 col-xl-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="divider divider-left">
+                                <div class="divider-text h4">Tambah Anggota</div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <form id="addForm" class="form" action="{{ route('members.store') }}" method="POST"
+                                data-parsley-validate>
+                                @csrf
+
+                                <div class="row">
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group mandatory">
+                                            <label for="fullname" class="form-label">Nama Lengkap</label>
+                                            <input type="text" id="fullname" class="form-control" name="fullname"
+                                                data-parsley-required="true" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group mandatory">
+                                            <label for="number_identity" class="form-label">No. Indentitas (NIK)</label>
+                                            <input type="text" id="number_identity" class="form-control"
+                                                name="number_identity" data-parsley-required="true" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group mandatory">
+                                            <label for="birthplace" class="form-label">Tempat Lahir</label>
+                                            <input type="text" id="birthplace" class="form-control" name="birthplace"
+                                                data-parsley-required="true" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group mandatory">
+                                            <label for="birthday" class="form-label">Tanggal Lahir</label>
+                                            <input type="date" id="birthday" class="form-control" name="birthday"
+                                                data-parsley-required="true" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group mandatory">
+                                            <label for="" class="form-label">Jenis Kelamin</label>
+                                            <div class="mb-1">
+                                                <div class="form-check form-check-inline">
+                                                    <input type="radio" class="form-check-input" name="gender"
+                                                        id="Laki-Laki" value="L">
+                                                    <label class="form-check-label" for="Laki-Laki">
+                                                        Laki-Laki
+                                                    </label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input type="radio" class="form-check-input" name="gender"
+                                                        id="Perempuan" value="P">
+                                                    <label class="form-check-label" for="Perempuan">
+                                                        Perempuan
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="col-md-12 col-12">
+                                        <div class="form-group mandatory">
+                                            <label for="address" class="form-label">Alamat</label>
+                                            <textarea name="address" id="address" cols="20" rows="5" class="form-control" style="resize: none"
+                                                data-parsley-required="true"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="co-md-12 col-12">
+                                        <div class="form-group mandatory">
+                                            <label for="phone" class="form-label">No. Telepon/HP</label>
+                                            <input type="text" name="phone" id="phone" class="form-control"
+                                                data-parsley-required="true">
+                                        </div>
+                                    </div>
+                                    <div class="co-md-12 col-12">
+                                        <div class="form-group mandatory">
+                                            <label for="email" class="form-label">Email</label>
+                                            <input type="email" name="email" id="email" class="form-control"
+                                                data-parsley-required="true">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 d-flex justify-content-start">
+                                        <!-- Kembali -->
+                                        <a href="{{ route('members.index') }}"
+                                            class="mb-1 btn btn-outline-secondary me-1">Kembali</a>
+                                        <button type="submit" class="mb-1 btn btn-primary me-1">
+                                            Tambah
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- modal -->
+    <div class="text-left modal fade" id="import" tabindex="-1" role="dialog" aria-labelledby="myModalLabel110"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-success">
+                    <h5 class="modal-title white" id="myModalLabel110">
+                        Import Data Anggota
+                    </h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <i data-feather="x"></i>
+                    </button>
+                </div>
+                <form id="importForm" action="{{ route('members.import') }}" method="POST"
+                    enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>PILIH FILE</label>
+                            <input type="file" name="file" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        {{-- Download Template --}}
+                        <button type="button" class="btn btn-outline-secondary me-auto" data-bs-dismiss="modal"
+                            aria-label="Close">Tutup</button>
+
+                        <a href="{{ route('members.download-template') }}" class="btn btn-outline-success">
+                            Unduh Template
+                        </a>
+                        <button type="submit" class="btn btn-success">Import</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $("#addForm").on("submit", function(e) {
+                e.preventDefault();
+
+                var form = $(this);
+                var formData = form.serialize();
+
+                $.ajax({
+                    url: form.attr("action"),
+                    type: "POST",
+                    data: formData,
+                    dataType: "json",
+                    beforeSend: function() {
+                        Swal.fire({
+                            title: "Memproses...",
+                            text: "Harap tunggu sebentar.",
+                            showConfirmButton: false,
+                            allowOutsideClick: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: () => {
+                                Swal.showLoading();
+                            }
+                        });
+                    },
+                    success: function(response) {
+                        Swal.close();
+
+                        if (response.success) {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Berhasil! Dapat Berhasil Ditambahkan",
+                                text: response.message,
+                                showConfirmButton: false,
+                                timer: 3000,
+                                toast: true,
+                                position: "top-end",
+                                timerProgressBar: true
+                            });
+
+                            // Reload halaman setelah sukses
+                            setTimeout(() => {
+                                window.location.href = "{{ route('members.index') }}";
+                            }, 3000);
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Gagal!",
+                                text: response.message ||
+                                    "Terjadi kesalahan yang tidak diketahui.",
+                                confirmButtonText: "Tutup"
+                            });
+                        }
+                    },
+                    error: function(xhr) {
+                        Swal.close();
+
+                        if (xhr.status === 422) {
+                            let errors = xhr.responseJSON.errors;
+                            let errorMessage = Object.values(errors).map(error => error.join(
+                                ", ")).join("\n");
+
+                            Swal.fire({
+                                icon: "error",
+                                title: "Tambah Anggota Gagal!",
+                                text: errorMessage,
+                                confirmButtonText: "Perbaiki"
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Gagal!",
+                                text: "Terjadi kesalahan saat menambahkan anggota.",
+                                confirmButtonText: "Coba Lagi"
+                            });
+                        }
+                    }
+                });
+            });
+        });
+
+        $(document).ready(function() {
+            $("#importForm").on("submit", function(e) {
+                e.preventDefault();
+
+                var formData = new FormData(this);
+
+                $.ajax({
+                    url: $(this).attr("action"),
+                    type: "POST",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    dataType: "json",
+                    beforeSend: function() {
+                        Swal.fire({
+                            title: "Mengimpor Data...",
+                            text: "Harap tunggu sebentar.",
+                            showConfirmButton: false,
+                            allowOutsideClick: false,
+                            didOpen: () => Swal.showLoading()
+                        });
+                    },
+                    success: function(response) {
+                        Swal.close();
+
+                        if (response.success) {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Sukses!",
+                                text: response.message,
+                                showConfirmButton: false,
+                                timer: 3000,
+                                toast: true,
+                                position: "top-end",
+                                timerProgressBar: true
+                            });
+
+                            // Tutup modal
+                            $("#import").modal("hide");
+
+                            // Reset form
+                            $("#importForm").trigger("reset");
+
+                            // Reload halaman
+                            setTimeout(() => {
+                                window.location.href = "{{ route('members.index') }}";
+                            }, 3000);
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Gagal!",
+                                text: response.message || "Terjadi kesalahan.",
+                                confirmButtonText: "Tutup"
+                            });
+                        }
+                    },
+                    error: function(xhr) {
+                        Swal.close();
+                        Swal.fire({
+                            icon: "error",
+                            title: "Gagal Mengimpor!",
+                            text: xhr.responseJSON?.message || "Terjadi kesalahan.",
+                            confirmButtonText: "Coba Lagi"
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+@endpush

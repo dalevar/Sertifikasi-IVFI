@@ -1,0 +1,329 @@
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('assets/extensions/filepond/filepond.css') }}">
+    <link rel="stylesheet"
+        href="{{ asset('assets/extensions/filepond-plugin-image-preview/filepond-plugin-image-preview.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/extensions/toastify-js/src/toastify.css') }}">
+@endpush
+@extends('layouts.user')
+
+@section('breadcrumb')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('payment-histories.index') }}">Riwayat Pembayaran</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">Invoice</li>
+        </ol>
+    </nav>
+@endsection
+
+@section('page-heading')
+    <div class="row">
+        <div class="order-last col-12 col-md-6 order-md-1">
+            <h3>Invoice</h3>
+            <p class="text-subtitle text-muted">
+                Detail invoice pembayaran sertifikat.
+            </p>
+        </div>
+    </div>
+@endsection
+
+@section('content')
+    <section class="row">
+        <div class="col-12 col-sm-8">
+            <div class="card">
+                <div class="card-header">
+                    <div class="divider divider-center">
+                        <span class="divider-text h4">Informasi Pembayaran</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="mb-4">
+                            <p class="text-muted">Status :
+                                @if ($payment->status == 'paid')
+                                    <span class="badge text-bg-success">Lunas</span>
+                                @else
+                                    <span class="badge text-bg-warning">Belum Lunas</span>
+                                @endif
+                            </p>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="mb-4">
+                                <p class="text-muted">Nomor Invoice</p>
+                                <h6 class="font-bold">{{ $payment->id }}</h6>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="mb-4">
+                                <p class="text-muted">Tanggal Invoice</p>
+                                <h6 class="font-bold">{{ $payment->date->format('d-m-Y') }}</h6>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="mb-4">
+                                <p class="text-muted">Sertifikat</p>
+                                @foreach ($certifications as $certification)
+                                    <h6 class="font-bold">{{ $certification->title }}</h6>
+                                @endforeach
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="mb-4">
+                                <p class="text-muted">Total Anggota</p>
+                                <h6 class="font-bold">{{ $totalRegisteredMembers }}</h6>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="mb-4">
+                                <p class="text-muted">Harga</p>
+                                <h6 class="font-bold">
+                                    Rp. {{ number_format($certifications->sum('price'), 0, ',', '.') }}
+                                </h6>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="mb-4">
+                                <p class="text-muted">Total Pembayaran</p>
+                                <h6 class="font-bold">Rp. {{ number_format($payment->total_amount, 0, ',', '.') }}</h6>
+                            </div>
+                        </div>
+
+
+                        <div class="gap-2 mt-5 d-grid">
+                            <a href="{{ route('payment-histories.index') }}" class="btn btn-outline-secondary">Cek Riwayat
+                                Pembayaran</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bagian Status Pembayaran -->
+        <div class="col-12 col-sm-4">
+            <div class="card">
+                <div class="card-header">
+                    <div class="divider divider-center">
+                        <span class="divider-text h4">Pembayaran</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form id="updateForm" action="{{ route('payment.upload-proof', $payment->id) }}" method="POST"
+                        enctype="multipart/form-data">
+                        @method('PATCH')
+                        @csrf
+                        <div class="mb-4">
+                            <p class="text-muted">Transfer Bank : </p>
+                            <select class="form-select col-md-1" name="bank" id="bankSelect" required>
+                                <option value="">Pilih Bank</option>
+                                @foreach ($bankAccounts as $bank)
+                                    <option value="{{ $bank->id }}" data-account-number="{{ $bank->account_number }}"
+                                        data-account-holder="{{ $bank->account_holder }}"
+                                        {{ $payment->bank_account_id == $bank->id ? 'selected' : '' }}>
+                                        {{ strtoupper($bank->bank_name) }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-12 col-12">
+                            <div class="mb-4">
+                                <p class="text-muted">Rekening Pembayaran :
+                                </p>
+                                <h6 class="font-bold" id="accountNumber">
+                                    {{ $payment->bankAccount
+                                        ? $payment->bankAccount->account_number . ' a/n ' . $payment->bankAccount->account_holder
+                                        : 'Pilih bank terlebih dahulu' }}
+                                </h6>
+
+
+                            </div>
+                        </div>
+                        <div class="mb-4" id="payment">
+                            <p class="text-muted">Bukti Pembayaran</p>
+                            <div class="filepond--root image-preview-filepond filepond--hopper"
+                                data-style-button-remove-item-position="left"
+                                data-style-button-process-item-position="right" data-style-load-indicator-position="right"
+                                data-style-progress-indicator-position="right" data-style-button-remove-item-align="false"
+                                style="height: 76px;"><input class="filepond--browser" type="file"
+                                    id="filepond--browser-956xbvmtz" name="proof"
+                                    aria-controls="filepond--assistant-956xbvmtz"
+                                    aria-labelledby="filepond--drop-label-956xbvmtz"
+                                    accept="image/png,image/jpg,image/jpeg">
+                                <div class="filepond--drop-label"
+                                    style="transform: translate3d(0px, 0px, 0px); opacity: 1;"><label
+                                        for="filepond--browser-956xbvmtz" id="filepond--drop-label-956xbvmtz"
+                                        aria-hidden="true">Seret &amp;
+                                        Lepaskan file Anda atau <span class="filepond--label-action"
+                                            tabindex="0">Pilih</span></label></div>
+                                <div class="filepond--list-scroller" style="transform: translate3d(0px, 0px, 0px);">
+                                    <ul class="filepond--list" role="list"></ul>
+                                </div>
+                                <div class="filepond--panel filepond--panel-root" data-scalable="true">
+                                    <div class="filepond--panel-top filepond--panel-root"></div>
+                                    <div class="filepond--panel-center filepond--panel-root"
+                                        style="transform: translate3d(0px, 8px, 0px) scale3d(1, 0.6, 1);">
+                                    </div>
+                                    <div class="filepond--panel-bottom filepond--panel-root"
+                                        style="transform: translate3d(0px, 68px, 0px);"></div>
+                                </div><span class="filepond--assistant" id="filepond--assistant-956xbvmtz" role="status"
+                                    aria-live="polite" aria-relevant="additions"></span>
+                                <fieldset class="filepond--data"></fieldset>
+                                <div class="filepond--drip"></div>
+                            </div>
+                            <!-- Tombol Pembayaran -->
+                            <div class="gap-2 mt-4 d-grid">
+                                <button class="btn btn-primary">Kirim Pembayaran</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+@endsection
+
+@push('scripts')
+    <script
+        src="{{ asset('assets/extensions/filepond-plugin-file-validate-size/filepond-plugin-file-validate-size.min.js') }}">
+    </script>
+    <script
+        src="{{ asset('assets/extensions/filepond-plugin-file-validate-type/filepond-plugin-file-validate-type.min.js') }}">
+    </script>
+    <script src="{{ asset('assets/extensions/filepond-plugin-image-crop/filepond-plugin-image-crop.min.js') }}"></script>
+    <script
+        src="{{ asset('assets/extensions/filepond-plugin-image-exif-orientation/filepond-plugin-image-exif-orientation.min.js') }}">
+    </script>
+    <script src="{{ asset('assets/extensions/filepond-plugin-image-filter/filepond-plugin-image-filter.min.js') }}">
+    </script>
+    <script src="{{ asset('assets/extensions/filepond-plugin-image-preview/filepond-plugin-image-preview.min.js') }}">
+    </script>
+    <script src="{{ asset('assets/extensions/filepond-plugin-image-resize/filepond-plugin-image-resize.min.js') }}">
+    </script>
+    <script src="{{ asset('assets/extensions/filepond/filepond.js') }}"></script>
+    <script src="{{ asset('assets/extensions/toastify-js/src/toastify.js') }}"></script>
+    <script src="{{ asset('assets/static/js/pages/filepond.js') }}"></script>
+
+    <script>
+        $(document).ready(function() {
+            $("#updateForm").on("submit", function(e) {
+                e.preventDefault();
+
+                let formData = new FormData(this);
+
+                $.ajax({
+                    url: $(this).attr("action"),
+                    type: "POST",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    dataType: "json",
+                    beforeSend: function() {
+                        Swal.fire({
+                            title: "Mengunggah...",
+                            text: "Harap tunggu sebentar.",
+                            showConfirmButton: false,
+                            allowOutsideClick: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                            }
+                        });
+                    },
+                    success: function(response) {
+                        Swal.close();
+
+                        if (response.success) {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Berhasil!",
+                                text: response.message,
+                                showConfirmButton: false,
+                                timer: 3000,
+                                toast: true,
+                                position: "top-end",
+                                timerProgressBar: true
+                            });
+
+
+                            setTimeout(() => {
+                                window.location.href =
+                                    "{{ route('payment-histories.index') }}";
+                            }, 3000);
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Gagal!",
+                                text: response.message || "Terjadi kesalahan.",
+                                confirmButtonText: "Tutup"
+                            });
+                        }
+                    },
+                    error: function(xhr) {
+                        Swal.close();
+
+                        let message = "Terjadi kesalahan.";
+                        if (xhr.status === 422) {
+                            let errors = xhr.responseJSON.errors;
+                            message = Object.values(errors).flat().join("\n");
+                        }
+
+                        Swal.fire({
+                            icon: "error",
+                            title: "Gagal!",
+                            text: message,
+                            confirmButtonText: "Coba Lagi"
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        document.getElementById('bankSelect').addEventListener('change', function() {
+            let selectedOption = this.options[this.selectedIndex];
+            let accountNumber = selectedOption.getAttribute('data-account-number') || 'Pilih bank terlebih dahulu';
+            document.getElementById('accountNumber').innerText = accountNumber;
+
+            let payment = document.getElementById('payment');
+            if (this.value) {
+                payment.classList.remove('d-none');
+                payment.classList.add('d-block');
+            } else {
+                payment.classList.remove('d-block');
+                payment.classList.add('d-none');
+            }
+        });
+
+        window.onload = function() {
+            let bankSelect = document.getElementById('bankSelect');
+            let payment = document.getElementById('payment');
+            if (!bankSelect.value) {
+                payment.classList.add('d-none');
+            }
+        };
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const bankSelect = document.getElementById("bankSelect");
+            const accountNumber = document.getElementById("accountNumber");
+
+            bankSelect.addEventListener("change", function() {
+                const selectedOption = bankSelect.options[bankSelect.selectedIndex];
+                const accountNum = selectedOption.getAttribute("data-account-number");
+                const accountHolder = selectedOption.getAttribute("data-account-holder");
+
+                if (accountNum && accountHolder) {
+                    accountNumber.textContent = `${accountNum} A/N ${accountHolder}`;
+                } else {
+                    accountNumber.textContent = "Pilih bank terlebih dahulu";
+                }
+            });
+
+            // Trigger event change jika ada bank yang sudah dipilih sebelumnya
+            if (bankSelect.value) {
+                bankSelect.dispatchEvent(new Event("change"));
+            }
+        });
+    </script>
+@endpush

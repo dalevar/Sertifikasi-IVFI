@@ -13,14 +13,21 @@ class MemberSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('members')->insert([
-            'user_id' => 1,
-            'fullname' => 'John Doe',
-            'number_identity' => '123456789',
-            'birthplace' => 'Jakarta',
-            'birthday' => '12-12-2002',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        $faker = \Faker\Factory::create();
+
+        $members = [];
+        for ($i = 0; $i < 3; $i++) {
+            $members[] = [
+                'user_id' => 2,
+                'fullname' => $faker->name,
+                'number_identity' => $faker->numerify('#########'),
+                'birthplace' => $faker->city,
+                'birthday' => $faker->date('Y-m-d'),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+        }
+
+        DB::table('members')->insert($members);
     }
 }

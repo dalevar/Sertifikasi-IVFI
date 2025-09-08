@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class RegistrationSeeder extends Seeder
 {
@@ -12,6 +13,15 @@ class RegistrationSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        $faker = \Faker\Factory::create();
+
+        for ($i = 0; $i < 4; $i++) {
+            DB::table('registrations')->insert([
+                'member_id' => $faker->numberBetween(1, 3),
+                'certification_id' => $faker->numberBetween(1, 2),
+                'registration_date' => $faker->dateTimeThisYear(),
+                'status' => $i < 5 ? 'approved' : 'pending',
+            ]);
+        }
     }
 }

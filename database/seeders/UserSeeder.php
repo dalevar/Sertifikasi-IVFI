@@ -17,16 +17,16 @@ class UserSeeder extends Seeder
         DB::table('users')->insert([
             [
                 'fullname' => 'Admininstrator',
-                'email' => 'admin@admin.com',
-                'password' => Hash::make('password'),
+                'email' => 'administrator@ivfi.or.id',
+                'password' => Hash::make('Adminivfi246'),
                 'role' => 'admin',
             ],
-            [
-                'fullname' => 'dale',
-                'email' => 'dale@contoh.com',
-                'password' => Hash::make('password'),
-                'role' => 'user',
-            ],
+            // [
+            //     'fullname' => 'SMK ISFI BANJARMASIN',
+            //     'email' => 'smkisfi@smkisfi.com',
+            //     'password' => Hash::make('password'),
+            //     'role' => 'user',
+            // ],
         ]);
     }
 }

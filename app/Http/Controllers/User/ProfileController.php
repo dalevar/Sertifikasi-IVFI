@@ -1,0 +1,160 @@
+<?php
+
+namespace App\Http\Controllers\User;
+
+use App\Models\User;
+use App\Models\Member;
+use App\Models\UserDetail;
+use App\Models\Registration;
+use Illuminate\Http\Request;
+use App\Models\Certification;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+
+
+class ProfileController extends Controller
+{
+    /**
+     * Menampilkan halaman profil.
+     */
+    public function index()
+    {
+        $province = "";
+        $user = Auth::user()->load('details'); // Ambil data user + user_details
+
+        $json = Storage::get("provinces.json");
+        $provinces = json_decode($json, true);
+        
+        foreach ($provinces as $data) {
+            if ($user->details->province == $data['id']) {
+                $province = $data['name'];
+            }
+        }
+
+        $title = 'Profil Instansi';
+
+        return view('user.pages.profile.index', [
+            'user' => $user,
+            'title' => $title,
+            'province' => $province
+        ]);
+    }
+
+    /**
+     * Menampilkan halaman edit profil.
+     */
+    public function pengaturan()
+    {
+        $user = Auth::user()->load('details'); // Ambil data user + user_details
+        $json = Storage::get('provinces.json');
+        $provinces = json_decode($json, true);
+        $title = 'Pengaturan Profil';
+        return view('user.pages.profile.pengaturan', [
+            'user' => $user,
+            'title' => $title,
+            'provinces' => $provinces
+        ]);
+    }
+
+    public function updateProfil(Request $request)
+    {
+        $user = Auth::user();
+
+        $request->validate([
+            'fullname' => 'required|string|max:255',
+            'address' => 'nullable|string|max:255',
+            'province' => 'nullable|string|',
+            'phone' => 'nullable|string|max:20',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'headmaster' => 'nullable|string|max:255',
+        ]);
+
+        $changes = false;
+
+        // Cek perubahan fullname
+        if ($request->fullname !== $user->fullname) {
+            $user->update(['fullname' => $request->fullname]);
+            $changes = true;
+        }
+
+        // Cek perubahan address dan phone
+        if ($request->address !== $user->details->address || $request->phone !== $user->details->phone || $request->headmaster !== $user->details->headmaster) {
+            $user->details->update([
+                'address' => $request->address,
+                'province' => $request->province,
+                'phone' => $request->phone,
+                'headmaster' => $request->headmaster
+            ]);
+            $changes = true;
+        }
+
+        // Cek perubahan foto profil
+        if ($request->hasFile('photo')) {
+            $photoPath = $request->file('photo')->store('photos');
+            $user->details->update(['photo' => $photoPath]);
+            $changes = true;
+        }
+
+        if (!$changes) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Tidak ada perubahan pada profil!',
+                'type' => 'warning'
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Profil berhasil diperbarui!',
+        ]);
+    }
+
+    public function updateAkun(Request $request)
+    {
+        $user = Auth::user();
+
+        $request->validate([
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'password' => 'nullable|min:6|confirmed',
+        ]);
+
+        $logout = false;
+        $changes = false;
+
+        if ($request->email !== $user->email) {
+            $user->update(['email' => $request->email]);
+            $logout = true;
+            $changes = true;
+        }
+
+        if ($request->password) {
+            $user->update(['password' => bcrypt($request->password)]);
+            $logout = true;
+            $changes = true;
+        }
+
+        if (!$changes) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Tidak ada perubahan pada akun!',
+                'type' => 'warning'
+            ]);
+        }
+
+        if ($logout) {
+            Auth::logout();
+            return response()->json([
+                'success' => true,
+                'message' => 'Akun diperbarui! Silakan login kembali.',
+                'logout' => true
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Akun berhasil diperbarui!',
+            'logout' => false
+        ]);
+    }
+}
